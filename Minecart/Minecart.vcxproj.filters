@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\model">
+      <UniqueIdentifier>{a6fa5ad5-9b44-4e06-8835-34196dac4b2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\model">
+      <UniqueIdentifier>{40e8fa1b-129b-405b-97a5-a3edd9d40e8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\view">
+      <UniqueIdentifier>{b769ac57-ec6d-42db-b73c-5a1726bf7c92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\view">
+      <UniqueIdentifier>{dc53063d-01bb-4b29-b40d-7ab0518def9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\view\shader">
+      <UniqueIdentifier>{93af0b27-55f1-4b0d-9e13-dbc4a6b13cd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\view\shader">
+      <UniqueIdentifier>{203aac48-1e3b-4fdb-a02b-0286ab58d19c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{fb274770-9b4c-4168-82c3-6882927119d6}</UniqueIdentifier>
+      <Extensions>vert;frag</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="ECube.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="EEvent.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="EventMessagingSystem.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="Chunk.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="IEventMessagingSystem.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\view</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawer.h">
+      <Filter>Header Files\view</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Header Files\view</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshBuilder.h">
+      <Filter>Header Files\view</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshStruct.h">
+      <Filter>Header Files\view</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshManager.h">
+      <Filter>Header Files\view</Filter>
+    </ClInclude>
+    <ClInclude Include="EDirection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawable.h">
+      <Filter>Header Files\view</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldShader.h">
+      <Filter>Header Files\view\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="View.h">
+      <Filter>Header Files\view</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldBuilder.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EventMessagingSystem.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="Chunk.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="IEventMessagingSystem.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\view</Filter>
+    </ClCompile>
+    <ClCompile Include="Drawer.cpp">
+      <Filter>Source Files\view</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files\view</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshBuilder.cpp">
+      <Filter>Source Files\view</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshManager.cpp">
+      <Filter>Source Files\view</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="Minecart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldShader.cpp">
+      <Filter>Source Files\view\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="View.cpp">
+      <Filter>Source Files\view</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldBuilder.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\world.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\world.vert">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+</Project>
