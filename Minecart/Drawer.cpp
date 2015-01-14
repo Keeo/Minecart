@@ -13,11 +13,34 @@ namespace view {
 		for (int i = 0; i < chunks.size(); ++i) {
 			for (int j = 0; j < chunks[i].size(); ++j) {
 				for (int k = 0; k < chunks[j].size(); ++k) {
-					draw(chunks[i][j][k]);
+					drawB(chunks[i][j][k]);
 				}
 			}
 		}
 		worldShader_.unbind();
+	}
+
+	void Drawer::drawB(model::Chunk* chunk)
+	{
+		std::shared_ptr<MeshStructB> mesh = chunk->getMeshB();
+		if (mesh == NULL) {
+			Post(EEvent::BuildMeshBForChunk, chunk, 0);
+			mesh = chunk->getMeshB();
+			assert(mesh != NULL);
+		}
+		assert(mesh->vertexBufferID != -1);
+
+		glBindVertexArray(mesh->vertexArrayID);
+
+		worldShader_.loadModelMatrix(&mesh->model);
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+			glDrawElements(GL_LINES, 6 * mesh->getQuadcount(), GL_UNSIGNED_INT, 0);
+		}
+		else {
+			glDrawElements(GL_TRIANGLES, 6 * mesh->getQuadcount(), GL_UNSIGNED_INT, 0);
+		}
+		glBindVertexArray(0);
 	}
 
 

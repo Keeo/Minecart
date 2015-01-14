@@ -170,6 +170,7 @@ copy "$(SolutionDir)dlls\sfml-window-d-2.dll" "$(TargetDir)"</Command>
     <ClInclude Include="MeshBuilder.h" />
     <ClInclude Include="MeshManager.h" />
     <ClInclude Include="MeshStruct.h" />
+    <ClInclude Include="MeshStructB.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />

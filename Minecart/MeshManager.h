@@ -3,7 +3,6 @@
 #include "MeshBuilder.h"
 #include "IEventMessagingSystem.h"
 
-
 namespace view {
 
 	class MeshManager : model::IEventMessagingSystem
@@ -13,6 +12,7 @@ namespace view {
 	public:
 
 		void buildMeshForChunk(void* pchunk);
+		void buildMeshBForChunk(void* pchunk);
 
 		MeshManager();
 		~MeshManager();

@@ -18,6 +18,7 @@ namespace view {
 
 		void draw(std::shared_ptr<model::Model> model);
 
+		void drawB(model::Chunk* chunk);
 		void draw(model::Chunk* chunk);
 
 		Drawer();

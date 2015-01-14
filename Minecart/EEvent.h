@@ -10,6 +10,7 @@ enum EEvent {
 	FetchCameraData,
 
 	BuildMeshForChunk,
+	BuildMeshBForChunk,
 
 	// Chunk events
 	eveChunkGet,

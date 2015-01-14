@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdlib.h>
+#include <glm/gtc/noise.hpp>
 #include <glm/gtc/type_precision.hpp>
 
 #include "Constants.h"

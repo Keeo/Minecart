@@ -4,7 +4,6 @@
 
 #include "IEventMessagingSystem.h"
 #include "GameTime.h"
-#include "MeshStruct.h"
 
 namespace model {
 

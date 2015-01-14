@@ -5,7 +5,7 @@
 #include "Controller.h"
 #include "Chunk.h"
 #include "Window.h"
-#include "MeshStruct.h"
+#include <glm/gtc/noise.hpp>
 
 int _tmain(int argc, _TCHAR* argv[])
 {
