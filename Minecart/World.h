@@ -16,6 +16,8 @@ namespace model
 		typedef boost::circular_buffer<boost::circular_buffer<boost::circular_buffer<Chunk*>>> triple_circular_buffer;
 		triple_circular_buffer* chunks_ = NULL;
 		
+
+
 		void injectDummyChunks();
 		void connectChunks();
 

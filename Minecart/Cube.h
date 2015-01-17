@@ -3,7 +3,9 @@
 #include "ECube.h"
 #include <stdint.h>
 
-namespace model {
+namespace model
+{
+
 	struct Cube
 	{
 		ECube type;

@@ -4,7 +4,6 @@
 
 #include "EDirection.h"
 #include "MeshStruct.h"
-#include "MeshStructB.h"
 #include "Chunk.h"
 #include "Cube.h"
 #include "IEventMessagingSystem.h"
@@ -20,7 +19,6 @@ namespace view
 	public:
 		
 		std::unique_ptr<MeshStruct> buildMesh(model::Chunk* chunk);
-		std::unique_ptr<MeshStructB> buildMeshB(model::Chunk* chunk);
 	};
 
 }

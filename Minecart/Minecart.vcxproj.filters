@@ -94,9 +94,6 @@
     <ClInclude Include="MeshBuilder.h">
       <Filter>Header Files\view</Filter>
     </ClInclude>
-    <ClInclude Include="MeshStruct.h">
-      <Filter>Header Files\view</Filter>
-    </ClInclude>
     <ClInclude Include="MeshManager.h">
       <Filter>Header Files\view</Filter>
     </ClInclude>
@@ -127,8 +124,11 @@
     <ClInclude Include="Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MeshStructB.h">
+    <ClInclude Include="MeshStruct.h">
       <Filter>Header Files\view</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingBox.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +185,9 @@
     </ClCompile>
     <ClCompile Include="WorldBuilder.cpp">
       <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingBox.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

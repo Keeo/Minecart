@@ -3,7 +3,7 @@
 
 namespace model {
 
-	Chunk::Chunk(glm::i32vec3 position) : position_(position)
+	Chunk::Chunk(glm::i32vec3 position) : position_(position), center_(position+Constants::CHUNK_SIZE)
 	{
 		for (int i = 0; i < Constants::CHUNK_SIZE; ++i) {
 			for (int j = 0; j < Constants::CHUNK_SIZE; ++j) {
@@ -14,18 +14,9 @@ namespace model {
 			}
 		}
 
-		/*int dge = Constants::CHUNK_SIZE - 1;
-		for (int i = 0; i < Constants::CHUNK_SIZE; ++i) {
-			for (int j = 0; j < Constants::CHUNK_SIZE; ++j) {
-				for (int k = 0; k < Constants::CHUNK_SIZE; ++k) {
-					if (i == 0 || i == dge || j == 0 || j == dge || k == 0 || k == dge){
-						cubes_[i][j][k].type = ECube::Air;
-					}
-				}
-			}
-		}*/
-
 		rebuildCubeVisibilityCore();
+
+		model = glm::translate(position_);
 	}
 
 
@@ -197,8 +188,13 @@ namespace model {
 		return cubes_;
 	}
 
-	const glm::i32vec3* Chunk::getPosition()
+	const glm::i32vec3* Chunk::getPosition() const
 	{
 		return &position_;
+	}
+
+	const glm::vec3* Chunk::getCenter() const
+	{
+		return &center_;
 	}
 }

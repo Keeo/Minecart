@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdlib.h>
+#include <glm/glm.hpp>
 #include <glm/gtc/noise.hpp>
 #include <glm/gtc/type_precision.hpp>
 
@@ -8,13 +9,16 @@
 #include "Drawable.h"
 #include "Cube.h"
 
-namespace model {
+namespace model
+{
 
 	class Chunk : public view::Drawable
 	{
 
 		Cube cubes_[Constants::CHUNK_SIZE][Constants::CHUNK_SIZE][Constants::CHUNK_SIZE];
 		glm::i32vec3 position_;
+		glm::vec3 center_;
+
 
 		// surounding chunks
 		Chunk* u = 0;
@@ -28,7 +32,8 @@ namespace model {
 
 		void setNeighbors(Chunk* up, Chunk* down, Chunk* north, Chunk* west, Chunk* east, Chunk* south);
 
-		const glm::i32vec3* getPosition();
+		const glm::i32vec3* getPosition() const;
+		const glm::vec3* getCenter() const;
 
 		void assertLinks();
 
@@ -41,6 +46,17 @@ namespace model {
 
 		~Chunk();
 
+	};
+
+	class DistancePred {
+	public:
+		DistancePred(glm::vec3 p) : pos(p) { }
+		bool operator()(const Chunk& a, const Chunk& b) {
+			return glm::distance(pos, *a.getCenter()) < glm::distance(pos, *b.getCenter());
+
+		}
+	private:
+		const glm::vec3 pos;
 	};
 
 }
