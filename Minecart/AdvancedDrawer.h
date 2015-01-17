@@ -11,9 +11,10 @@
 #include "BoundingBox.h"
 
 
-namespace view {
+namespace view
+{
 
-	class Drawer : model::IEventMessagingSystem
+	class AdvancedDrawer : model::IEventMessagingSystem
 	{
 		WorldShader worldShader_;
 		SimpleShader simpleShader_;
@@ -27,11 +28,9 @@ namespace view {
 
 		void drawBoundingBoxFor(model::Chunk* chunk);
 
-		Drawer();
 
-		~Drawer();
-
+		AdvancedDrawer();
+		~AdvancedDrawer();
 	};
 
 }
-

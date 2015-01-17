@@ -128,6 +128,15 @@
       <Filter>Header Files\view</Filter>
     </ClInclude>
     <ClInclude Include="BoundingBox.h">
+      <Filter>Header Files\view</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleShader.h">
+      <Filter>Header Files\view\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseShader.h">
+      <Filter>Header Files\view\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="AdvancedDrawer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -187,6 +196,15 @@
       <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="BoundingBox.cpp">
+      <Filter>Source Files\view</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleShader.cpp">
+      <Filter>Source Files\view\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseShader.cpp">
+      <Filter>Source Files\view\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="AdvancedDrawer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

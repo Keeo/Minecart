@@ -38,6 +38,16 @@ namespace view
 			assert(indexBufferID != -1);
 		}
 
+		void bind()
+		{
+			glBindVertexArray(vertexArrayID);
+		}
+
+		void unbind()
+		{
+			glBindVertexArray(0);
+		}
+
 		int getQuadcount()
 		{
 			return g_vertex_buffer_data.size() / 8;

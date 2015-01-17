@@ -1,28 +1,22 @@
 #include "stdafx.h"
-#include "Drawer.h"
+#include "AdvancedDrawer.h"
 
 namespace view
 {
 
-	void Drawer::draw(std::shared_ptr<model::Model> model) {
-		auto chunks = *(model->getWorld()->getChunks());
+	void AdvancedDrawer::draw(std::shared_ptr<model::Model> model) {
+		auto world = model->getWorld();
+		world->populateOrderingArray();
+		world->sortArray(model::DistancePred(glm::vec3(0,0,0)));
 
-		//worldShader_.bind();
-		//draw(chunks[0][0][0]);
-		//draw(chunks[0][0][1]);
-		//draw(chunks[0][0][2]);
-		for (int i = 0; i < chunks.size(); ++i) {
-			for (int j = 0; j < chunks[i].size(); ++j) {
-				for (int k = 0; k < chunks[j].size(); ++k) {
-					drawBoundingBoxFor(chunks[i][j][k]);
-					//draw(chunks[i][j][k]);
-				}
-			}
+		auto chunks = world->getOrderedChunks();
+
+		for (int i = 0; i < chunks->size(); ++i) {
+			drawBoundingBoxFor((*chunks)[i]);
 		}
-		//worldShader_.unbind();
 	}
 
-	void Drawer::drawBoundingBoxFor(model::Chunk* chunk)
+	void AdvancedDrawer::drawBoundingBoxFor(model::Chunk* chunk)
 	{
 		simpleShader_.bind();
 		simpleShader_.loadModelMatrix(&chunk->model);
@@ -37,7 +31,7 @@ namespace view
 		simpleShader_.unbind();
 	}
 
-	void Drawer::draw(model::Chunk* chunk)
+	void AdvancedDrawer::draw(model::Chunk* chunk)
 	{
 		std::shared_ptr<MeshStruct> mesh = chunk->getMesh();
 		if (mesh == NULL) {
@@ -63,12 +57,12 @@ namespace view
 		worldShader_.unbind();
 	}
 
-	Drawer::Drawer()
+	AdvancedDrawer::AdvancedDrawer()
 	{
 	}
 
 
-	Drawer::~Drawer()
+	AdvancedDrawer::~AdvancedDrawer()
 	{
 	}
 

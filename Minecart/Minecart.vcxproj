@@ -153,6 +153,8 @@ copy "$(SolutionDir)dlls\sfml-window-d-2.dll" "$(TargetDir)"</Command>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AdvancedDrawer.h" />
+    <ClInclude Include="BaseShader.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Chunk.h" />
@@ -175,6 +177,7 @@ copy "$(SolutionDir)dlls\sfml-window-d-2.dll" "$(TargetDir)"</Command>
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
+    <ClInclude Include="SimpleShader.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Utils.h" />
@@ -185,6 +188,8 @@ copy "$(SolutionDir)dlls\sfml-window-d-2.dll" "$(TargetDir)"</Command>
     <ClInclude Include="WorldShader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AdvancedDrawer.cpp" />
+    <ClCompile Include="BaseShader.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Chunk.cpp" />
@@ -198,6 +203,7 @@ copy "$(SolutionDir)dlls\sfml-window-d-2.dll" "$(TargetDir)"</Command>
     <ClCompile Include="Minecart.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SimpleShader.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

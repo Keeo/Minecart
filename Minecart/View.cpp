@@ -9,6 +9,7 @@ namespace view
 		window_ = std::make_unique<Window>();
 		camera_ = std::make_unique<Camera>();
 		drawer_ = std::make_unique<Drawer>();
+		advancedDrawer_ = std::make_unique<AdvancedDrawer>();
 	}
 
 
@@ -25,7 +26,8 @@ namespace view
 	void View::draw(std::shared_ptr<model::Model> model)
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Why am i clearing it here?
-		drawer_->draw(model);
+		//drawer_->draw(model);
+		advancedDrawer_->draw(model);
 
 		int err = glGetError();
 		if (err) {

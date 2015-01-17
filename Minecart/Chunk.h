@@ -48,11 +48,12 @@ namespace model
 
 	};
 
-	class DistancePred {
+	class DistancePred
+	{
 	public:
 		DistancePred(glm::vec3 p) : pos(p) { }
-		bool operator()(const Chunk& a, const Chunk& b) {
-			return glm::distance(pos, *a.getCenter()) < glm::distance(pos, *b.getCenter());
+		bool operator()(const Chunk* a, const Chunk* b) {
+			return glm::distance(pos, *a->getCenter()) < glm::distance(pos, *b->getCenter());
 
 		}
 	private:
