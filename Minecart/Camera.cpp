@@ -33,7 +33,7 @@ namespace view {
 
 	void Camera::move(float& delta)
 	{
-		float move_speed = 10.0f;
+		float move_speed = 50.0f;
 
 		glm::vec3 axis(0, 0, 0);
 

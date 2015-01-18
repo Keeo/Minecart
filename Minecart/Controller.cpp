@@ -23,6 +23,8 @@ void Controller::run()
 		gameTime.time = clock.restart();
 
 		view_->update(gameTime);
+		if (!running_) break;
+
 		model_->update(gameTime);
 
 		view_->draw(model_);

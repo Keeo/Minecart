@@ -5,11 +5,12 @@
 
 #include "Utils.h"
 #include "Chunk.h"
+#include "IEventMessagingSystem.h"
 
 namespace model
 {
 
-	class WorldBuilder
+	class WorldBuilder : IEventMessagingSystem
 	{
 
 	public:

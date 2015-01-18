@@ -27,7 +27,8 @@ namespace view
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Why am i clearing it here?
 		//drawer_->draw(model);
-		advancedDrawer_->draw(model);
+		//advancedDrawer_->draw(model);
+		advancedDrawer_->condDraw(model);
 
 		int err = glGetError();
 		if (err) {

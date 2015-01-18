@@ -1,7 +1,9 @@
 #pragma once
 
 #include <memory>
+#include <iomanip>
 
+#include "SFML/System.hpp"
 #include "boost/circular_buffer.hpp"
 
 #include "Model.h"
@@ -22,12 +24,15 @@ namespace view
 
 	public:
 
+		void condDraw(std::shared_ptr<model::Model> model);
+
 		void draw(std::shared_ptr<model::Model> model);
 
 		void draw(model::Chunk* chunk);
 
 		void drawBoundingBoxFor(model::Chunk* chunk);
 
+		inline bool isCullable(CameraData& cd, model::Chunk* chunk);
 
 		AdvancedDrawer();
 		~AdvancedDrawer();
