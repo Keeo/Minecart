@@ -37,8 +37,10 @@ namespace model
 
 		void assertLinks();
 
-		void rebuildCubeVisibilityCore();
-		void rebuildCubeVisibility();
+		inline void rebuildCubeVisibility(int i, int j, int k);
+		void rebuildCubesVisibilityEdge(EDirection edge);
+		void rebuildCubesVisibilityCore();
+		void rebuildCubesVisibility();
 
 		Cube(&getCubes())[Constants::CHUNK_SIZE][Constants::CHUNK_SIZE][Constants::CHUNK_SIZE];
 

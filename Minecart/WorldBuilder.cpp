@@ -53,7 +53,15 @@ namespace model
 		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
 			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
 				for (int k = 0; k < Constants::MAP_SIZE; ++k) {
-					(*chunks)[i][j][k]->rebuildCubeVisibility();
+					//(*chunks)[i][j][k]->rebuildCubesVisibility();
+					(*chunks)[i][j][k]->rebuildCubesVisibilityEdge(EDirection::UP);
+					(*chunks)[i][j][k]->rebuildCubesVisibilityEdge(EDirection::DOWN);
+
+					(*chunks)[i][j][k]->rebuildCubesVisibilityEdge(EDirection::LEFT);
+					(*chunks)[i][j][k]->rebuildCubesVisibilityEdge(EDirection::RIGHT);
+
+					(*chunks)[i][j][k]->rebuildCubesVisibilityEdge(EDirection::FORWARD);
+					(*chunks)[i][j][k]->rebuildCubesVisibilityEdge(EDirection::BACKWARD);
 				}
 			}
 		}
