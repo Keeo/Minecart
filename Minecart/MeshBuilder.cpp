@@ -92,9 +92,9 @@ namespace view
 			mesh->g_index_buffer_data[6 * i + 5] = 4 * i + 3;
 		}
 
-		mesh->init();
+		/*mesh->init();
 		mesh->moveToGpu();
-		mesh->makeVAO();
+		mesh->makeVAO();*/
 
 		return mesh;
 	}

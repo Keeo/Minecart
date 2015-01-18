@@ -12,7 +12,7 @@ namespace view
 		world->populateOrderingArray();
 		world->sortArray(model::DistancePred(*cameraData.position));
 		std::vector<model::Chunk*>& chunks = *world->getOrderedChunks();
-		
+
 		int i = 0;
 		bool occlusion_cull = !sf::Keyboard::isKeyPressed(sf::Keyboard::O);
 		

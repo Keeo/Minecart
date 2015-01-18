@@ -13,10 +13,20 @@ namespace view {
 
 	public:
 
+		bool readyRender = false;
+
 		glm::mat4 model;
 
-		std::shared_ptr<view::MeshStruct> getMesh() { return mesh_; }
-		void setMesh(std::shared_ptr<view::MeshStruct> mesh) { mesh_ = mesh; }
+		std::shared_ptr<view::MeshStruct> getMesh()
+		{
+			return mesh_;
+		}
+
+		void setMesh(std::shared_ptr<view::MeshStruct> mesh)
+		{
+			mesh_ = mesh;
+			readyRender = true;
+		}
 	};
 
 }

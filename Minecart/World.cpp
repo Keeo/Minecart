@@ -9,13 +9,20 @@ namespace model {
 
 	void World::populateOrderingArray()
 	{
-		//chunkArray_.clear();
-		int pos = 0;
+		chunkArray_.clear();
+		
 		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
 			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
 				for (int k = 0; k < Constants::MAP_SIZE; ++k) {
 					Chunk* c = (*chunks_)[i][j][k];
-					chunkArray_[pos++] = c;
+					if (!c->readyRender) continue;
+					if (c->getMesh()->indexBufferID == -1) {
+						auto m = c->getMesh();
+						m->init();
+						m->moveToGpu();
+						m->makeVAO();
+					}
+					chunkArray_.push_back(c);
 				}
 			}
 		}

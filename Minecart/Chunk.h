@@ -29,7 +29,7 @@ namespace model
 		Chunk* s = 0;
 
 	public:
-
+		
 		void setNeighbors(Chunk* up, Chunk* down, Chunk* north, Chunk* west, Chunk* east, Chunk* south);
 
 		const glm::i32vec3* getPosition() const;
