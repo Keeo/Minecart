@@ -6,6 +6,7 @@ Controller::Controller()
 {
 	model_ = std::make_shared<model::Model>();
 	view_ = std::make_unique<view::View>();
+	
 }
 
 
@@ -26,7 +27,7 @@ void Controller::run()
 		if (!running_) break;
 
 		model_->update(gameTime);
-
+		view_->init(model_);
 		view_->draw(model_);
 	}
 }

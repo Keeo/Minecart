@@ -137,7 +137,7 @@
       <Filter>Header Files\view\shader</Filter>
     </ClInclude>
     <ClInclude Include="AdvancedDrawer.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\view</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -205,7 +205,7 @@
       <Filter>Source Files\view\shader</Filter>
     </ClCompile>
     <ClCompile Include="AdvancedDrawer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\view</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

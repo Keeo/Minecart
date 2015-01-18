@@ -11,18 +11,8 @@ namespace view
 		auto world = model->getWorld();
 		world->populateOrderingArray();
 		world->sortArray(model::DistancePred(*cameraData.position));
-
 		std::vector<model::Chunk*>& chunks = *world->getOrderedChunks();
 		
-		{
-			for (auto c : chunks){
-				if (c->getMesh() == NULL) {
-					Post(EEvent::BuildMeshForChunk, c, 0);
-				}
-			}
-		}
-
-
 		int i = 0;
 		bool occlusion_cull = !sf::Keyboard::isKeyPressed(sf::Keyboard::O);
 		

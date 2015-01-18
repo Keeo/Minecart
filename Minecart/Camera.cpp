@@ -7,7 +7,7 @@ namespace view {
 	{
 		positionLast_ = position_ = glm::vec3(6, 7, 8);
 		direction_ = glm::vec3(0, 0, 0);
-		projection_ = glm::perspective(100.0f, 4.0f / 3.0f, 0.1f, 400.0f);
+		projection_ = glm::perspective(100.0f, 4.0f / 3.0f, 0.1f, 1000.0f);
 		view_ = glm::lookAt(position_, direction_, glm::vec3(0, 1, 0));
 
 		Register(EEvent::FetchCameraData, this, (model::Callback) & Camera::getCameraData);

@@ -2,6 +2,7 @@
 
 #include "Model.h"
 
+#include "IEventMessagingSystem.h"
 #include "Drawer.h"
 #include "AdvancedDrawer.h"
 #include "Window.h"
@@ -10,7 +11,7 @@
 namespace view
 {
 
-	class View
+	class View : model::IEventMessagingSystem
 	{
 		std::unique_ptr<Camera> camera_;
 		std::unique_ptr<Drawer> drawer_;
@@ -19,6 +20,8 @@ namespace view
 		MeshManager meshManager;
 
 	public:
+
+		void init(std::shared_ptr<model::Model> model);
 
 		void update(const GameTime&);
 		void draw(std::shared_ptr<model::Model> model);

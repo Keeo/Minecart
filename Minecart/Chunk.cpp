@@ -8,8 +8,8 @@ namespace model {
 		for (int i = 0; i < Constants::CHUNK_SIZE; ++i) {
 			for (int j = 0; j < Constants::CHUNK_SIZE; ++j) {
 				for (int k = 0; k < Constants::CHUNK_SIZE; ++k) {
-					cubes_[i][j][k].type = (rand() % Constants::CHUNK_SIZE) < 2 ? ECube::Dirt : ECube::Air;
-					//cubes_[i][j][k].type = i+j+k < 31 ? ECube::Dirt : ECube::Air;
+					cubes_[i][j][k].type = (rand() % Constants::CHUNK_SIZE) < 16 ? ECube::Dirt : ECube::Air;
+					//cubes_[i][j][k].type = i+j+k < 16 ? ECube::Dirt : ECube::Air;
 
 					/*cubes_[i][j][k].type = ECube::Dirt;
 					if (i == 0 || j == 0 || k == 0 || i == Constants::CHUNK_SIZE || j == Constants::CHUNK_SIZE || k == Constants::CHUNK_SIZE) {
@@ -19,7 +19,7 @@ namespace model {
 			}
 		}
 
-		rebuildCubeVisibilityCore();
+		rebuildCubesVisibilityCore();
 
 		model = glm::translate(position_);
 	}
@@ -47,6 +47,8 @@ namespace model {
 
 		Cube& c = cubes_[i][j][k];
 		c.visible = 0;
+
+		if (c.type == ECube::Air) return;
 
 		if (i == edge) {
 			if (e->cubes_[0][j][k].type == ECube::Air) {
