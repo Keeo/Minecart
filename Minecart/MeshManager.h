@@ -27,11 +27,9 @@ namespace view {
 		void run();
 		void buildchunkAsync();
 
-	public:
-		
-
 		void buildMeshForChunk(void* pchunk);
-		void buildMeshBForChunk(void* pchunk);
+
+	public:
 
 		MeshManager();
 		~MeshManager();

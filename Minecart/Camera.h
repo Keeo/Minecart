@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
+#include "Constants.h"
 #include "GameTime.h"
 #include "IEventMessagingSystem.h"
 

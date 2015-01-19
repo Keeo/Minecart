@@ -11,7 +11,7 @@ namespace view {
 		settings.antialiasingLevel = 4;
 		settings.majorVersion = 3;
 		settings.minorVersion = 3;
-		window_.create(sf::VideoMode(1024, 768), "Mine]|[craft", sf::Style::Default, settings);
+		window_.create(sf::VideoMode(Constants::RESOLUTION_X, Constants::RESOLUTION_Y), "Mine]|[craft", sf::Style::Default, settings);
 		
 		window_.setActive();
 

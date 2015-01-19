@@ -5,6 +5,7 @@
 #include <SFML/OpenGL.hpp>
 #include <SFML/Graphics.hpp>
 
+#include "Constants.h"
 #include "IEventMessagingSystem.h"
 
 namespace view {

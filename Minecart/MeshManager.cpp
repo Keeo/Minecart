@@ -16,8 +16,13 @@ namespace view {
 			std::unique_lock<std::mutex> lk(m_);
 			cv_.wait(lk, [&](){ return !queue_.empty(); });
 
+			int counter = 0;
 			while (!queue_.empty()) {
+				counter++;
 				buildchunkAsync();
+				if (counter % 50 == 0) {
+					std::this_thread::sleep_for(std::chrono::milliseconds(100));
+				}
 			}
 
 			std::cout << "Work done." << std::endl;
