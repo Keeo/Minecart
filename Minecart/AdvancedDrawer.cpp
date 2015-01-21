@@ -9,9 +9,15 @@ namespace view
 		Post(EEvent::FetchCameraData, &cameraData, 0);
 			
 		auto world = model->getWorld();
-		world->populateOrderingArray();
-		world->sortArray(model::DistancePred(*cameraData.position));
-		std::vector<model::Chunk*>& chunks = *world->getOrderedChunks();
+
+		static int frames = 0;
+		if (frames++ > 30) {
+			frames = 0;
+			std::shared_ptr<model::DistancePred> dp = std::make_shared<model::DistancePred>(*cameraData.position);
+			Post(EEvent::ReorderChunkArray, &dp, 0);
+		}
+		auto smartChunks = world->getOrderedChunks();
+		std::vector<model::Chunk*>& chunks = *smartChunks;
 
 		int i = 0;
 		bool occlusion_cull = !sf::Keyboard::isKeyPressed(sf::Keyboard::O);
@@ -41,10 +47,8 @@ namespace view
 
 					// draw bounding box
 					simpleShader_.loadModelMatrix(&chunks[j]->model);
-					box_.getMesh()->bind();
-					glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_INT, 0);
-					box_.getMesh()->unbind();
-
+					box_.draw();
+					
 					// end occlusion query
 					glEndQuery(GL_ANY_SAMPLES_PASSED);
 				}
@@ -62,19 +66,19 @@ namespace view
 				// frustum culling
 				if (isCullable(cameraData, chunks[j])) continue;
 
+				if (chunks[j]->getMesh()->indexBufferID == -1) {
+					auto m = chunks[j]->getMesh();
+					m->init();
+					m->moveToGpu();
+					m->makeVAO();
+				}
+
 				// begin conditional render
 				if (occlusion_cull)
 					glBeginConditionalRender(query[j], GL_QUERY_BY_REGION_WAIT);
 
-				auto mesh = chunks[j]->getMesh();
-				mesh->bind();
-
 				worldShader_.loadModelMatrix(&chunks[j]->model);
-				
-				GLuint rendertype = sf::Keyboard::isKeyPressed(sf::Keyboard::Q) ? GL_LINES : GL_TRIANGLES;
-				glDrawElements(rendertype, 6 * mesh->getQuadcount(), GL_UNSIGNED_INT, 0);
-				
-				mesh->unbind();
+				chunks[j]->getMesh()->draw();
 
 				// end conditional render
 				if (occlusion_cull)
@@ -83,6 +87,8 @@ namespace view
 			i = j;
 			maxdist += 2 * Constants::CHUNK_SIZE;
 		}
+
+		//glDeleteQueries(query.size(), query.data());
 
 		/*int rendered = 0;
 		for (auto& a : query) {

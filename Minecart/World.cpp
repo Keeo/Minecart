@@ -1,37 +1,12 @@
 #include "stdafx.h"
 #include "World.h"
 
-namespace model {
+namespace model
+{
 
-	World::World() : chunkArray_(Constants::MAP_SIZE*Constants::MAP_SIZE*Constants::MAP_SIZE)
+	World::World() : chunkArray_(new std::vector<Chunk*>()), worldWatcher_(this)
 	{
-	}
-
-	void World::populateOrderingArray()
-	{
-		chunkArray_.clear();
-		
-		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
-			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
-				for (int k = 0; k < Constants::MAP_SIZE; ++k) {
-					Chunk* c = (*chunks_)[i][j][k];
-					if (!c->readyRender) continue;
-					if (c->getMesh()->indexBufferID == -1) {
-						auto m = c->getMesh();
-						m->init();
-						m->moveToGpu();
-						m->makeVAO();
-					}
-					chunkArray_.push_back(c);
-				}
-			}
-		}
-		
-	}
-
-	void World::sortArray(DistancePred distancePred)
-	{
-		std::sort(chunkArray_.begin(), chunkArray_.end(), distancePred);
+		chunkArray_->reserve(Constants::CHUNK_COUNT);
 	}
 
 	void World::visit(WorldBuilder* builder)
@@ -39,9 +14,15 @@ namespace model {
 		chunks_ = builder->buildChunkMatrix();
 	}
 
-	std::vector<Chunk*>* World::getOrderedChunks()
+
+	void World::setOrderedChunks(std::shared_ptr<std::vector<Chunk*>> chunkArray)
 	{
-		return &chunkArray_;
+		chunkArray_ = chunkArray;
+	}
+
+	std::shared_ptr<std::vector<Chunk*>> World::getOrderedChunks()
+	{
+		return chunkArray_;
 	}
 
 	boost::circular_buffer<boost::circular_buffer<boost::circular_buffer<Chunk*>>>* World::getChunks()

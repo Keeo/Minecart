@@ -1,6 +1,10 @@
 #pragma once
 
 #include <vector>
+#include <thread>
+#include <chrono>
+#include <mutex>
+#include <condition_variable>
 
 #include "boost/circular_buffer.hpp"
 #include <glm/gtc/type_precision.hpp>
@@ -9,25 +13,24 @@
 #include "Chunk.h"
 #include "GameTime.h"
 #include "WorldBuilder.h"
+#include "WorldWatcher.h"
 
 namespace model
 {
 
-	class World
+	class World : IEventMessagingSystem
 	{
 		typedef boost::circular_buffer<boost::circular_buffer<boost::circular_buffer<Chunk*>>> triple_circular_buffer;
 		triple_circular_buffer* chunks_ = NULL;
 		
-		std::vector<Chunk*> chunkArray_;
+		std::shared_ptr<std::vector<Chunk*>> chunkArray_;
 
-		void injectDummyChunks();
-		void connectChunks();
+		//void injectDummyChunks();
+		//void connectChunks();
+		WorldWatcher worldWatcher_;
 
 	public:
 		
-		void populateOrderingArray();
-		void sortArray(DistancePred distancePred);
-
 		void visit(WorldBuilder* builder);
 
 		World();
@@ -35,7 +38,9 @@ namespace model
 		void update(const GameTime&);
 
 		triple_circular_buffer* getChunks();
-		std::vector<Chunk*>* getOrderedChunks();
+		
+		std::shared_ptr<std::vector<Chunk*>> getOrderedChunks();
+		void setOrderedChunks(std::shared_ptr<std::vector<Chunk*>> chunkArray);
 
 		~World();
 	};

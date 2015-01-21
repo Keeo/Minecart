@@ -7,14 +7,17 @@
 namespace view
 {
 
-	class BoundingBox : public view::Drawable
+	class BoundingBox : view::Drawable
 	{
 		static GLfloat boundingVertexData[];
 		static GLuint boundingIndexData[];
 
 		void moveToGpu();
 		void makeVAO();
+		
 	public:
+		
+		void draw();
 
 		BoundingBox();
 		~BoundingBox();

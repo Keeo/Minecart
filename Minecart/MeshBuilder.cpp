@@ -9,9 +9,9 @@ namespace view
 		auto cubes = chunk->getCubes();
 		auto mesh = std::make_unique<MeshStruct>();
 
-		for (int i = 0; i < 32; ++i) {
-			for (int j = 0; j < 32; ++j) {
-				for (int k = 0; k < 32; ++k) {
+		for (int i = 0; i < Constants::CHUNK_SIZE; ++i) {
+			for (int j = 0; j < Constants::CHUNK_SIZE; ++j) {
+				for (int k = 0; k < Constants::CHUNK_SIZE; ++k) {
 					model::Cube& c = cubes[i][j][k];
 					if (c.type == ECube::Air) continue;
 

@@ -26,14 +26,7 @@ namespace view
 	{
 		simpleShader_.bind();
 		simpleShader_.loadModelMatrix(&chunk->model);
-		box_.getMesh()->bind();
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-			glDrawElements(GL_LINES, 6 * 6, GL_UNSIGNED_INT, 0);
-		}
-		else {
-			glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_INT, 0);
-		}
-		box_.getMesh()->unbind();
+		box_.draw();
 		simpleShader_.unbind();
 	}
 
@@ -46,20 +39,8 @@ namespace view
 			assert(mesh != NULL);
 		}
 
-
 		worldShader_.bind();
-		mesh->bind();
-
-		worldShader_.loadModelMatrix(&chunk->model);
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-			glDrawElements(GL_LINES, 6 * mesh->getQuadcount(), GL_UNSIGNED_INT, 0);
-		}
-		else {
-			glDrawElements(GL_TRIANGLES, 6 * mesh->getQuadcount(), GL_UNSIGNED_INT, 0);
-		}
-
-		mesh->unbind();
+		mesh->draw();
 		worldShader_.unbind();
 	}
 

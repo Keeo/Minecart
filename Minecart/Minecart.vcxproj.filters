@@ -139,6 +139,9 @@
     <ClInclude Include="AdvancedDrawer.h">
       <Filter>Header Files\view</Filter>
     </ClInclude>
+    <ClInclude Include="WorldWatcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -206,6 +209,9 @@
     </ClCompile>
     <ClCompile Include="AdvancedDrawer.cpp">
       <Filter>Source Files\view</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldWatcher.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

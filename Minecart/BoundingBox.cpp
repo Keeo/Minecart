@@ -12,6 +12,13 @@ namespace view
 		makeVAO();
 	}
 
+	void BoundingBox::draw()
+	{
+		mesh_->bind();
+		glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_INT, 0);
+		mesh_->unbind();
+	}
+
 	void BoundingBox::makeVAO()
 	{
 		glBindVertexArray(mesh_->vertexArrayID);

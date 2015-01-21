@@ -27,6 +27,14 @@ namespace view
 		GLuint vertexBufferID = -1;
 		GLuint indexBufferID = -1;
 
+		void draw()
+		{
+			glBindVertexArray(vertexArrayID);
+			GLuint rendertype = sf::Keyboard::isKeyPressed(sf::Keyboard::Q) ? GL_LINES : GL_TRIANGLES;
+			glDrawElements(rendertype, 6 * getQuadcount(), GL_UNSIGNED_INT, 0);
+			glBindVertexArray(0);
+		}
+
 		void init() {
 			glGenVertexArrays(1, &vertexArrayID);
 			assert(vertexArrayID != -1);

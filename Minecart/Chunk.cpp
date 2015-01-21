@@ -8,7 +8,7 @@ namespace model {
 		for (int i = 0; i < Constants::CHUNK_SIZE; ++i) {
 			for (int j = 0; j < Constants::CHUNK_SIZE; ++j) {
 				for (int k = 0; k < Constants::CHUNK_SIZE; ++k) {
-					cubes_[i][j][k].type = (rand() % (Constants::CHUNK_SIZE * 4)) < 8 ? ECube::Dirt : ECube::Air;
+					cubes_[i][j][k].type = (rand() % (Constants::CHUNK_SIZE * 4)) < 1 ? ECube::Dirt : ECube::Air;
 					//cubes_[i][j][k].type = i+j+k < 16 ? ECube::Dirt : ECube::Air;
 
 					/*cubes_[i][j][k].type = ECube::Dirt;

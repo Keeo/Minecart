@@ -186,6 +186,7 @@ copy "$(SolutionDir)dlls\sfml-window-d-2.dll" "$(TargetDir)"</Command>
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldBuilder.h" />
     <ClInclude Include="WorldShader.h" />
+    <ClInclude Include="WorldWatcher.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AdvancedDrawer.cpp" />
@@ -215,6 +216,7 @@ copy "$(SolutionDir)dlls\sfml-window-d-2.dll" "$(TargetDir)"</Command>
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldBuilder.cpp" />
     <ClCompile Include="WorldShader.cpp" />
+    <ClCompile Include="WorldWatcher.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\world.frag" />
