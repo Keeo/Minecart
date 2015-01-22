@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdlib.h> 
 #include <vector>
 #include <thread>
 #include <chrono>
@@ -28,6 +29,8 @@ namespace model
 		//void injectDummyChunks();
 		//void connectChunks();
 		WorldWatcher worldWatcher_;
+
+		void cameraChangedChunk(void* pdata);
 
 	public:
 		

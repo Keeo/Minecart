@@ -28,6 +28,18 @@ namespace view {
 
 		move(delta);
 		rotate(delta);
+
+		glm::i32vec3 oldChunk = posToChunk(positionLast_);
+		glm::i32vec3 newChunk = posToChunk(position_);
+		if (oldChunk != newChunk) {
+			Post(EEvent::CameraChangedChunk, &newChunk, 0);
+		}
+	}
+
+	glm::i32vec3& Camera::posToChunk(glm::vec3& const pos)
+	{
+#define tc(x) ( x/Constants::CHUNK_SIZE )
+		return glm::i32vec3(tc(pos.x), tc(pos.y), tc(pos.z));
 	}
 
 	void Camera::move(float& delta)
@@ -40,7 +52,8 @@ namespace view {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) axis -= direction_ * move_speed * delta;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) axis += right_ * move_speed * delta;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) axis -= right_ * move_speed * delta;
-
+		
+		positionLast_ = position_;
 		position_ += axis;
 	}
 

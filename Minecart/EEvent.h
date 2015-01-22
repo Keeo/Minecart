@@ -13,5 +13,7 @@ enum EEvent {
 	ReorderChunkArray,
 	RebuildChunkArray,
 
+	CameraChangedChunk,
+
 	COUNT
 };

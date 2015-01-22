@@ -140,7 +140,7 @@
       <Filter>Header Files\view</Filter>
     </ClInclude>
     <ClInclude Include="WorldWatcher.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -211,7 +211,7 @@
       <Filter>Source Files\view</Filter>
     </ClCompile>
     <ClCompile Include="WorldWatcher.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

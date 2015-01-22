@@ -51,6 +51,8 @@ namespace view {
 		void move(float&);
 		void updateDirection();
 
+		glm::i32vec3& posToChunk(glm::vec3& const pos);
+
 		void getPositionPointer(void* data);
 	};
 
