@@ -142,6 +142,12 @@
     <ClInclude Include="WorldWatcher.h">
       <Filter>Header Files\model</Filter>
     </ClInclude>
+    <ClInclude Include="TripleChunkBuffer.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="ChunkFactory.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -211,6 +217,12 @@
       <Filter>Source Files\view</Filter>
     </ClCompile>
     <ClCompile Include="WorldWatcher.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="ChunkFactory.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="TripleChunkBuffer.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
   </ItemGroup>

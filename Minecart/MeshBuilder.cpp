@@ -81,7 +81,7 @@ namespace view
 			}
 		}
 
-		int quadcount = mesh->getQuadcount();
+		size_t quadcount = mesh->getQuadcount();
 		mesh->g_index_buffer_data.resize(quadcount*6);
 		for (int i = 0; i < quadcount; ++i) {
 			mesh->g_index_buffer_data[6 * i + 0] = 4 * i + 0;

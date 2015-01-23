@@ -14,7 +14,7 @@ namespace model {
 			events_[i].clear();
 	}
 
-	int EventMessagingSystem::eventCount(EEvent eEvent)
+	size_t EventMessagingSystem::eventCount(EEvent eEvent)
 	{
 		return events_[eEvent].size();
 	}

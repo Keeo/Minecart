@@ -4,17 +4,9 @@
 namespace model
 {
 
-	boost::circular_buffer<boost::circular_buffer<boost::circular_buffer<Chunk*>>>* WorldBuilder::buildChunkMatrix()
+	TripleChunkBuffer* WorldBuilder::buildChunkMatrix()
 	{
-		boost::circular_buffer<boost::circular_buffer<boost::circular_buffer<Chunk*>>>* chunks = new boost::circular_buffer<boost::circular_buffer<boost::circular_buffer<Chunk*>>>(Constants::MAP_SIZE);
-
-		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
-			boost::circular_buffer<boost::circular_buffer<Chunk*>> temp(Constants::MAP_SIZE);
-			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
-				temp.push_back(boost::circular_buffer<Chunk*>(Constants::MAP_SIZE));
-			}
-			chunks->push_back(temp);
-		}
+		TripleChunkBuffer* chunks = new TripleChunkBuffer(Constants::MAP_SIZE);
 
 		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
 			for (int j = 0; j < Constants::MAP_SIZE; ++j) {

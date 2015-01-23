@@ -21,7 +21,7 @@ namespace model {
 		void Post(EEvent eEvent, void * pData = 0, unsigned int uiSize = 0);
 		void Register(EEvent eEvent, IEventMessagingSystem * pObj, Callback pFunc);
 		void UnRegister(EEvent eEvent, IEventMessagingSystem * pObj, Callback pFunc);
-		int eventCount(EEvent eEvent);
+		size_t eventCount(EEvent eEvent);
 		void clearAll();
 	private:
 

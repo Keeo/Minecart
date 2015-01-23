@@ -3,12 +3,17 @@
 
 namespace view {
 
+	using namespace boost::math::constants;
+
 	Camera::Camera()
 	{
+		verticalAngle_ = pi<float>();
+		horizontalAngle_ = 0;
+		up_ = glm::vec3(0, 1, 0);
 		positionLast_ = position_ = glm::vec3(6, 7, 8);
 		direction_ = glm::vec3(0, 0, 0);
 		projection_ = glm::perspective(100.0f, (float)Constants::RESOLUTION_X / (float)Constants::RESOLUTION_Y, 0.1f, 1000.0f);
-		view_ = glm::lookAt(position_, direction_, glm::vec3(0, 1, 0));
+		view_ = glm::lookAt(position_, direction_, up_);
 
 		Register(EEvent::FetchCameraData, this, (model::Callback) & Camera::getCameraData);
 	}
@@ -36,7 +41,7 @@ namespace view {
 		}
 	}
 
-	glm::i32vec3& Camera::posToChunk(glm::vec3& const pos)
+	glm::i32vec3 Camera::posToChunk(const glm::vec3& pos)
 	{
 #define tc(x) ( x/Constants::CHUNK_SIZE )
 		return glm::i32vec3(tc(pos.x), tc(pos.y), tc(pos.z));
@@ -48,30 +53,31 @@ namespace view {
 
 		glm::vec3 axis(0, 0, 0);
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) axis += direction_ * move_speed * delta;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) axis -= direction_ * move_speed * delta;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) axis -= direction_ * move_speed * delta;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) axis += direction_ * move_speed * delta;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) axis += right_ * move_speed * delta;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) axis -= right_ * move_speed * delta;
-		
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) axis.y += move_speed * delta;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) axis.y -= move_speed * delta;
 		positionLast_ = position_;
 		position_ += axis;
 	}
-
 
 	void Camera::rotate(float& delta)
 	{
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
 
-			float x = sf::Mouse::getPosition().x - 500;
-			float y = sf::Mouse::getPosition().y - 500;
+			float x = static_cast<float>(sf::Mouse::getPosition().x - 500);
+			float y = static_cast<float>(sf::Mouse::getPosition().y - 500);
 			sf::Mouse::setPosition(sf::Vector2i(500, 500));
 
 			static float mouse_speed = .002f;
-			horizontalAngle_ -= x * mouse_speed;// * delta;
-			verticalAngle_ -= y * mouse_speed;// * delta;
+			horizontalAngle_ -= x * mouse_speed;// *delta;
+			verticalAngle_ -= y * mouse_speed;// *delta;
+			verticalAngle_ = boost::algorithm::clamp(verticalAngle_, half_pi<float>(), half_pi<float>() + pi<float>());
 			updateDirection();
 			
-			view_ = glm::lookAt(position_, position_ + direction_, up_);
+			view_ = glm::lookAt(position_, position_ - direction_, up_);
 		}
 	}
 
@@ -85,9 +91,9 @@ namespace view {
 			);
 
 		right_ = glm::vec3(
-			sin(horizontalAngle_ - 3.14f / 2.0f),
+			sin(horizontalAngle_ - half_pi<float>()),
 			0,
-			cos(horizontalAngle_ - 3.14f / 2.0f)
+			cos(horizontalAngle_ - half_pi<float>())
 			);
 
 		up_ = glm::cross(right_, direction_);

@@ -21,7 +21,7 @@ namespace model {
 
 		rebuildCubesVisibilityCore();
 
-		model = glm::translate(position_);
+		model = glm::translate(static_cast<glm::vec3>(position_));
 	}
 
 

@@ -11,23 +11,29 @@ namespace model
 		Register(EEvent::CameraChangedChunk, this, (model::Callback) & World::cameraChangedChunk);
 	}
 
+	void World::pushFromTop()
+	{
+		const glm::i32vec3* top = (*chunks_)[0][Constants::MAP_SIZE - 1][0]->getPosition();
+		Chunk* c[Constants::MAP_SIZE][Constants::MAP_SIZE];
+
+		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
+			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
+				glm::i32vec3 p(i, 1, j);
+				p *= Constants::CHUNK_SIZE;
+				p += *top;
+				c[i][j] = new Chunk(p);
+				Post(EEvent::BuildMeshForChunk, c[i][j], 0);
+			}
+		}
+		chunks_->pushTop(c);
+		
+	}
+
 	void World::cameraChangedChunk(void* pdata)
 	{
 		glm::i32vec3& chunkPos = *reinterpret_cast<glm::i32vec3*>(pdata);
 		const glm::i32vec3 center = (*(*chunks_)[Constants::MAP_SIZE / 2][Constants::MAP_SIZE / 2][Constants::MAP_SIZE / 2]->getPosition()) / Constants::CHUNK_SIZE;
 		glm::i32vec3 diff = center - chunkPos;
-
-		for (int i = 0; i != abs(diff.y); ++i) {
-			glm::i32vec3 pos = center;
-			pos.y += Constants::MAP_SIZE + i;
-
-			Chunk* c;
-			if (diff.y > 0) {
-				c = new Chunk(pos);
-			}
-
-			//chunks_[pos.x]
-		}
 	}
 
 	void World::visit(WorldBuilder* builder)
@@ -45,14 +51,16 @@ namespace model
 		return chunkArray_;
 	}
 
-	boost::circular_buffer<boost::circular_buffer<boost::circular_buffer<Chunk*>>>* World::getChunks()
+	TripleChunkBuffer* World::getChunks()
 	{
 		return chunks_;
 	}
 
 	void World::update(const GameTime& gameTime)
 	{
-
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::U)) {
+			pushFromTop();
+		}
 	}
 
 	World::~World()

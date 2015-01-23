@@ -6,6 +6,7 @@
 #include "Utils.h"
 #include "Chunk.h"
 #include "IEventMessagingSystem.h"
+#include "TripleChunkBuffer.h"
 
 namespace model
 {
@@ -15,7 +16,7 @@ namespace model
 
 	public:
 
-		boost::circular_buffer<boost::circular_buffer<boost::circular_buffer<Chunk*>>>* buildChunkMatrix();
+		TripleChunkBuffer* buildChunkMatrix();
 
 		WorldBuilder();
 		~WorldBuilder();

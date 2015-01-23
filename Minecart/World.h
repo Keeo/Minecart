@@ -15,14 +15,14 @@
 #include "GameTime.h"
 #include "WorldBuilder.h"
 #include "WorldWatcher.h"
+#include "TripleChunkBuffer.h"
 
 namespace model
 {
 
 	class World : IEventMessagingSystem
 	{
-		typedef boost::circular_buffer<boost::circular_buffer<boost::circular_buffer<Chunk*>>> triple_circular_buffer;
-		triple_circular_buffer* chunks_ = NULL;
+		TripleChunkBuffer* chunks_ = NULL;
 		
 		std::shared_ptr<std::vector<Chunk*>> chunkArray_;
 
@@ -31,6 +31,7 @@ namespace model
 		WorldWatcher worldWatcher_;
 
 		void cameraChangedChunk(void* pdata);
+		void pushFromTop();
 
 	public:
 		
@@ -40,7 +41,7 @@ namespace model
 
 		void update(const GameTime&);
 
-		triple_circular_buffer* getChunks();
+		TripleChunkBuffer* getChunks();
 		
 		std::shared_ptr<std::vector<Chunk*>> getOrderedChunks();
 		void setOrderedChunks(std::shared_ptr<std::vector<Chunk*>> chunkArray);

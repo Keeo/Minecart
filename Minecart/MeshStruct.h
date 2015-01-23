@@ -31,7 +31,7 @@ namespace view
 		{
 			glBindVertexArray(vertexArrayID);
 			GLuint rendertype = sf::Keyboard::isKeyPressed(sf::Keyboard::Q) ? GL_LINES : GL_TRIANGLES;
-			glDrawElements(rendertype, 6 * getQuadcount(), GL_UNSIGNED_INT, 0);
+			glDrawElements(rendertype, static_cast<GLsizei>(6 * getQuadcount()), GL_UNSIGNED_INT, 0);
 			glBindVertexArray(0);
 		}
 
@@ -56,7 +56,7 @@ namespace view
 			glBindVertexArray(0);
 		}
 
-		int getQuadcount()
+		size_t getQuadcount()
 		{
 			return g_vertex_buffer_data.size() / 8;
 		}

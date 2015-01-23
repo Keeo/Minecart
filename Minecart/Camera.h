@@ -1,11 +1,14 @@
 #pragma once
 
+
 #include <gl/glew.h>
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
 #include <SFML/Graphics.hpp>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
+#include <boost/algorithm/clamp.hpp>
+#include <boost/math/constants/constants.hpp>
 
 #include "Constants.h"
 #include "GameTime.h"
@@ -44,14 +47,14 @@ namespace view {
 		glm::vec3 right_;
 		glm::vec3 up_;
 
-		float horizontalAngle_ = 0;
-		float verticalAngle_ = 0;
+		float horizontalAngle_;
+		float verticalAngle_;
 
 		void rotate(float&);
 		void move(float&);
 		void updateDirection();
 
-		glm::i32vec3& posToChunk(glm::vec3& const pos);
+		glm::i32vec3 posToChunk(const glm::vec3& pos);
 
 		void getPositionPointer(void* data);
 	};

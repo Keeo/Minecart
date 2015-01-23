@@ -24,10 +24,10 @@ namespace view
 		
 		float maxdist = Constants::CHUNK_SIZE;
 		std::vector<GLuint> query(chunks.size());
-		glGenQueries(chunks.size(), query.data());
+		glGenQueries(static_cast<GLsizei>(chunks.size()), query.data());
 
 		while (i != chunks.size()) {
-			size_t j = i;
+			int j = i;
 			if (occlusion_cull) {
 				// start occlusion queries and render for the current slice
 				glDisable(GL_CULL_FACE);
