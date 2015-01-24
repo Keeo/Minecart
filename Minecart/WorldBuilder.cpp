@@ -4,10 +4,25 @@
 namespace model
 {
 
+	WorldBuilder::WorldBuilder()
+	{
+		Register(EEvent::FillChunks, this, (model::Callback) & WorldBuilder::fillChunks);
+		Register(EEvent::RebuildVisbility, this, (model::Callback) & WorldBuilder::rebuildVisibility);
+	}
+
 	TripleChunkBuffer* WorldBuilder::buildChunkMatrix()
 	{
 		TripleChunkBuffer* chunks = new TripleChunkBuffer(Constants::MAP_SIZE);
 
+		fillChunks(chunks);
+		chunks->relink();
+		rebuildVisibility(chunks);
+		
+		return chunks;
+	}
+
+	void WorldBuilder::fillChunks(TripleChunkBuffer* chunks)
+	{
 		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
 			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
 				for (int k = 0; k < Constants::MAP_SIZE; ++k) {
@@ -15,33 +30,10 @@ namespace model
 				}
 			}
 		}
+	}
 
-		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
-			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
-				for (int k = 0; k < Constants::MAP_SIZE; ++k) {
-					Chunk& c = *(*chunks)[i][j][k];
-					c.setNeighbors(
-						(*chunks)[i][Utils::worldMod(j + 1)][k],
-						(*chunks)[i][Utils::worldMod(j - 1)][k],
-
-						(*chunks)[Utils::worldMod(i + 1)][j][k],
-						(*chunks)[Utils::worldMod(i - 1)][j][k],
-
-						(*chunks)[i][j][Utils::worldMod(k + 1)],
-						(*chunks)[i][j][Utils::worldMod(k - 1)]
-						);
-				}
-			}
-		}
-
-		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
-			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
-				for (int k = 0; k < Constants::MAP_SIZE; ++k) {
-					(*chunks)[i][j][k]->assertLinks();
-				}
-			}
-		}
-
+	void WorldBuilder::rebuildVisibility(TripleChunkBuffer* chunks)
+	{
 		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
 			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
 				for (int k = 0; k < Constants::MAP_SIZE; ++k) {
@@ -57,14 +49,7 @@ namespace model
 				}
 			}
 		}
-
-		return chunks;
 	}
-
-	WorldBuilder::WorldBuilder()
-	{
-	}
-
 
 	WorldBuilder::~WorldBuilder()
 	{

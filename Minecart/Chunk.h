@@ -35,7 +35,7 @@ namespace model
 		const glm::i32vec3* getPosition() const;
 		const glm::vec3* getCenter() const;
 
-		void assertLinks();
+		bool assertLinks();
 
 		inline void rebuildCubeVisibility(int i, int j, int k);
 		void rebuildCubesVisibilityEdge(EDirection edge);

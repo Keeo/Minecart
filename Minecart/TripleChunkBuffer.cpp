@@ -32,6 +32,39 @@ namespace model
 		}
 	}
 
+	void TripleChunkBuffer::relink()
+	{
+		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
+			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
+				for (int k = 0; k < Constants::MAP_SIZE; ++k) {
+					Chunk& c = *(*this)[i][j][k];
+					c.setNeighbors(
+						(*this)[i][Utils::worldMod(j + 1)][k],
+						(*this)[i][Utils::worldMod(j - 1)][k],
+
+						(*this)[Utils::worldMod(i + 1)][j][k],
+						(*this)[Utils::worldMod(i - 1)][j][k],
+
+						(*this)[i][j][Utils::worldMod(k + 1)],
+						(*this)[i][j][Utils::worldMod(k - 1)]
+						);
+				}
+			}
+		}
+
+		assert([](TripleChunkBuffer* tcb)->bool{
+			for (int i = 0; i < Constants::MAP_SIZE; ++i) {
+				for (int j = 0; j < Constants::MAP_SIZE; ++j) {
+					for (int k = 0; k < Constants::MAP_SIZE; ++k) {
+						bool ret = (*tcb)[i][j][k]->assertLinks();
+						if (ret == false) return false;
+					}
+				}
+			}
+			return true;
+		}(this));
+	}
+
 	TripleChunkBuffer::~TripleChunkBuffer()
 	{
 	}

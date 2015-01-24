@@ -35,7 +35,7 @@ namespace model
 
 	public:
 		
-		void visit(WorldBuilder* builder);
+		void build(WorldBuilder* builder);
 
 		World();
 

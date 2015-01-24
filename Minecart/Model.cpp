@@ -7,7 +7,7 @@ namespace model
 	Model::Model()
 	{
 		world_ = std::make_shared<World>();
-		world_->visit(&worldBuilder_);
+		world_->build(&worldBuilder_);
 	}
 
 

@@ -5,9 +5,10 @@ namespace view {
 
 	MeshManager::MeshManager() : queue_(10)
 	{
-		Register(EEvent::BuildMeshForChunk, this, (model::Callback)& MeshManager::buildMeshForChunk);
 		std::thread worker(&view::MeshManager::run, this);
 		worker.detach();
+
+		Register(EEvent::BuildMeshForChunk, this, (model::Callback)& MeshManager::buildMeshForChunk);
 	}
 
 	void MeshManager::run()

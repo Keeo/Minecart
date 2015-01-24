@@ -17,9 +17,9 @@
 namespace view {
 
 	struct CameraData {
-		glm::mat4* projection = NULL;
-		glm::mat4* view = NULL;
-		glm::vec3* position = NULL;
+		const glm::mat4* projection = NULL;
+		const glm::mat4* view = NULL;
+		const glm::vec3* position = NULL;
 	};
 
 	class Camera : model::IEventMessagingSystem

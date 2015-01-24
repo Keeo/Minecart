@@ -6,6 +6,15 @@
 namespace model
 {
 
+	WorldWatcher::WorldWatcher(World* world) : world_(world)
+	{
+		std::thread worker(&model::WorldWatcher::run, this);
+		worker.detach();
+
+		Register(EEvent::ReorderChunkArray, this, (model::Callback)& WorldWatcher::reorderChunkArray);
+		Register(EEvent::RebuildChunkArray, this, (model::Callback)& WorldWatcher::rebuildChunkArray);
+	}
+
 	void WorldWatcher::run()
 	{
 		while (true) {
@@ -27,21 +36,19 @@ namespace model
 				swap(chunkArray);
 			}
 
-			//std::cout << "World thread done." << std::endl;
 		}
 	}
 
 	void WorldWatcher::swap(std::shared_ptr<std::vector<Chunk*>> chunkArray)
 	{
 		world_->setOrderedChunks(chunkArray);
-		//chunkArray_ = chunkArray;
 	}
 
 	void WorldWatcher::populateOrderingArray(std::shared_ptr<std::vector<Chunk*>> chunkArray)
 	{
 		auto chunks = world_->getChunks();
 		chunkArray->clear();
-		
+
 		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
 			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
 				for (int k = 0; k < Constants::MAP_SIZE; ++k) {
@@ -72,16 +79,6 @@ namespace model
 		rebuild = true;
 		cv_.notify_one();
 	}
-
-	WorldWatcher::WorldWatcher(World* world) : world_(world)
-	{
-		std::thread worker(&model::WorldWatcher::run, this);
-		worker.detach();
-
-		Register(EEvent::ReorderChunkArray, this, (model::Callback)& WorldWatcher::reorderChunkArray);
-		Register(EEvent::RebuildChunkArray, this, (model::Callback)& WorldWatcher::rebuildChunkArray);
-	}
-
 
 	WorldWatcher::~WorldWatcher()
 	{

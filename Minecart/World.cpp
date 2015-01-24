@@ -36,7 +36,7 @@ namespace model
 		glm::i32vec3 diff = center - chunkPos;
 	}
 
-	void World::visit(WorldBuilder* builder)
+	void World::build(WorldBuilder* builder)
 	{
 		chunks_ = builder->buildChunkMatrix();
 	}

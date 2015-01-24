@@ -24,19 +24,13 @@ namespace model {
 		model = glm::translate(static_cast<glm::vec3>(position_));
 	}
 
-
-	void Chunk::assertLinks()
+	bool Chunk::assertLinks()
 	{
-		assert(u->d == this);
-		assert(d->u == this);
-
-		assert(s->e == this);
-		assert(e->s == this);
-
-		assert(n->w == this);
-		assert(w->n == this);
+		return u->d == this && d->u == this &&
+			s->e == this && e->s == this &&
+			n->w == this && w->n == this;
 	}
-
+	
 	Chunk::~Chunk()
 	{
 	}

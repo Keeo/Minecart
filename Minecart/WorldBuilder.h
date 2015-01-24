@@ -16,6 +16,10 @@ namespace model
 
 	public:
 
+		void relink(TripleChunkBuffer* chunks);
+		void fillChunks(TripleChunkBuffer* chunks);
+		void rebuildVisibility(TripleChunkBuffer* chunks);
+
 		TripleChunkBuffer* buildChunkMatrix();
 
 		WorldBuilder();

@@ -6,6 +6,8 @@
 #include <mutex>
 #include <condition_variable>
 
+#include <boost/lockfree/queue.hpp>
+
 #include "Constants.h"
 #include "Chunk.h"
 #include "IEventMessagingSystem.h"
@@ -24,13 +26,12 @@ namespace model
 
 		void populateOrderingArray(std::shared_ptr<std::vector<Chunk*>> chunkArray);
 		void sortArray(std::shared_ptr<std::vector<Chunk*>> chunkArray, std::shared_ptr<DistancePred> distancePred);
-		
+
 		void swap(std::vector<Chunk*>* chunkArray);
 		void swap(std::shared_ptr<std::vector<Chunk*>> chunkArray);
 
 		void reorderChunkArray(void* data);
 		void rebuildChunkArray(void* data);
-
 
 		bool reorder = false;
 		bool rebuild = false;

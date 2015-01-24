@@ -59,6 +59,9 @@ namespace view {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) axis -= right_ * move_speed * delta;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) axis.y += move_speed * delta;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) axis.y -= move_speed * delta;
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) axis *= 4;
+
 		positionLast_ = position_;
 		position_ += axis;
 	}
@@ -75,10 +78,11 @@ namespace view {
 			horizontalAngle_ -= x * mouse_speed;// *delta;
 			verticalAngle_ -= y * mouse_speed;// *delta;
 			verticalAngle_ = boost::algorithm::clamp(verticalAngle_, half_pi<float>(), half_pi<float>() + pi<float>());
-			updateDirection();
 			
-			view_ = glm::lookAt(position_, position_ - direction_, up_);
 		}
+		updateDirection();
+
+		view_ = glm::lookAt(position_, position_ - direction_, up_);
 	}
 
 
