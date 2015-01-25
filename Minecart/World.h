@@ -16,18 +16,17 @@
 #include "WorldBuilder.h"
 #include "WorldWatcher.h"
 #include "TripleChunkBuffer.h"
+#include "DrawVector.h"
 
 namespace model
 {
 
 	class World : IEventMessagingSystem
 	{
-		TripleChunkBuffer* chunks_ = NULL;
+		std::atomic<TripleChunkBuffer*> chunks_;
 		
-		std::shared_ptr<std::vector<Chunk*>> chunkArray_;
+		DrawVector drawVector_;
 
-		//void injectDummyChunks();
-		//void connectChunks();
 		WorldWatcher worldWatcher_;
 
 		void cameraChangedChunk(void* pdata);
@@ -42,9 +41,9 @@ namespace model
 		void update(const GameTime&);
 
 		TripleChunkBuffer* getChunks();
-		
+		void setChunks(TripleChunkBuffer* tcb);
+
 		std::shared_ptr<std::vector<Chunk*>> getOrderedChunks();
-		void setOrderedChunks(std::shared_ptr<std::vector<Chunk*>> chunkArray);
 
 		~World();
 	};

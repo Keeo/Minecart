@@ -164,6 +164,7 @@ copy "$(SolutionDir)dlls\sfml-window-d-2.dll" "$(TargetDir)"</Command>
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="Drawer.h" />
+    <ClInclude Include="DrawVector.h" />
     <ClInclude Include="ECube.h" />
     <ClInclude Include="EDirection.h" />
     <ClInclude Include="EEvent.h" />
@@ -199,6 +200,7 @@ copy "$(SolutionDir)dlls\sfml-window-d-2.dll" "$(TargetDir)"</Command>
     <ClCompile Include="ChunkFactory.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Drawer.cpp" />
+    <ClCompile Include="DrawVector.cpp" />
     <ClCompile Include="EventMessagingSystem.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="IEventMessagingSystem.cpp" />

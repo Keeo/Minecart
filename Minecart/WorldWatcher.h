@@ -24,17 +24,11 @@ namespace model
 
 		void run();
 
-		void populateOrderingArray(std::shared_ptr<std::vector<Chunk*>> chunkArray);
-		void sortArray(std::shared_ptr<std::vector<Chunk*>> chunkArray, std::shared_ptr<DistancePred> distancePred);
+		std::shared_ptr<glm::vec3> initData_ = NULL;
 
-		void swap(std::vector<Chunk*>* chunkArray);
-		void swap(std::shared_ptr<std::vector<Chunk*>> chunkArray);
-
-		void reorderChunkArray(void* data);
-		void rebuildChunkArray(void* data);
-
-		bool reorder = false;
-		bool rebuild = false;
+		void initEvent(void* data);
+		void moveEvent(void* data);
+		void changeEvent(void* data);
 
 		World* world_;
 

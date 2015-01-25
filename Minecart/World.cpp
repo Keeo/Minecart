@@ -4,10 +4,9 @@
 namespace model
 {
 
-	World::World() : chunkArray_(new std::vector<Chunk*>()), worldWatcher_(this)
+	World::World() : worldWatcher_(this), drawVector_(this)
 	{
-		chunkArray_->reserve(Constants::CHUNK_COUNT);
-
+		chunks_.store(NULL);
 		Register(EEvent::CameraChangedChunk, this, (model::Callback) & World::cameraChangedChunk);
 	}
 
@@ -25,7 +24,7 @@ namespace model
 				Post(EEvent::BuildMeshForChunk, c[i][j], 0);
 			}
 		}
-		chunks_->pushTop(c);
+		(*chunks_).pushTop(c);
 		
 	}
 
@@ -38,22 +37,25 @@ namespace model
 
 	void World::build(WorldBuilder* builder)
 	{
-		chunks_ = builder->buildChunkMatrix();
-	}
-
-	void World::setOrderedChunks(std::shared_ptr<std::vector<Chunk*>> chunkArray)
-	{
-		chunkArray_ = chunkArray;
+		//chunks_ = builder->buildChunkMatrix();
+		auto start = std::make_shared<glm::vec3>(0.0f);
+		Post(EEvent::WatcherInit, &start, 0);
 	}
 
 	std::shared_ptr<std::vector<Chunk*>> World::getOrderedChunks()
 	{
-		return chunkArray_;
+		return drawVector_.getChunkArray();
+	}
+
+	void World::setChunks(TripleChunkBuffer* tcb)
+	{
+		assert(chunks_.load() == NULL);
+		chunks_.store(tcb);
 	}
 
 	TripleChunkBuffer* World::getChunks()
 	{
-		return chunks_;
+		return chunks_.load();
 	}
 
 	void World::update(const GameTime& gameTime)

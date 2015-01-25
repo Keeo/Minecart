@@ -148,6 +148,9 @@
     <ClInclude Include="ChunkFactory.h">
       <Filter>Header Files\model</Filter>
     </ClInclude>
+    <ClInclude Include="DrawVector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -224,6 +227,9 @@
     </ClCompile>
     <ClCompile Include="TripleChunkBuffer.cpp">
       <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawVector.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -14,7 +14,7 @@ namespace view
 		if (frames++ > 30) {
 			frames = 0;
 			std::shared_ptr<model::DistancePred> dp = std::make_shared<model::DistancePred>(*cameraData.position);
-			Post(EEvent::ReorderChunkArray, &dp, 0);
+			Post(EEvent::ReorderDrawVector, &dp, 0);
 		}
 		auto smartChunks = world->getOrderedChunks();
 		std::vector<model::Chunk*>& chunks = *smartChunks;
@@ -23,6 +23,12 @@ namespace view
 		bool occlusion_cull = !sf::Keyboard::isKeyPressed(sf::Keyboard::O);
 		
 		float maxdist = Constants::CHUNK_SIZE;
+		float add = Constants::CHUNK_SIZE * 2;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
+			maxdist /= 2; 
+			add /= 2;
+		}
+
 		std::vector<GLuint> query(chunks.size());
 		glGenQueries(static_cast<GLsizei>(chunks.size()), query.data());
 
@@ -40,7 +46,7 @@ namespace view
 
 				for (; j < chunks.size() && glm::distance(*(chunks[j]->getCenter()), *cameraData.position) < maxdist; ++j) {
 					// frustum culling
-					if (isCullable(cameraData, chunks[j])) continue;
+					//if (isCullable(cameraData, chunks[j])) continue;
 
 					// begin occlusion query
 					glBeginQuery(GL_ANY_SAMPLES_PASSED, query[j]);
@@ -64,7 +70,7 @@ namespace view
 			worldShader_.bind();
 			for (; j < chunks.size() && glm::distance(*(chunks[j]->getCenter()), *cameraData.position) < maxdist; ++j) {
 				// frustum culling
-				if (isCullable(cameraData, chunks[j])) continue;
+				//if (isCullable(cameraData, chunks[j])) continue;
 
 				if (chunks[j]->getMesh()->indexBufferID == -1) {
 					auto m = chunks[j]->getMesh();
@@ -85,18 +91,18 @@ namespace view
 					glEndConditionalRender();
 			}
 			i = j;
-			maxdist += 2 * Constants::CHUNK_SIZE;
+			maxdist += add;
 		}
 
 		//glDeleteQueries(query.size(), query.data());
 
-		/*int rendered = 0;
+		int rendered = 0;
 		for (auto& a : query) {
 			GLint pa = 0;
 			glGetQueryObjectiv(a, GL_QUERY_RESULT, &pa);
 			rendered += pa;
 		}
-		std::cout << (chunks.size() - rendered) << std::endl;*/
+		std::cout << "Total:"<<chunks.size()<< " skipped:" << (chunks.size() - rendered) << " rendered:" << rendered << std::endl;
 	}
 
 

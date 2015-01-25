@@ -8,6 +8,7 @@ namespace model
 	{
 		Register(EEvent::FillChunks, this, (model::Callback) & WorldBuilder::fillChunks);
 		Register(EEvent::RebuildVisbility, this, (model::Callback) & WorldBuilder::rebuildVisibility);
+		Register(EEvent::InitSequence, this, (model::Callback) & WorldBuilder::initSequence);
 	}
 
 	TripleChunkBuffer* WorldBuilder::buildChunkMatrix()
@@ -19,6 +20,13 @@ namespace model
 		rebuildVisibility(chunks);
 		
 		return chunks;
+	}
+
+	void WorldBuilder::initSequence(void* data)
+	{
+		TripleChunkBuffer** c = (TripleChunkBuffer**)data;
+		TripleChunkBuffer* tcb = buildChunkMatrix();
+		*c = tcb;
 	}
 
 	void WorldBuilder::fillChunks(TripleChunkBuffer* chunks)

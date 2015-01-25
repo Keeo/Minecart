@@ -21,8 +21,6 @@ namespace view
 
 	public:
 
-		void init(std::shared_ptr<model::Model> model);
-
 		void update(const GameTime&);
 		void draw(std::shared_ptr<model::Model> model);
 

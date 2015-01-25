@@ -10,14 +10,18 @@ enum EEvent {
 
 	BuildMeshForChunk,
 
-	ReorderChunkArray,
-	RebuildChunkArray,
-	RelinkChunkArray,
+	ReorderDrawVector,
+	RebuildDrawVector,
+
+	WatcherInit,
+	WatcherMove,
+	WatcherChange,
 
 	CameraChangedChunk,
 
 	FillChunks,
 	RebuildVisbility,
+	InitSequence,
 
 	COUNT
 };

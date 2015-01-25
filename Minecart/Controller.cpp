@@ -6,7 +6,6 @@ Controller::Controller()
 {
 	model_ = std::make_shared<model::Model>();
 	view_ = std::make_unique<view::View>();
-	view_->init(model_);
 }
 
 

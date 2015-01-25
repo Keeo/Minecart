@@ -19,7 +19,7 @@ namespace view {
 
 			while (!queue_.empty()) {
 				buildchunkAsync();
-				Post(EEvent::RebuildChunkArray, NULL, 0);
+				Post(EEvent::RebuildDrawVector, NULL, 0);
 			}
 			
 			std::cout << "Mesh builder work done." << std::endl;
@@ -37,12 +37,9 @@ namespace view {
 		model::Chunk* chunk;
 		bool ret = queue_.pop(chunk);
 		assert(ret);
-		std::cout << "Served count:" << served_.size() << std::endl;
-		assert(std::find(served_.begin(), served_.end(), chunk) == served_.end());
 
 		auto mesh = meshBuilder_.buildMesh(chunk);
 		chunk->setMesh(std::move(mesh));
-		served_.push_back(chunk);
 	}
 
 	MeshManager::~MeshManager()

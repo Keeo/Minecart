@@ -12,21 +12,6 @@ namespace view
 		advancedDrawer_ = std::make_unique<AdvancedDrawer>();
 	}
 
-	void View::init(std::shared_ptr<model::Model> model)
-	{
-		auto& chunks = *model->getWorld()->getChunks();
-		for (auto c : chunks){
-			for (auto d : c){
-				for (auto e : d){
-					if (e->getMesh() == NULL) {
-						Post(EEvent::BuildMeshForChunk, e, 0);
-					}
-				}
-			}
-		}
-	}
-
-
 	View::~View()
 	{
 	}

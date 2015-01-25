@@ -13,7 +13,7 @@ namespace model
 
 	class WorldBuilder : IEventMessagingSystem
 	{
-
+		void initSequence(void* data);
 	public:
 
 		void relink(TripleChunkBuffer* chunks);
