@@ -18,9 +18,19 @@ namespace view
 		}
 		auto smartChunks = world->getOrderedChunks();
 		std::vector<model::Chunk*>& chunks = *smartChunks;
+		for (auto a : chunks) {
+			if (a->getMesh()->indexBufferID == -1) {
+				auto m = a->getMesh();
+				m->init();
+				m->moveToGpu();
+				m->makeVAO();
+			}
+		}
+
 
 		int i = 0;
-		bool occlusion_cull = !sf::Keyboard::isKeyPressed(sf::Keyboard::O);
+		bool occlusion_cull = false;
+		//bool occlusion_cull = !sf::Keyboard::isKeyPressed(sf::Keyboard::O);
 		
 		float maxdist = Constants::CHUNK_SIZE;
 		float add = Constants::CHUNK_SIZE * 2;
@@ -30,7 +40,7 @@ namespace view
 		}
 
 		std::vector<GLuint> query(chunks.size());
-		glGenQueries(static_cast<GLsizei>(chunks.size()), query.data());
+		//glGenQueries(static_cast<GLsizei>(chunks.size()), query.data());
 
 		while (i != chunks.size()) {
 			int j = i;
@@ -72,12 +82,7 @@ namespace view
 				// frustum culling
 				//if (isCullable(cameraData, chunks[j])) continue;
 
-				if (chunks[j]->getMesh()->indexBufferID == -1) {
-					auto m = chunks[j]->getMesh();
-					m->init();
-					m->moveToGpu();
-					m->makeVAO();
-				}
+				
 
 				// begin conditional render
 				if (occlusion_cull)

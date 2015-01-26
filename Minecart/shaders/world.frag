@@ -40,6 +40,6 @@ void main()
     float fog = exp2( -0.02 * 0.02 * distance * distance * 1.442695 );
     fog = clamp(fog, 0.1, 1.0);
     color = texture(sampler, uv).rgb;
-    color = normalize(position + normalize(normal)*5);
+    color = normalize(normalize(position)*2 + normalize(normal));
     //color = mix(vec3(0.1,0.1,0.1), color, fog);
 }
