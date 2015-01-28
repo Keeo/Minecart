@@ -27,6 +27,10 @@ namespace view {
 			mesh_ = mesh;
 			readyRender = true;
 		}
+
+		virtual ~Drawable()
+		{
+		}
 	};
 
 }

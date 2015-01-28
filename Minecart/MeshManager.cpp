@@ -39,7 +39,7 @@ namespace view {
 		assert(ret);
 
 		auto mesh = meshBuilder_.buildMesh(chunk);
-		chunk->setMesh(std::move(mesh));
+		chunk->setMesh(mesh);
 	}
 
 	MeshManager::~MeshManager()

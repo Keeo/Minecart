@@ -1,9 +1,9 @@
 #version 330 core
 #extension GL_ARB_explicit_attrib_location : require
 
-layout(location = 0) in vec3 vertex_position;
+layout(location = 0) in vec4 vertex_position;
 layout(location = 1) in vec2 vertex_uv;
-layout(location = 5) in vec3 vertex_normal;
+//layout(location = 5) in vec3 vertex_normal;
 
 uniform mat4 model;
 uniform mat4 view;
@@ -16,9 +16,16 @@ out vec3 position;
 // gl_vertexid;
 void main()
 {
-    gl_Position = projection * view * model * vec4(vertex_position, 1);
-    position = vec3(model * vec4(vertex_position, 1.0));
+	int byte = int(vertex_position.w);
+	vec4 verpos = vec4(vertex_position.xyz, 1);
+
+	int mask = 0x00000003; 
+	normal.x = float(((byte >> 4) & mask) - 2); // sign maybe?
+	normal.y = float(((byte >> 2) & mask) - 2);
+	normal.z = float(((byte >> 0) & mask) - 2);
+
+    gl_Position = projection * view * model * verpos;
+    position = vec3(model * verpos);
     uv = vertex_uv;
-    normal = vertex_normal;
 }
 

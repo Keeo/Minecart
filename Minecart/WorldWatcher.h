@@ -25,6 +25,7 @@ namespace model
 		void run();
 
 		std::shared_ptr<glm::vec3> initData_ = NULL;
+		boost::lockfree::queue<EDirection> moveData_;
 
 		void initEvent(void* data);
 		void moveEvent(void* data);

@@ -31,8 +31,7 @@ namespace model {
 
 	void EventMessagingSystem::Register(EEvent eEvent, IEventMessagingSystem* pObj, Callback pFunc)
 	{
-		EveCall ec = { pObj, pFunc };
-		events_[eEvent].push_back(ec);
+		events_[eEvent].push_back({ pObj, pFunc });
 	}
 
 	void EventMessagingSystem::UnRegister(EEvent eEvent, IEventMessagingSystem* pObj, Callback pFunc)

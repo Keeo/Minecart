@@ -61,7 +61,9 @@ namespace model
 	void World::update(const GameTime& gameTime)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::U)) {
-			pushFromTop();
+			//pushFromTop();
+			EDirection ed = EDirection::UP;
+			Post(EEvent::WatcherMove, &ed, 0);
 		}
 	}
 

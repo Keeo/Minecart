@@ -6,7 +6,7 @@
 namespace model
 {
 
-	WorldWatcher::WorldWatcher(World* world) : world_(world)
+	WorldWatcher::WorldWatcher(World* world) : world_(world), moveData_(10)
 	{
 		std::thread worker(&model::WorldWatcher::run, this);
 		worker.detach();
@@ -20,7 +20,7 @@ namespace model
 	{
 		while (true) {
 			std::unique_lock<std::mutex> lk(m_);
-			cv_.wait(lk, [&](){ return initData_ != NULL; });
+			cv_.wait(lk, [&](){ return initData_ != NULL || !moveData_.empty(); });
 
 			if (initData_ != NULL) {
 				TripleChunkBuffer* tcb = NULL;
@@ -39,6 +39,32 @@ namespace model
 				initData_ = NULL;
 			}
 
+			while (!moveData_.empty()) {
+				EDirection ed;
+				moveData_.pop(ed);
+				TripleChunkBuffer* tcb = world_->getChunks();
+				const glm::i32vec3* top = (*tcb)[0][Constants::MAP_SIZE - 1][0]->getPosition();
+				Chunk* c[Constants::MAP_SIZE][Constants::MAP_SIZE];
+
+				for (int i = 0; i < Constants::MAP_SIZE; ++i) {
+					for (int j = 0; j < Constants::MAP_SIZE; ++j) {
+						glm::i32vec3 p(i, 1, j);
+						p *= Constants::CHUNK_SIZE;
+						p += *top;
+						c[i][j] = new Chunk(p);
+						//Post(EEvent::BuildMeshForChunk, c[i][j], 0);
+					}
+				}
+				tcb->pushTop(c);
+				tcb->relink();
+				Post(EEvent::RebuildVisbility, tcb, 0);
+				for (int i = 0; i < Constants::MAP_SIZE; ++i) {
+					for (int j = 0; j < Constants::MAP_SIZE; ++j) {
+						Post(EEvent::BuildMeshForChunk, c[i][j], 0);
+					}
+				}
+				
+			}
 		}
 	}
 
@@ -50,7 +76,8 @@ namespace model
 
 	void WorldWatcher::moveEvent(void* data)
 	{
-
+		moveData_.push(*(EDirection*)data);
+		cv_.notify_one();
 	}
 
 	void WorldWatcher::changeEvent(void* data)

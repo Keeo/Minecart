@@ -31,7 +31,6 @@ namespace model
 				populateOrderingArray(chunkArray);
 				sortArray(chunkArray, distancePred_);
 				swap(chunkArray);
-				//reorder_ = true;
 			}
 
 			if (reorder_) {
@@ -56,6 +55,7 @@ namespace model
 		assert(chunks != NULL);
 		chunkArray->clear();
 
+		chunks->lock();
 		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
 			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
 				for (int k = 0; k < Constants::MAP_SIZE; ++k) {
@@ -65,6 +65,7 @@ namespace model
 				}
 			}
 		}
+		chunks->unlock();
 
 	}
 
@@ -74,6 +75,7 @@ namespace model
 		std::sort(chunkArray->begin(), chunkArray->end(), dp);
 
 		assert([](std::shared_ptr<std::vector<Chunk*>> ca, DistancePred* dp)->bool{
+			if ((*ca).size() == 0) return true;
 			for (int i = 0; i < ca->size() - 1; ++i) {
 				float first = glm::distance(dp->pos, *ca->at(i)->getCenter());
 				float second = glm::distance(dp->pos, *ca->at(i + 1)->getCenter());

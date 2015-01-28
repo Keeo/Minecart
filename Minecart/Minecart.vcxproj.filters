@@ -76,9 +76,6 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files\view</Filter>
     </ClInclude>
-    <ClInclude Include="Drawer.h">
-      <Filter>Header Files\view</Filter>
-    </ClInclude>
     <ClInclude Include="GameTime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -148,8 +145,11 @@
     <ClInclude Include="ChunkFactory.h">
       <Filter>Header Files\model</Filter>
     </ClInclude>
-    <ClInclude Include="DrawVector.h">
+    <ClInclude Include="UtilsMemory.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawVector.h">
+      <Filter>Header Files\model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -175,9 +175,6 @@
       <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\view</Filter>
-    </ClCompile>
-    <ClCompile Include="Drawer.cpp">
       <Filter>Source Files\view</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
@@ -229,7 +226,7 @@
       <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="DrawVector.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

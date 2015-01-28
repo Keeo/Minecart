@@ -27,7 +27,9 @@ namespace model
 			assert(slices[i].size() == Constants::MAP_SIZE);
 		}
 
+		std::lock_guard<std::mutex> lg(m_);
 		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
+			//for (auto a : (*this)[i].front()) readyToDelete_.push_back(a);
 			(*this)[i].push_back(slices[i]);
 		}
 	}
@@ -67,6 +69,16 @@ namespace model
 
 	TripleChunkBuffer::~TripleChunkBuffer()
 	{
+	}
+
+	void TripleChunkBuffer::lock()
+	{
+		m_.lock();
+	}
+
+	void TripleChunkBuffer::unlock()
+	{
+		m_.unlock();
 	}
 
 }

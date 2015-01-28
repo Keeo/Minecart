@@ -24,24 +24,22 @@ namespace view
 				m->init();
 				m->moveToGpu();
 				m->makeVAO();
+				//m->newOrder();
 			}
 		}
 
 
 		int i = 0;
-		bool occlusion_cull = false;
-		//bool occlusion_cull = !sf::Keyboard::isKeyPressed(sf::Keyboard::O);
-		
+		bool occlusion_cull = !sf::Keyboard::isKeyPressed(sf::Keyboard::O);
+		bool cpucull = !sf::Keyboard::isKeyPressed(sf::Keyboard::I);
+
 		float maxdist = Constants::CHUNK_SIZE;
 		float add = Constants::CHUNK_SIZE * 2;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
 			maxdist /= 2; 
 			add /= 2;
 		}
-
-		std::vector<GLuint> query(chunks.size());
-		//glGenQueries(static_cast<GLsizei>(chunks.size()), query.data());
-
+		int culled = 0;
 		while (i != chunks.size()) {
 			int j = i;
 			if (occlusion_cull) {
@@ -56,10 +54,13 @@ namespace view
 
 				for (; j < chunks.size() && glm::distance(*(chunks[j]->getCenter()), *cameraData.position) < maxdist; ++j) {
 					// frustum culling
-					//if (isCullable(cameraData, chunks[j])) continue;
+					if (cpucull && isCullable(cameraData, chunks[j])) {
+						culled++;
+						continue;
+					}
 
 					// begin occlusion query
-					glBeginQuery(GL_ANY_SAMPLES_PASSED, query[j]);
+					glBeginQuery(GL_ANY_SAMPLES_PASSED, query_[j]);
 
 					// draw bounding box
 					simpleShader_.loadModelMatrix(&chunks[j]->model);
@@ -80,13 +81,13 @@ namespace view
 			worldShader_.bind();
 			for (; j < chunks.size() && glm::distance(*(chunks[j]->getCenter()), *cameraData.position) < maxdist; ++j) {
 				// frustum culling
-				//if (isCullable(cameraData, chunks[j])) continue;
+				if (cpucull && isCullable(cameraData, chunks[j])) continue;
 
 				
 
 				// begin conditional render
 				if (occlusion_cull)
-					glBeginConditionalRender(query[j], GL_QUERY_BY_REGION_WAIT);
+					glBeginConditionalRender(query_[j], GL_QUERY_BY_REGION_WAIT);
 
 				worldShader_.loadModelMatrix(&chunks[j]->model);
 				chunks[j]->getMesh()->draw();
@@ -102,12 +103,13 @@ namespace view
 		//glDeleteQueries(query.size(), query.data());
 
 		int rendered = 0;
-		for (auto& a : query) {
+		for (auto& a : query_) {
 			GLint pa = 0;
 			glGetQueryObjectiv(a, GL_QUERY_RESULT, &pa);
 			rendered += pa;
 		}
-		std::cout << "Total:"<<chunks.size()<< " skipped:" << (chunks.size() - rendered) << " rendered:" << rendered << std::endl;
+
+		std::cout << "Total:"<<chunks.size()<< " skipped:" << (chunks.size() - rendered) << " rendered:" << rendered << " culled:" << culled << " memusage:" << Utils::getMemoryUsage() << std::endl;
 	}
 
 
@@ -120,11 +122,14 @@ namespace view
 
 	AdvancedDrawer::AdvancedDrawer()
 	{
+		query_.resize(Constants::CHUNK_COUNT);
+		glGenQueries(static_cast<GLsizei>(query_.size()), query_.data());
 	}
 
 
 	AdvancedDrawer::~AdvancedDrawer()
 	{
+		glDeleteQueries(static_cast<GLsizei>(query_.size()), query_.data());
 	}
 
 }

@@ -18,7 +18,7 @@ namespace view
 		void buildCube(MeshStruct& mesh, model::Cube& cube, int x, int y, int z);
 	public:
 		
-		std::unique_ptr<MeshStruct> buildMesh(model::Chunk* chunk);
+		std::shared_ptr<MeshStruct> buildMesh(model::Chunk* chunk);
 	};
 
 }

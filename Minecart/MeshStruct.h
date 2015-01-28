@@ -20,19 +20,47 @@ namespace view
 
 	struct MeshStruct
 	{
-		std::vector<glm::vec3> g_vertex_buffer_data;
-		std::vector<GLuint> g_index_buffer_data;
+		std::vector<glm::u8vec4>* g_vertex_buffer_data;
+		std::vector<GLuint>* g_index_buffer_data;
+		size_t quadcount = 0;
 
 		GLuint vertexArrayID = -1;
 		GLuint vertexBufferID = -1;
 		GLuint indexBufferID = -1;
 
+		MeshStruct() : g_vertex_buffer_data(new std::vector<glm::u8vec4>()), g_index_buffer_data(new std::vector<GLuint>())
+		{
+
+		}
+
 		void draw()
 		{
 			glBindVertexArray(vertexArrayID);
 			GLuint rendertype = sf::Keyboard::isKeyPressed(sf::Keyboard::Q) ? GL_LINES : GL_TRIANGLES;
-			glDrawElements(rendertype, static_cast<GLsizei>(6 * getQuadcount()), GL_UNSIGNED_INT, 0);
+			glDrawElements(rendertype, static_cast<GLsizei>(6 * quadcount), GL_UNSIGNED_INT, 0);
 			glBindVertexArray(0);
+		}
+
+		void newOrder()
+		{
+			glGenVertexArrays(1, &vertexArrayID);
+			glBindVertexArray(vertexArrayID);
+			
+			glGenBuffers(1, &vertexBufferID);
+			glGenBuffers(1, &indexBufferID);
+			glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferID);
+
+
+			glBufferData(GL_ARRAY_BUFFER, sizeof(glm::u8vec4) * g_vertex_buffer_data->size(), g_vertex_buffer_data->data(), GL_STATIC_DRAW);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * g_index_buffer_data->size(), g_index_buffer_data->data(), GL_STATIC_DRAW);
+
+			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 4, GL_UNSIGNED_BYTE, GL_FALSE, 4 * sizeof(GLubyte), (void*)0);
+
+			glBindVertexArray(0);
+
+			deleteBuffers();
 		}
 
 		void init() {
@@ -56,19 +84,16 @@ namespace view
 			glBindVertexArray(0);
 		}
 
-		size_t getQuadcount()
-		{
-			return g_vertex_buffer_data.size() / 8;
-		}
-
 		void moveToGpu() {
 			glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * g_vertex_buffer_data.size(), g_vertex_buffer_data.data(), GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(glm::u8vec4) * g_vertex_buffer_data->size(), g_vertex_buffer_data->data(), GL_STATIC_DRAW);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferID);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*g_index_buffer_data.size(), g_index_buffer_data.data(), GL_STATIC_DRAW);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * g_index_buffer_data->size(), g_index_buffer_data->data(), GL_STATIC_DRAW);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+			deleteBuffers();
 		}
 
 		void makeVAO()
@@ -78,31 +103,44 @@ namespace view
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferID);
 
 			glEnableVertexAttribArray(0);
-			glEnableVertexAttribArray(5);
+			//glEnableVertexAttribArray(5);
 			glVertexAttribPointer(
 				0,
-				3,
-				GL_FLOAT,
+				4,
+				GL_UNSIGNED_BYTE,
 				GL_FALSE,
-				6 * sizeof(GLfloat),
+				4 * sizeof(GLubyte),
 				(void*)0
 				);
 
-			glVertexAttribPointer(
+			/*glVertexAttribPointer(
 				5,                 // attribute
 				3,                 // number of elements per vertex
 				GL_FLOAT,          // the type of each element
 				GL_FALSE,          // take our values as-is
-				6 * sizeof(GLfloat),// no extra data between each position
+				4 * sizeof(GLfloat),// no extra data between each position
 				(GLvoid*)(3 * sizeof(GLfloat))// offset of first element
-				);
+				);*/
 			glBindVertexArray(0);
 		}
 
-		~MeshStruct() {
-			glDeleteBuffers(1, &vertexBufferID);
-			glDeleteBuffers(1, &indexBufferID);
-			glDeleteVertexArrays(1, &vertexArrayID);
+		~MeshStruct()
+		{
+			if (g_vertex_buffer_data != NULL) delete g_vertex_buffer_data;
+			if (g_index_buffer_data != NULL) delete g_index_buffer_data;
+
+			if (vertexArrayID != -1) glDeleteVertexArrays(1, &vertexArrayID);
+			if (vertexBufferID != -1) glDeleteBuffers(1, &vertexBufferID);
+			if (indexBufferID != -1) glDeleteBuffers(1, &indexBufferID);
+		}
+
+		void deleteBuffers()
+		{
+			delete g_vertex_buffer_data;
+			delete g_index_buffer_data;
+
+			g_vertex_buffer_data = NULL;
+			g_index_buffer_data = NULL;
 		}
 	};
 

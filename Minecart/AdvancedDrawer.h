@@ -22,6 +22,8 @@ namespace view
 		SimpleShader simpleShader_;
 		BoundingBox box_;
 
+		std::vector<GLuint> query_;
+
 	public:
 
 		void condDraw(std::shared_ptr<model::Model> model);

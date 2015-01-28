@@ -139,6 +139,7 @@ copy "$(SolutionDir)dlls\sfml-window-d-2.dll" "$(TargetDir)"</Command>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Frameworks\newage\glew-1.11.0-win32\glew-1.11.0\include;C:\Frameworks\newage\boost_1_57_0\boost_1_57_0;C:\Frameworks\newage\glm-0.9.6.1\glm;C:\Frameworks\newage\SFML-2.2-windows-vc12-64-bit\SFML-2.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/vmg %(AdditionalOptions)</AdditionalOptions>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,6 +155,9 @@ copy "$(SolutionDir)dlls\sfml-graphics-2.dll" "$(TargetDir)"
 copy "$(SolutionDir)dlls\sfml-system-2.dll" "$(TargetDir)"
 copy "$(SolutionDir)dlls\sfml-window-2.dll" "$(TargetDir)"</Command>
     </PostBuildEvent>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -169,7 +173,6 @@ copy "$(SolutionDir)dlls\sfml-window-2.dll" "$(TargetDir)"</Command>
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Drawable.h" />
-    <ClInclude Include="Drawer.h" />
     <ClInclude Include="DrawVector.h" />
     <ClInclude Include="ECube.h" />
     <ClInclude Include="EDirection.h" />
@@ -177,6 +180,7 @@ copy "$(SolutionDir)dlls\sfml-window-2.dll" "$(TargetDir)"</Command>
     <ClInclude Include="EventMessagingSystem.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameTime.h" />
+    <ClInclude Include="UtilsMemory.h" />
     <ClInclude Include="IEventMessagingSystem.h" />
     <ClInclude Include="MeshBuilder.h" />
     <ClInclude Include="MeshManager.h" />
@@ -205,7 +209,6 @@ copy "$(SolutionDir)dlls\sfml-window-2.dll" "$(TargetDir)"</Command>
     <ClCompile Include="Chunk.cpp" />
     <ClCompile Include="ChunkFactory.cpp" />
     <ClCompile Include="Controller.cpp" />
-    <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="DrawVector.cpp" />
     <ClCompile Include="EventMessagingSystem.cpp" />
     <ClCompile Include="GameObject.cpp" />
