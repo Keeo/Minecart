@@ -15,8 +15,9 @@ namespace model
 		}
 	}
 
-	void TripleChunkBuffer::pushTop(Chunk* (&chunk)[Constants::MAP_SIZE][Constants::MAP_SIZE])
+	void TripleChunkBuffer::pushY(Chunk* (&chunk)[Constants::MAP_SIZE][Constants::MAP_SIZE], EDirection dir)
 	{
+		assert(dir == EDirection::UP || dir == EDirection::DOWN);
 		boost::circular_buffer<Chunk*> slices[Constants::MAP_SIZE];
 		for (int i = 0; i < Constants::MAP_SIZE; ++i) slices[i].set_capacity(Constants::MAP_SIZE);
 
@@ -30,7 +31,12 @@ namespace model
 		std::lock_guard<std::mutex> lg(m_);
 		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
 			//for (auto a : (*this)[i].front()) readyToDelete_.push_back(a);
-			(*this)[i].push_back(slices[i]);
+			if (dir == UP) {
+				(*this)[i].push_back(slices[i]);
+			}
+			else {
+				(*this)[i].push_front(slices[i]);
+			}
 		}
 	}
 

@@ -4,6 +4,8 @@
 
 #include "GameTime.h"
 #include "World.h"
+#include "PoolGateway.h"
+
 
 namespace model
 {
@@ -13,6 +15,7 @@ namespace model
 
 		std::shared_ptr<World> world_;
 		WorldBuilder worldBuilder_;
+		PoolGateway poolGateway_;
 
 	public:
 
@@ -27,4 +30,3 @@ namespace model
 	};
 
 }
-

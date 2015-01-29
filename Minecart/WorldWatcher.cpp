@@ -28,13 +28,16 @@ namespace model
 				assert(tcb->size() == Constants::MAP_SIZE);
 				world_->setChunks(tcb);
 
+				std::vector<Chunk*> chunks;
+				chunks.reserve(Constants::CHUNK_COUNT);
 				for (auto& a : *tcb) {
 					for (auto& b : a) {
 						for (auto c : b) {
-							Post(EEvent::BuildMeshForChunk, c, 0);
+							chunks.push_back(c);
 						}
 					}
 				}
+				Post(EEvent::PG_BuildMeshes, &chunks, 0);
 
 				initData_ = NULL;
 			}
@@ -48,22 +51,24 @@ namespace model
 
 				for (int i = 0; i < Constants::MAP_SIZE; ++i) {
 					for (int j = 0; j < Constants::MAP_SIZE; ++j) {
-						glm::i32vec3 p(i, 1, j);
+						glm::i32vec3 p(i, ed==UP ? 1 : -Constants::MAP_SIZE, j);
 						p *= Constants::CHUNK_SIZE;
 						p += *top;
 						c[i][j] = new Chunk(p);
-						//Post(EEvent::BuildMeshForChunk, c[i][j], 0);
 					}
 				}
-				tcb->pushTop(c);
+				tcb->pushY(c, ed);
 				tcb->relink();
-				Post(EEvent::RebuildVisbility, tcb, 0);
+				Post(EEvent::PG_BuildVisibility, tcb, 0);
+
+				std::vector<Chunk*> chunks;
+				chunks.reserve(Constants::MAP_SIZE * Constants::MAP_SIZE);
 				for (int i = 0; i < Constants::MAP_SIZE; ++i) {
 					for (int j = 0; j < Constants::MAP_SIZE; ++j) {
-						Post(EEvent::BuildMeshForChunk, c[i][j], 0);
+						chunks.push_back(c[i][j]);
 					}
 				}
-				
+				Post(EEvent::PG_BuildMeshes, &chunks, 0);
 			}
 		}
 	}

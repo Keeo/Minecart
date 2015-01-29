@@ -23,5 +23,8 @@ enum EEvent {
 	RebuildVisbility,
 	InitSequence,
 
+	PG_BuildMeshes,
+	PG_BuildVisibility,
+
 	COUNT
 };

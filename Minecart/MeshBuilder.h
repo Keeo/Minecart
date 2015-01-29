@@ -2,11 +2,13 @@
 
 #include <memory>
 
+
 #include "EDirection.h"
 #include "MeshStruct.h"
 #include "Chunk.h"
 #include "Cube.h"
 #include "IEventMessagingSystem.h"
+#include "ThreadPool.h"
 
 namespace view
 {
@@ -14,10 +16,8 @@ namespace view
 	class MeshBuilder : model::IEventMessagingSystem
 	{
 
-		void buildSquare(MeshStruct& mesh, float x, float y, float z, EDirection d);
-		void buildCube(MeshStruct& mesh, model::Cube& cube, int x, int y, int z);
 	public:
-		
+		std::future<bool> buildMeshParaler(model::Chunk* chunk);
 		std::shared_ptr<MeshStruct> buildMesh(model::Chunk* chunk);
 	};
 

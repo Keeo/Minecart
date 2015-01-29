@@ -13,13 +13,14 @@ namespace model
 
 	TripleChunkBuffer* WorldBuilder::buildChunkMatrix()
 	{
-		TripleChunkBuffer* chunks = new TripleChunkBuffer(Constants::MAP_SIZE);
+		TripleChunkBuffer* tcb = new TripleChunkBuffer(Constants::MAP_SIZE);
 
-		fillChunks(chunks);
-		chunks->relink();
-		rebuildVisibility(chunks);
+		fillChunks(tcb);
+		tcb->relink();
+		//rebuildVisibility(tcb);
+		Post(EEvent::PG_BuildVisibility, tcb, 0);
 		
-		return chunks;
+		return tcb;
 	}
 
 	void WorldBuilder::initSequence(void* data)
@@ -45,15 +46,7 @@ namespace model
 		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
 			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
 				for (int k = 0; k < Constants::MAP_SIZE; ++k) {
-					//(*chunks)[i][j][k]->rebuildCubesVisibility();
-					(*chunks)[i][j][k]->rebuildCubesVisibilityEdge(EDirection::UP);
-					(*chunks)[i][j][k]->rebuildCubesVisibilityEdge(EDirection::DOWN);
-
-					(*chunks)[i][j][k]->rebuildCubesVisibilityEdge(EDirection::LEFT);
-					(*chunks)[i][j][k]->rebuildCubesVisibilityEdge(EDirection::RIGHT);
-
-					(*chunks)[i][j][k]->rebuildCubesVisibilityEdge(EDirection::FORWARD);
-					(*chunks)[i][j][k]->rebuildCubesVisibilityEdge(EDirection::BACKWARD);
+					(*chunks)[i][j][k]->rebuildCubesVisibility();
 				}
 			}
 		}

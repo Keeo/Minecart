@@ -19,7 +19,7 @@ namespace model {
 			}
 		}
 
-		rebuildCubesVisibilityCore();
+		//rebuildCubesVisibilityCore();
 
 		model = glm::translate(static_cast<glm::vec3>(position_));
 	}

@@ -9,6 +9,8 @@ enum EDirection
 	FORWARD,
 	BACKWARD,
 
+	ALL,
+
 	DIRECTION_COUNT
 };
 

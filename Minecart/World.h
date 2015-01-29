@@ -30,7 +30,6 @@ namespace model
 		WorldWatcher worldWatcher_;
 
 		void cameraChangedChunk(void* pdata);
-		void pushFromTop();
 
 	public:
 		

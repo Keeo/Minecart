@@ -21,7 +21,7 @@ namespace model
 		void unlock();
 
 		void relink();
-		void pushTop(Chunk* (&chunk)[Constants::MAP_SIZE][Constants::MAP_SIZE]);
+		void pushY(Chunk* (&chunk)[Constants::MAP_SIZE][Constants::MAP_SIZE], EDirection dir);
 
 		void deleteOld();
 

@@ -109,7 +109,7 @@ namespace view
 			rendered += pa;
 		}
 
-		std::cout << "Total:"<<chunks.size()<< " skipped:" << (chunks.size() - rendered) << " rendered:" << rendered << " culled:" << culled << " memusage:" << Utils::getMemoryUsage() << std::endl;
+		//std::cout << "Total:"<<chunks.size()<< " skipped:" << (chunks.size() - rendered) << " rendered:" << rendered << " culled:" << culled << " memusage:" << Utils::getMemoryUsage() << std::endl;
 	}
 
 

@@ -8,11 +8,12 @@
 #include "Constants.h"
 #include "Drawable.h"
 #include "Cube.h"
+#include "IEventMessagingSystem.h"
 
 namespace model
 {
 
-	class Chunk : public view::Drawable
+	class Chunk : public view::Drawable, public IEventMessagingSystem
 	{
 
 		Cube cubes_[Constants::CHUNK_SIZE][Constants::CHUNK_SIZE][Constants::CHUNK_SIZE];

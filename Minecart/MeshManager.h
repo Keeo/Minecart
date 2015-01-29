@@ -16,13 +16,6 @@ namespace view {
 	{
 		MeshBuilder meshBuilder_;
 		
-		boost::lockfree::queue<model::Chunk*> queue_;
-
-		std::condition_variable cv_;
-		std::mutex m_;
-
-		void run();
-		void buildchunkAsync();
 
 		void buildMeshForChunk(void* pchunk);
 
