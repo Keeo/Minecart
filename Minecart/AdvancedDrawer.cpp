@@ -21,20 +21,13 @@ namespace view
 		int limiter = 0;
 		std::vector<model::Chunk*>& chunks = *smartChunks;
 		for (auto a : chunks) {
-			if (a->getMesh()->indexBufferID == -1) {
-				a->getMesh()->init();
-				Post(EEvent::LoadMeshFromThread, a, 0);
-				/*auto m = a->getMesh();
+			auto m = a->getMesh();
+			if (!m->initDone) {
 				m->init();
-				m->moveToGpu();
-				m->makeVAO();
-				++limiter;*/
 			}
-			if (a->getMesh()->vaoReady) {
-				a->getMesh()->makeVAO();
-				a->getMesh()->renderReady = true;
+			if (m->meshReady && !m->gpuReady) {
+				Post(EEvent::LoadMeshFromThread, a, 0);
 			}
-			//if (limiter > 1) break;
 		}
 
 
@@ -62,10 +55,10 @@ namespace view
 				simpleShader_.bind();
 
 				for (; j < chunks.size() && glm::distance(*(chunks[j]->getCenter()), *cameraData.position) < maxdist; ++j) {
-					if (!chunks[j]->getMesh()->renderReady) continue;
+					if (!chunks[j]->getMesh()->gpuReady) continue;
 
 					// frustum culling
-					if (cpucull && isCullable(cameraData, chunks[j])) {
+					if (cpucull && isCullable(cameraData, *chunks[j]->getCenter())) {
 						culled++;
 						continue;
 					}
@@ -91,11 +84,10 @@ namespace view
 			glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 			worldShader_.bind();
 			for (; j < chunks.size() && glm::distance(*(chunks[j]->getCenter()), *cameraData.position) < maxdist; ++j) {
-				if (!chunks[j]->getMesh()->renderReady) continue;
+				if (!chunks[j]->getMesh()->gpuReady) continue;
 
 				// frustum culling
-				if (cpucull && isCullable(cameraData, chunks[j])) continue;
-
+				if (cpucull && isCullable(cameraData, *chunks[j]->getCenter())) continue;
 				
 
 				// begin conditional render
@@ -126,10 +118,10 @@ namespace view
 	}
 
 
-	bool AdvancedDrawer::isCullable(CameraData& cd, model::Chunk* chunk)
+	bool AdvancedDrawer::isCullable(const CameraData& cd, const glm::vec3& center)
 	{
-		glm::vec4 projected = *cd.projection * *cd.view * glm::vec4(*chunk->getCenter(), 1);
-		return glm::distance(*(chunk->getCenter()), *cd.position) > Constants::CHUNK_SIZE &&
+		glm::vec4 projected = *cd.projection * *cd.view * glm::vec4(center, 1);
+		return glm::distance(center, *cd.position) > Constants::CHUNK_SIZE &&
 			(std::max(std::abs(projected.x), std::abs(projected.y)) > projected.w + Constants::CHUNK_SIZE);
 	}
 

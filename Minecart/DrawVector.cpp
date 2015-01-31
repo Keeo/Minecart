@@ -51,11 +51,10 @@ namespace model
 					Chunk* c;
 					toLoad_.pop(c);
 					auto m = c->getMesh();
-					if (!m->meshReady || m->vaoReady || m->renderReady) continue;
+					if (!m->meshReady || m->gpuReady) continue;
 					m->moveToGpu();
-					glFinish();
-					m->vaoReady = true;
 				}
+				glFinish();
 			}
 		}
 	}

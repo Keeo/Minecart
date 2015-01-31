@@ -34,7 +34,7 @@ namespace view
 
 		void drawBoundingBoxFor(model::Chunk* chunk);
 
-		inline bool isCullable(CameraData& cd, model::Chunk* chunk);
+		inline bool isCullable(const CameraData& cd, const glm::vec3& center);
 
 		AdvancedDrawer();
 		~AdvancedDrawer();
