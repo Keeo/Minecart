@@ -37,7 +37,7 @@ namespace model
 						}
 					}
 				}
-				Post(EEvent::PG_BuildMeshes, &chunks, 0);
+				Post(EEvent::PG_BuildMeshes1d, &chunks, 0);
 
 				initData_ = NULL;
 			}
@@ -61,14 +61,14 @@ namespace model
 				tcb->relink();
 				Post(EEvent::PG_BuildVisibility, tcb, 0);
 
-				std::vector<Chunk*> chunks;
+				/*std::vector<Chunk*> chunks;
 				chunks.reserve(Constants::MAP_SIZE * Constants::MAP_SIZE);
 				for (int i = 0; i < Constants::MAP_SIZE; ++i) {
 					for (int j = 0; j < Constants::MAP_SIZE; ++j) {
 						chunks.push_back(c[i][j]);
 					}
-				}
-				Post(EEvent::PG_BuildMeshes, &chunks, 0);
+				}*/
+				Post(EEvent::PG_BuildMeshes2d, &c, 0);
 			}
 		}
 	}

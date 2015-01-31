@@ -8,11 +8,12 @@ namespace model
 	{
 		utils::ThreadUtils::setThreadPoolPriority(&tp_);
 
-		Register(EEvent::PG_BuildMeshes, this, (model::Callback) & PoolGateway::buildMeshes);
+		Register(EEvent::PG_BuildMeshes1d, this, (model::Callback) & PoolGateway::buildMeshes1d);
+		Register(EEvent::PG_BuildMeshes2d, this, (model::Callback) & PoolGateway::buildMeshes2d);
 		Register(EEvent::PG_BuildVisibility, this, (model::Callback) & PoolGateway::buildVisibility);
 	}
 
-	void PoolGateway::buildMeshes(std::vector<Chunk*>* chunks)
+	void PoolGateway::buildMeshes1d(std::vector<Chunk*>* chunks)
 	{
 		std::future<void>* results = new std::future<void>[chunks->size()];
 
@@ -25,6 +26,31 @@ namespace model
 		}
 
 		wait(results, chunks->size());
+
+		delete[] results;
+	}
+
+	void PoolGateway::buildMeshes2d(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* pchunks)
+	{
+		auto& chunks = *pchunks;
+		assert(chunks.size() == Constants::MAP_SIZE);
+		assert(chunks[0].size() == Constants::MAP_SIZE);
+		const size_t dimx = chunks.size();
+		const size_t dimy = chunks[0].size();
+
+		std::future<void>* results = new std::future<void>[dimx * dimy];
+
+		for (int i = 0; i < dimx; ++i) {
+			for (int j = 0; j < dimy; ++j) {
+				Chunk* c = chunks[i][j];
+				results[i * dimy + j] = tp_.push([c](int id)->void {
+					c->Post(EEvent::BuildMeshForChunk, c, 0);
+					c->Post(EEvent::RebuildDrawVector, 0, 0);
+				});
+			}
+		}
+
+		wait(results, dimx * dimy);
 
 		delete[] results;
 	}

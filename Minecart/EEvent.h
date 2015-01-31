@@ -23,7 +23,8 @@ enum EEvent {
 	RebuildVisbility,
 	InitSequence,
 
-	PG_BuildMeshes,
+	PG_BuildMeshes1d,
+	PG_BuildMeshes2d,
 	PG_BuildVisibility,
 
 	LoadMeshFromThread,
