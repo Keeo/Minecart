@@ -53,8 +53,10 @@ namespace model
 					auto m = c->getMesh();
 					if (!m->meshReady || m->gpuReady) continue;
 					m->moveToGpu();
+					glFlush();
+					//glFinish();
 				}
-				glFinish();
+				
 			}
 		}
 	}
@@ -97,7 +99,9 @@ namespace model
 				float second = glm::distance(dp->pos, *ca->at(i + 1)->getCenter());
 
 				if (first > second) {
-					return false;
+					if (ca->at(i)->readyRender && ca->at(i + 1)->readyRender) {
+						return false;
+					}
 				}
 			}
 			return true;

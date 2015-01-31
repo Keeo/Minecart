@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <thread>
+#include <mutex>
 
 #include <gl/glew.h>
 #include <SFML/Window.hpp>
@@ -20,6 +22,8 @@ namespace view
 
 	struct MeshStruct
 	{
+		std::mutex meshBuilding;
+
 		std::vector<glm::u8vec4>* g_vertex_buffer_data;
 		std::vector<GLuint>* g_index_buffer_data;
 		size_t quadcount = 0;
@@ -88,6 +92,7 @@ namespace view
 			assert(initDone);
 			assert(meshReady);
 			assert(!gpuReady);
+			std::lock_guard<std::mutex> lg(meshBuilding);
 			glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(glm::u8vec4) * g_vertex_buffer_data->size(), g_vertex_buffer_data->data(), GL_STATIC_DRAW);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -96,7 +101,28 @@ namespace view
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * g_index_buffer_data->size(), g_index_buffer_data->data(), GL_STATIC_DRAW);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			gpuReady = true;
-			deleteBuffers();
+			//deleteBuffers();
+		}
+
+		void reset()
+		{
+			std::lock_guard<std::mutex> lg(meshBuilding);
+			if (g_vertex_buffer_data != NULL) {
+				g_vertex_buffer_data->clear();
+			}
+			else {
+				g_vertex_buffer_data = new std::vector<glm::u8vec4>();
+			}
+
+			if (g_index_buffer_data != NULL) {
+				g_index_buffer_data->clear();
+			}
+			else {
+				g_index_buffer_data = new std::vector<GLuint>();
+			}
+
+			meshReady = false;
+			gpuReady = false;
 		}
 
 		~MeshStruct()
@@ -111,6 +137,7 @@ namespace view
 
 		void deleteBuffers()
 		{
+			std::lock_guard<std::mutex> lg(meshBuilding);
 			delete g_vertex_buffer_data;
 			delete g_index_buffer_data;
 

@@ -5,22 +5,16 @@ namespace model {
 
 	Chunk::Chunk(glm::i32vec3 position) : position_(position), center_(position + Constants::CHUNK_SIZE / 2)
 	{
-		for (int i = 0; i < Constants::CHUNK_SIZE; ++i) {
-			for (int j = 0; j < Constants::CHUNK_SIZE; ++j) {
-				for (int k = 0; k < Constants::CHUNK_SIZE; ++k) {
-					cubes_[i][j][k].type = (rand() % 64) < Constants::CUBE_TRESHOLD ? ECube::Dirt : ECube::Air;
-					//cubes_[i][j][k].type = i+j+k < 16 ? ECube::Dirt : ECube::Air;
+		loadCubes();
+		model = glm::translate(static_cast<glm::vec3>(position_));
+	}
 
-					/*cubes_[i][j][k].type = ECube::Dirt;
-					if (i == 0 || j == 0 || k == 0 || i == Constants::CHUNK_SIZE || j == Constants::CHUNK_SIZE || k == Constants::CHUNK_SIZE) {
-					cubes_[i][j][k].type = ECube::Air;
-					}*/
-				}
-			}
-		}
-
-		//rebuildCubesVisibilityCore();
-
+	void Chunk::init(glm::i32vec3 position)
+	{
+		Drawable::reset();
+		position_ = position;
+		center_ = position + Constants::CHUNK_SIZE / 2;
+		loadCubes();
 		model = glm::translate(static_cast<glm::vec3>(position_));
 	}
 
@@ -212,6 +206,23 @@ namespace model {
 		w = west;
 		e = east;
 		s = south;
+	}
+
+	void Chunk::loadCubes()
+	{
+		for (int i = 0; i < Constants::CHUNK_SIZE; ++i) {
+			for (int j = 0; j < Constants::CHUNK_SIZE; ++j) {
+				for (int k = 0; k < Constants::CHUNK_SIZE; ++k) {
+					cubes_[i][j][k].type = (rand() % 64) < Constants::CUBE_TRESHOLD ? ECube::Dirt : ECube::Air;
+					//cubes_[i][j][k].type = i+j+k < 16 ? ECube::Dirt : ECube::Air;
+
+					/*cubes_[i][j][k].type = ECube::Dirt;
+					if (i == 0 || j == 0 || k == 0 || i == Constants::CHUNK_SIZE || j == Constants::CHUNK_SIZE || k == Constants::CHUNK_SIZE) {
+					cubes_[i][j][k].type = ECube::Air;
+					}*/
+				}
+			}
+		}
 	}
 
 	Cube(&Chunk::getCubes())[Constants::CHUNK_SIZE][Constants::CHUNK_SIZE][Constants::CHUNK_SIZE]

@@ -18,6 +18,14 @@ namespace view {
 
 		glm::mat4 model;
 
+		void Drawable::reset()
+		{
+			readyRender = false;
+			if (mesh_ != NULL) {
+				mesh_->reset();
+			}
+		}
+
 		std::shared_ptr<view::MeshStruct> getMesh()
 		{
 			return mesh_;

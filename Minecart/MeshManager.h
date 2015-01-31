@@ -17,7 +17,7 @@ namespace view {
 		MeshBuilder meshBuilder_;
 		
 
-		void buildMeshForChunk(void* pchunk);
+		void buildMeshForChunk(model::Chunk* chunk);
 
 	public:
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <mutex>
+#include <array>
 
 #include <boost/lockfree/queue.hpp>
 #include <boost/circular_buffer.hpp>
@@ -25,7 +26,9 @@ namespace model
 		void unlock();
 
 		void relink();
-		void pushY(Chunk* (&chunk)[Constants::MAP_SIZE][Constants::MAP_SIZE], EDirection dir);
+
+		void pushY(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>& chunk, EDirection dir);
+		std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE> readY(EDirection dir);
 
 		void deleteOld();
 

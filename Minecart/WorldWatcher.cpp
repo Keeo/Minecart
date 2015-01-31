@@ -46,15 +46,15 @@ namespace model
 				EDirection ed;
 				moveData_.pop(ed);
 				TripleChunkBuffer* tcb = world_->getChunks();
-				const glm::i32vec3* top = (*tcb)[0][Constants::MAP_SIZE - 1][0]->getPosition();
-				Chunk* c[Constants::MAP_SIZE][Constants::MAP_SIZE];
+				const glm::i32vec3 top = *(*tcb)[0][Constants::MAP_SIZE - 1][0]->getPosition();
 
+				std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE> c = tcb->readY(ed);
 				for (int i = 0; i < Constants::MAP_SIZE; ++i) {
 					for (int j = 0; j < Constants::MAP_SIZE; ++j) {
 						glm::i32vec3 p(i, ed==UP ? 1 : -Constants::MAP_SIZE, j);
 						p *= Constants::CHUNK_SIZE;
-						p += *top;
-						c[i][j] = new Chunk(p);
+						p += top;
+						c[i][j]->init(p);
 					}
 				}
 				tcb->pushY(c, ed);

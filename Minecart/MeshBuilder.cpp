@@ -4,10 +4,13 @@
 namespace view
 {
 	
-	std::shared_ptr<MeshStruct> MeshBuilder::buildMesh(model::Chunk* chunk)
+	void MeshBuilder::buildMesh(model::Chunk* chunk)
 	{
 		auto cubes = chunk->getCubes();
-		auto mesh = std::make_shared<MeshStruct>();
+
+		auto mesh = chunk->getMesh() == NULL ? std::make_shared<MeshStruct>() : chunk->getMesh();
+		
+		std::lock_guard<std::mutex> lg(mesh->meshBuilding);
 
 		auto& vertex_buffer = *mesh->g_vertex_buffer_data;
 		auto& index_buffer = *mesh->g_index_buffer_data;
@@ -81,7 +84,10 @@ namespace view
 			index_buffer[6 * i + 5] = 4 * i + 3;
 		}
 
-		return mesh;
+		chunk->setMesh(mesh);
+
+		mesh->meshReady = true;
+
 	}
 
 

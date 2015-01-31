@@ -46,14 +46,28 @@ namespace model
 			chunks_.load()->chunkDisposer.flush();
 		}
 
+		static bool lastU = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::U) || sf::Mouse::isButtonPressed(sf::Mouse::Button::XButton1)) {
-			EDirection ed = EDirection::UP;
-			Post(EEvent::WatcherMove, &ed, 0);
+			if (!lastU) {
+				EDirection ed = EDirection::UP;
+				Post(EEvent::WatcherMove, &ed, 0);
+				lastU = true;
+			}
+		}
+		else {
+			lastU = false;
 		}
 
+		static bool lastD = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::J) || sf::Mouse::isButtonPressed(sf::Mouse::Button::XButton2)) {
-			EDirection ed = EDirection::DOWN;
-			Post(EEvent::WatcherMove, &ed, 0);
+			if (!lastD) {
+				EDirection ed = EDirection::DOWN;
+				Post(EEvent::WatcherMove, &ed, 0);
+				lastD = true;
+			}
+		}
+		else {
+			lastD = false;
 		}
 	}
 

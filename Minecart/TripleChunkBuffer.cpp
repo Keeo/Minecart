@@ -15,7 +15,26 @@ namespace model
 		}
 	}
 
-	void TripleChunkBuffer::pushY(Chunk* (&chunk)[Constants::MAP_SIZE][Constants::MAP_SIZE], EDirection dir)
+	std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE> TripleChunkBuffer::readY(EDirection dir)
+	{
+		std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE> chunks;
+		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
+			int j = 0;
+			if (dir == UP) {
+				for (auto a : (*this)[i].front()) {
+					chunks[i][j++] = a;
+				}
+			}
+			else  {
+				for (auto a : (*this)[i].back()) {
+					chunks[i][j++] = a;
+				}
+			}
+		}
+		return chunks;
+	}
+
+	void TripleChunkBuffer::pushY(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>& chunk, EDirection dir)
 	{
 		assert(dir == EDirection::UP || dir == EDirection::DOWN);
 		boost::circular_buffer<Chunk*> slices[Constants::MAP_SIZE];
@@ -32,11 +51,9 @@ namespace model
 		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
 			
 			if (dir == UP) {
-				for (auto a : (*this)[i].front()) chunkDisposer.dispose(a);
 				(*this)[i].push_back(slices[i]);
 			}
 			else {
-				for (auto a : (*this)[i].back()) chunkDisposer.dispose(a);
 				(*this)[i].push_front(slices[i]);
 			}
 		}

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-
+#include <mutex>
 
 #include "EDirection.h"
 #include "MeshStruct.h"
@@ -17,8 +17,7 @@ namespace view
 	{
 
 	public:
-		std::future<bool> buildMeshParaler(model::Chunk* chunk);
-		std::shared_ptr<MeshStruct> buildMesh(model::Chunk* chunk);
+		void buildMesh(model::Chunk* chunk);
 	};
 
 }

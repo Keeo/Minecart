@@ -29,9 +29,12 @@ namespace model
 		Chunk* e = 0;
 		Chunk* s = 0;
 
+		void loadCubes();
+
 	public:
 		
 		void setNeighbors(Chunk* up, Chunk* down, Chunk* north, Chunk* west, Chunk* east, Chunk* south);
+		void init(glm::i32vec3 position);
 
 		const glm::i32vec3* getPosition() const;
 		const glm::vec3* getCenter() const;

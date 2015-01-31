@@ -8,12 +8,9 @@ namespace view {
 		Register(EEvent::BuildMeshForChunk, this, (model::Callback)& MeshManager::buildMeshForChunk);
 	}
 
-	void MeshManager::buildMeshForChunk(void* pchunk)
+	void MeshManager::buildMeshForChunk(model::Chunk* chunk)
 	{
-		auto chunk = (model::Chunk*)pchunk;
-		auto mesh = meshBuilder_.buildMesh(chunk);
-		chunk->setMesh(mesh);
-		mesh->meshReady = true;
+		meshBuilder_.buildMesh(chunk);
 	}
 
 	MeshManager::~MeshManager()
