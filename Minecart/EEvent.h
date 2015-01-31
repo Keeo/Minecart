@@ -26,5 +26,9 @@ enum EEvent {
 	PG_BuildMeshes,
 	PG_BuildVisibility,
 
+	LoadMeshFromThread,
+
+	DisposeChunk,
+
 	COUNT
 };

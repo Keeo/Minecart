@@ -4,6 +4,7 @@
 #include "ThreadPool.h"
 #include "MeshBuilder.h"
 #include "TripleChunkBuffer.h"
+#include "ThreadUtils.h"
 
 namespace model
 {
@@ -16,7 +17,7 @@ namespace model
 		void buildMeshes(std::vector<Chunk*>* chunks);
 		void buildVisibility(TripleChunkBuffer* tcb);
 
-		void wait(std::future<void>* futures, size_t size);
+		inline void wait(std::future<void>* futures, size_t size);
 	public:
 
 		PoolGateway();

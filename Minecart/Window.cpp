@@ -12,7 +12,7 @@ namespace view {
 		settings.majorVersion = 3;
 		settings.minorVersion = 3;
 		window_.create(sf::VideoMode(Constants::RESOLUTION_X, Constants::RESOLUTION_Y), "Mine]|[craft", sf::Style::Default, settings);
-		
+		window_.setMouseCursorVisible(Constants::SHOW_MOUSE);
 		window_.setActive();
 
 		glewExperimental = GL_TRUE;

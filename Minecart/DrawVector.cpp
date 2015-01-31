@@ -6,24 +6,27 @@
 namespace model
 {
 
-	DrawVector::DrawVector(World* world) : world_(world), vector_(new std::vector<Chunk*>()), distancePred_(std::make_shared<DistancePred>(glm::vec3(0)))
+	DrawVector::DrawVector(World* world) : world_(world), vector_(new std::vector<Chunk*>()), distancePred_(std::make_shared<DistancePred>(glm::vec3(0))), toLoad_(100)
 	{
 		reorder_ = false;
 		rebuild_ = false;
+		load_ = false;
 
 		std::thread worker(&model::DrawVector::run, this);
 		worker.detach();
 
 		Register(EEvent::ReorderDrawVector, this, (model::Callback)& DrawVector::initReorder);
 		Register(EEvent::RebuildDrawVector, this, (model::Callback)& DrawVector::initRebuild);
+		Register(EEvent::LoadMeshFromThread, this, (model::Callback)& DrawVector::toLoad);
 	}
 
 
 	void DrawVector::run()
 	{
+		sf::Context context;
 		while (true) {
 			std::unique_lock<std::mutex> lk(m_);
-			cv_.wait(lk, [&](){ return reorder_ || rebuild_; });
+			cv_.wait(lk, [&](){ return reorder_ || rebuild_ || load_; });
 
 			if (rebuild_) {
 				rebuild_ = false;
@@ -31,6 +34,7 @@ namespace model
 				populateOrderingArray(chunkArray);
 				sortArray(chunkArray, distancePred_);
 				swap(chunkArray);
+				world_->getChunks()->chunkDisposer.setDisposable(true);
 			}
 
 			if (reorder_) {
@@ -40,6 +44,18 @@ namespace model
 				std::shared_ptr<std::vector<Chunk*>> chunkArray = std::make_shared<std::vector<Chunk*>>(*vector_);
 				sortArray(chunkArray, distancePred_);
 				swap(chunkArray);
+			}
+
+			if (load_) {
+				while (!toLoad_.empty()) {
+					Chunk* c;
+					toLoad_.pop(c);
+					auto m = c->getMesh();
+					if (!m->meshReady || m->vaoReady || m->renderReady) continue;
+					m->moveToGpu();
+					glFinish();
+					m->vaoReady = true;
+				}
 			}
 		}
 	}
@@ -61,6 +77,7 @@ namespace model
 				for (int k = 0; k < Constants::MAP_SIZE; ++k) {
 					Chunk* c = (*chunks)[i][j][k];
 					if (!c->readyRender) continue;
+					assert(c->getMesh() != NULL);
 					chunkArray->push_back(c);
 				}
 			}
@@ -105,6 +122,13 @@ namespace model
 	std::shared_ptr<std::vector<Chunk*>> DrawVector::getChunkArray()
 	{
 		return vector_;
+	}
+
+	void DrawVector::toLoad(Chunk* chunk)
+	{
+		toLoad_.push(chunk);
+		load_ = true;
+		cv_.notify_one();
 	}
 
 	DrawVector::~DrawVector()

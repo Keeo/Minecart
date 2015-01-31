@@ -157,6 +157,12 @@
     <ClInclude Include="PoolGateway.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ChunkDisposer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -235,6 +241,9 @@
       <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="PoolGateway.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChunkDisposer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

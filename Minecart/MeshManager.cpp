@@ -13,6 +13,7 @@ namespace view {
 		auto chunk = (model::Chunk*)pchunk;
 		auto mesh = meshBuilder_.buildMesh(chunk);
 		chunk->setMesh(mesh);
+		mesh->meshReady = true;
 	}
 
 	MeshManager::~MeshManager()

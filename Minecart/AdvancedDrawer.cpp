@@ -17,15 +17,24 @@ namespace view
 			Post(EEvent::ReorderDrawVector, &dp, 0);
 		}
 		auto smartChunks = world->getOrderedChunks();
+
+		int limiter = 0;
 		std::vector<model::Chunk*>& chunks = *smartChunks;
 		for (auto a : chunks) {
 			if (a->getMesh()->indexBufferID == -1) {
-				auto m = a->getMesh();
+				a->getMesh()->init();
+				Post(EEvent::LoadMeshFromThread, a, 0);
+				/*auto m = a->getMesh();
 				m->init();
 				m->moveToGpu();
 				m->makeVAO();
-				//m->newOrder();
+				++limiter;*/
 			}
+			if (a->getMesh()->vaoReady) {
+				a->getMesh()->makeVAO();
+				a->getMesh()->renderReady = true;
+			}
+			//if (limiter > 1) break;
 		}
 
 
@@ -53,6 +62,8 @@ namespace view
 				simpleShader_.bind();
 
 				for (; j < chunks.size() && glm::distance(*(chunks[j]->getCenter()), *cameraData.position) < maxdist; ++j) {
+					if (!chunks[j]->getMesh()->renderReady) continue;
+
 					// frustum culling
 					if (cpucull && isCullable(cameraData, chunks[j])) {
 						culled++;
@@ -80,6 +91,8 @@ namespace view
 			glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 			worldShader_.bind();
 			for (; j < chunks.size() && glm::distance(*(chunks[j]->getCenter()), *cameraData.position) < maxdist; ++j) {
+				if (!chunks[j]->getMesh()->renderReady) continue;
+
 				// frustum culling
 				if (cpucull && isCullable(cameraData, chunks[j])) continue;
 

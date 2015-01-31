@@ -27,7 +27,6 @@
 #include <mutex>
 #include <boost/lockfree/queue.hpp>
 
-
 #ifndef _ctplThreadPoolLength_
 #define _ctplThreadPoolLength_  100
 #endif
@@ -179,7 +178,6 @@ namespace utils
 
 			return pck->get_future();
 		}
-
 
 	private:
 

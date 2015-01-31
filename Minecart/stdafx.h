@@ -7,6 +7,7 @@
 
 #include "targetver.h"
 
+#include <iomanip>
 #include <assert.h>
 #include <stdio.h>
 #include <stdint.h>

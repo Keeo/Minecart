@@ -30,11 +30,13 @@ namespace model
 
 		std::lock_guard<std::mutex> lg(m_);
 		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
-			//for (auto a : (*this)[i].front()) readyToDelete_.push_back(a);
+			
 			if (dir == UP) {
+				for (auto a : (*this)[i].front()) chunkDisposer.dispose(a);
 				(*this)[i].push_back(slices[i]);
 			}
 			else {
+				for (auto a : (*this)[i].back()) chunkDisposer.dispose(a);
 				(*this)[i].push_front(slices[i]);
 			}
 		}
@@ -46,6 +48,7 @@ namespace model
 			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
 				for (int k = 0; k < Constants::MAP_SIZE; ++k) {
 					Chunk& c = *(*this)[i][j][k];
+					using namespace utils;
 					c.setNeighbors(
 						(*this)[i][Utils::worldMod(j + 1)][k],
 						(*this)[i][Utils::worldMod(j - 1)][k],

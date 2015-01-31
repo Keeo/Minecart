@@ -127,6 +127,7 @@ copy "$(SolutionDir)dlls\sfml-window-d-2.dll" "$(TargetDir)"</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -148,6 +149,7 @@ copy "$(SolutionDir)dlls\sfml-window-d-2.dll" "$(TargetDir)"</Command>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>C:\Frameworks\newage\glew-1.11.0-win32\glew-1.11.0\lib\Release\x64;C:\Frameworks\newage\SFML-2.2-windows-vc12-64-bit\SFML-2.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;glu32.lib;opengl32.lib;sfml-graphics.lib;sfml-window.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <Profile>true</Profile>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(SolutionDir)dlls\glew32.dll" "$(TargetDir)"
@@ -168,6 +170,7 @@ copy "$(SolutionDir)dlls\sfml-window-2.dll" "$(TargetDir)"</Command>
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Chunk.h" />
+    <ClInclude Include="ChunkDisposer.h" />
     <ClInclude Include="ChunkFactory.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Controller.h" />
@@ -182,6 +185,7 @@ copy "$(SolutionDir)dlls\sfml-window-2.dll" "$(TargetDir)"</Command>
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="PoolGateway.h" />
     <ClInclude Include="ThreadPool.h" />
+    <ClInclude Include="ThreadUtils.h" />
     <ClInclude Include="UtilsMemory.h" />
     <ClInclude Include="IEventMessagingSystem.h" />
     <ClInclude Include="MeshBuilder.h" />
@@ -209,6 +213,7 @@ copy "$(SolutionDir)dlls\sfml-window-2.dll" "$(TargetDir)"</Command>
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Chunk.cpp" />
+    <ClCompile Include="ChunkDisposer.cpp" />
     <ClCompile Include="ChunkFactory.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DrawVector.cpp" />

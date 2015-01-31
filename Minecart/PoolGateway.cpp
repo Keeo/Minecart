@@ -4,8 +4,10 @@
 namespace model
 {
 
-	PoolGateway::PoolGateway() : tp_(4)
+	PoolGateway::PoolGateway() : tp_(3)
 	{
+		utils::ThreadUtils::setThreadPoolPriority(&tp_);
+
 		Register(EEvent::PG_BuildMeshes, this, (model::Callback) & PoolGateway::buildMeshes);
 		Register(EEvent::PG_BuildVisibility, this, (model::Callback) & PoolGateway::buildVisibility);
 	}
@@ -15,7 +17,11 @@ namespace model
 		std::future<void>* results = new std::future<void>[chunks->size()];
 
 		for (int i = 0; i < chunks->size(); ++i) {
-			results[i] = tp_.push([](int id, Chunk* c)->void{ c->Post(EEvent::BuildMeshForChunk, c, 0); c->Post(EEvent::RebuildDrawVector, 0, 0); }, (*chunks)[i]);
+			Chunk* c = (*chunks)[i];
+			results[i] = tp_.push([c](int id)->void{
+				c->Post(EEvent::BuildMeshForChunk, c, 0);
+				c->Post(EEvent::RebuildDrawVector, 0, 0);
+			});
 		}
 
 		wait(results, chunks->size());
@@ -31,7 +37,7 @@ namespace model
 		for (auto& a : *tcb) {
 			for (auto& b : a) {
 				for (auto c : b) {
-					results[i++] = tp_.push([](int id, Chunk* c)->void{ c->rebuildCubesVisibility(); }, c);
+					results[i++] = tp_.push([c](int id)->void{ c->rebuildCubesVisibility(); });
 				}
 			}
 		}

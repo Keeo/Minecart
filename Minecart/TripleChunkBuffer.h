@@ -9,6 +9,7 @@
 #include "Constants.h"
 #include "Chunk.h"
 #include "Utils.h"
+#include "ChunkDisposer.h"
 
 namespace model
 {
@@ -17,6 +18,9 @@ namespace model
 	{
 		std::mutex m_;
 	public:
+		ChunkDisposer chunkDisposer;
+
+
 		void lock();
 		void unlock();
 

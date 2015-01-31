@@ -42,12 +42,16 @@ namespace model
 
 	void World::update(const GameTime& gameTime)
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::U)) {
+		if (chunks_.load() != NULL) {
+			chunks_.load()->chunkDisposer.flush();
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::U) || sf::Mouse::isButtonPressed(sf::Mouse::Button::XButton1)) {
 			EDirection ed = EDirection::UP;
 			Post(EEvent::WatcherMove, &ed, 0);
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::J)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::J) || sf::Mouse::isButtonPressed(sf::Mouse::Button::XButton2)) {
 			EDirection ed = EDirection::DOWN;
 			Post(EEvent::WatcherMove, &ed, 0);
 		}

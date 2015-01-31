@@ -30,12 +30,16 @@ namespace model
 
 		std::atomic<bool> reorder_;
 		std::atomic<bool> rebuild_;
+		std::atomic<bool> load_;
 
 		void swap(std::shared_ptr<std::vector<Chunk*>> chunkArray);
 		void populateOrderingArray(std::shared_ptr<std::vector<Chunk*>> chunkArray);
 		void sortArray(std::shared_ptr<std::vector<Chunk*>> chunkArray, std::shared_ptr<DistancePred> distancePred);
 
 		std::shared_ptr<std::vector<Chunk*>> vector_;
+
+		boost::lockfree::queue<Chunk*> toLoad_;
+		void toLoad(Chunk* chunk);
 
 		World* world_;
 

@@ -28,6 +28,11 @@ namespace view
 		GLuint vertexBufferID = -1;
 		GLuint indexBufferID = -1;
 
+		bool renderReady = false;
+		bool meshReady = false;
+		bool vaoReady = false;
+		bool initReady = false;
+
 		MeshStruct() : g_vertex_buffer_data(new std::vector<glm::u8vec4>()), g_index_buffer_data(new std::vector<GLuint>())
 		{
 
@@ -126,12 +131,14 @@ namespace view
 
 		~MeshStruct()
 		{
+			sf::Clock c;
 			if (g_vertex_buffer_data != NULL) delete g_vertex_buffer_data;
 			if (g_index_buffer_data != NULL) delete g_index_buffer_data;
-
+			
 			if (vertexArrayID != -1) glDeleteVertexArrays(1, &vertexArrayID);
 			if (vertexBufferID != -1) glDeleteBuffers(1, &vertexBufferID);
 			if (indexBufferID != -1) glDeleteBuffers(1, &indexBufferID);
+			std::cout << "Mesh deleted in:" << std::setprecision(10) << c.getElapsedTime().asSeconds() << std::endl;
 		}
 
 		void deleteBuffers()

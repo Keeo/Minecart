@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <atomic>
 
 #include "MeshStruct.h"
 
@@ -13,7 +14,7 @@ namespace view {
 
 	public:
 
-		bool readyRender = false;
+		std::atomic<bool> readyRender = false;
 
 		glm::mat4 model;
 
