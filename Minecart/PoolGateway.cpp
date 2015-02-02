@@ -42,26 +42,20 @@ namespace model
 	void PoolGateway::buildMeshes2d(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* pchunks)
 	{
 		auto& chunks = *pchunks;
-		assert(chunks.size() == Constants::MAP_SIZE);
-		assert(chunks[0].size() == Constants::MAP_SIZE);
-		const size_t dimx = chunks.size();
-		const size_t dimy = chunks[0].size();
 
-		std::future<void>* results = new std::future<void>[dimx * dimy];
+		std::future<void> results[Constants::MAP_SIZE * Constants::MAP_SIZE];
 
-		for (int i = 0; i < dimx; ++i) {
-			for (int j = 0; j < dimy; ++j) {
+		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
+			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
 				Chunk* c = chunks[i][j];
-				results[i * dimy + j] = tp_.push([c](int id)->void {
+				results[i * Constants::MAP_SIZE + j] = tp_.push([c](int id)->void {
 					c->Post(EEvent::BuildMeshForChunk, c, 0);
 					c->Post(EEvent::RebuildDrawVector, 0, 0);
 				});
 			}
 		}
 
-		wait(results, dimx * dimy);
-
-		delete[] results;
+		wait(results, Constants::MAP_SIZE * Constants::MAP_SIZE);
 	}
 
 	void PoolGateway::buildVisibility(TripleChunkBuffer* tcb)

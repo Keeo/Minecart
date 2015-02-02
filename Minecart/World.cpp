@@ -42,10 +42,6 @@ namespace model
 
 	void World::update(const GameTime& gameTime)
 	{
-		/*if (chunks_.load() != NULL) {
-			chunks_.load()->chunkDisposer.flush();
-		}*/
-
 		static bool lastU = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::U) || sf::Mouse::isButtonPressed(sf::Mouse::Button::XButton1)) {
 			if (!lastU) {
@@ -68,6 +64,31 @@ namespace model
 		}
 		else {
 			lastD = false;
+		}
+
+
+		static bool lastL = false;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::H)) {
+			if (!lastL) {
+				EDirection ed = EDirection::LEFT;
+				Post(EEvent::WatcherMove, &ed, 0);
+				lastL = true;
+			}
+		}
+		else {
+			lastL = false;
+		}
+
+		static bool lastR = false;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
+			if (!lastR) {
+				EDirection ed = EDirection::RIGHT;
+				Post(EEvent::WatcherMove, &ed, 0);
+				lastR = true;
+			}
+		}
+		else {
+			lastR = false;
 		}
 	}
 

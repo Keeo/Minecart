@@ -27,8 +27,11 @@ namespace model
 
 		void relink();
 
-		void pushY(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>& chunk, EDirection dir);
-		std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE> readY(EDirection dir);
+		void pushY(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* chunk, EDirection dir);
+		std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* readY(EDirection dir);
+
+		void pushX(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* chunk, EDirection dir);
+		std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* readX(EDirection dir);
 
 		void deleteOld();
 

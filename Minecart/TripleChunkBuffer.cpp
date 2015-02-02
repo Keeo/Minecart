@@ -15,26 +15,26 @@ namespace model
 		}
 	}
 
-	std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE> TripleChunkBuffer::readY(EDirection dir)
+	std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* TripleChunkBuffer::readY(EDirection dir)
 	{
-		std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE> chunks;
+		auto chunks = new std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>();
 		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
 			int j = 0;
 			if (dir == UP) {
 				for (auto a : (*this)[i].front()) {
-					chunks[i][j++] = a;
+					(*chunks)[i][j++] = a;
 				}
 			}
 			else  {
 				for (auto a : (*this)[i].back()) {
-					chunks[i][j++] = a;
+					(*chunks)[i][j++] = a;
 				}
 			}
 		}
 		return chunks;
 	}
 
-	void TripleChunkBuffer::pushY(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>& chunk, EDirection dir)
+	void TripleChunkBuffer::pushY(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* chunk, EDirection dir)
 	{
 		assert(dir == EDirection::UP || dir == EDirection::DOWN);
 		boost::circular_buffer<Chunk*> slices[Constants::MAP_SIZE];
@@ -42,14 +42,14 @@ namespace model
 
 		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
 			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
-				slices[i].push_back(chunk[i][j]);
+				slices[i].push_back((*chunk)[i][j]);
 			}
 			assert(slices[i].size() == Constants::MAP_SIZE);
 		}
 
 		std::lock_guard<std::mutex> lg(m_);
 		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
-			
+
 			if (dir == UP) {
 				(*this)[i].push_back(slices[i]);
 			}
@@ -57,6 +57,44 @@ namespace model
 				(*this)[i].push_front(slices[i]);
 			}
 		}
+	}
+
+	std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* TripleChunkBuffer::readX(EDirection dir)
+	{
+		assert(dir == EDirection::LEFT || dir == EDirection::RIGHT);
+		auto chunks = new std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>();
+		auto jump = dir == LEFT ? (*this).front() : (*this).back();
+
+		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
+			int j = 0;
+			for (auto a : jump[i]) {
+				(*chunks)[i][j++] = a;
+			}
+		}
+		return chunks;
+	}
+
+	void TripleChunkBuffer::pushX(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* chunk, EDirection dir)
+	{
+		assert(dir == EDirection::LEFT || dir == EDirection::RIGHT);
+
+		boost::circular_buffer<boost::circular_buffer<Chunk*>> temp(Constants::MAP_SIZE);
+		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
+			boost::circular_buffer<Chunk*> slice(Constants::MAP_SIZE);
+			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
+				slice.push_back((*chunk)[i][j]);
+			}
+			temp.push_back(slice);
+		}
+
+		std::lock_guard<std::mutex> lg(m_);
+		if (dir == LEFT) {
+			(*this).push_back(temp);
+		}
+		else {
+			(*this).push_front(temp);
+		}
+
 	}
 
 	void TripleChunkBuffer::relink()

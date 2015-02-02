@@ -17,7 +17,6 @@ namespace model
 
 		fillChunks(tcb);
 		tcb->relink();
-		//rebuildVisibility(tcb);
 		Post(EEvent::PG_BuildVisibility, tcb, 0);
 		
 		return tcb;

@@ -16,7 +16,7 @@ struct Hello{
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	utils::ThreadUtils::setThreadPriority(utils::ThreadPriority::HIGH);
+	//utils::ThreadUtils::setThreadPriority(utils::ThreadPriority::HIGH);
 	Controller* c = new Controller();
 	c->run();
 	return 0;

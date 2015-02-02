@@ -18,6 +18,7 @@ namespace model
 
 	void WorldWatcher::run()
 	{
+		utils::ThreadUtils::setThreadPriority(utils::ThreadPriority::LOW);
 		while (true) {
 			std::unique_lock<std::mutex> lk(m_);
 			cv_.wait(lk, [&](){ return initData_ != NULL || !moveData_.empty(); });
@@ -42,28 +43,56 @@ namespace model
 				initData_ = NULL;
 			}
 
-			while (!moveData_.empty()) {
-				size_t ccc = 0;
-				while (true){
-					EDirection ed = UP;
-					ed = ccc++ % 2 == 0 ? UP : DOWN;
-					//moveData_.pop(ed);
-					TripleChunkBuffer* tcb = world_->getChunks();
-					const glm::i32vec3 top = *(*tcb)[0][Constants::MAP_SIZE - 1][0]->getPosition();
+			EDirection ed;
+			while (moveData_.pop(ed)) {
+				TripleChunkBuffer* tcb = world_->getChunks();
+				std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* chunks = NULL;
 
-					std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE> c = tcb->readY(ed);
+				if (ed == UP || ed == DOWN) {
+					chunks = tcb->readY(ed);
+					const glm::i32vec3 top = *(*tcb)[0][Constants::MAP_SIZE - 1][0]->getPosition();
 					for (int i = 0; i < Constants::MAP_SIZE; ++i) {
 						for (int j = 0; j < Constants::MAP_SIZE; ++j) {
 							glm::i32vec3 p(i, ed == UP ? 1 : -Constants::MAP_SIZE, j);
 							p *= Constants::CHUNK_SIZE;
 							p += top;
-							c[i][j]->init(p);
+							(*chunks)[i][j]->init(p);
 						}
 					}
-					tcb->pushY(c, ed);
-					tcb->relink();
-					Post(EEvent::PG_BuildVisibility, tcb, 0);
-					Post(EEvent::PG_BuildMeshes2d, &c, 0);
+					tcb->pushY(chunks, ed);
+				}
+
+				if (ed == LEFT || ed == RIGHT) {
+					chunks = tcb->readX(ed);
+					const glm::i32vec3 right = *(*tcb)[Constants::MAP_SIZE - 1][0][0]->getPosition();
+					for (int i = 0; i < Constants::MAP_SIZE; ++i) {
+						for (int j = 0; j < Constants::MAP_SIZE; ++j) {
+							glm::i32vec3 p(ed == LEFT ? 1 : -Constants::MAP_SIZE, i, j);
+							p *= Constants::CHUNK_SIZE;
+							p += right;
+							(*chunks)[i][j]->init(p);
+						}
+					}
+					tcb->pushX(chunks, ed);
+				}
+
+
+				tcb->relink();
+				Post(EEvent::PG_BuildVisibility, tcb, 0);
+				Post(EEvent::PG_BuildMeshes2d, &*chunks, 0);
+				delete chunks;
+
+				if (ed == LEFT) {
+					moveData_.push(UP);
+				}
+				if (ed == UP) {
+					moveData_.push(RIGHT);
+				}
+				if (ed == RIGHT) {
+					moveData_.push(DOWN);
+				}
+				if (ed == DOWN) {
+					moveData_.push(LEFT);
 				}
 			}
 		}
