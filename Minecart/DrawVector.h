@@ -11,6 +11,7 @@
 #include "Constants.h"
 #include "Chunk.h"
 #include "IEventMessagingSystem.h"
+#include "ThreadUtils.h"
 
 namespace model
 {
@@ -22,7 +23,7 @@ namespace model
 		std::shared_ptr<model::DistancePred> distancePred_;
 		std::condition_variable cv_;
 		std::mutex m_;
-
+		
 		void run();
 		
 		void initReorder(void* data);
@@ -44,6 +45,9 @@ namespace model
 		World* world_;
 
 	public:
+		static std::mutex GPUGuardMutex;
+		static std::atomic<bool> GPUGuardFlag;
+		static std::condition_variable GPUCV;
 
 		std::shared_ptr<std::vector<Chunk*>> getChunkArray();
 

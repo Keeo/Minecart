@@ -30,7 +30,12 @@ namespace view {
 	void Camera::update(const GameTime& time)
 	{
 		float delta = time.asSeconds();
-
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
+			position_ = glm::vec3(215, 256, -150);
+			horizontalAngle_ = 0.18399f;
+			verticalAngle_ = 3.08559f;
+			direction_ = glm::vec3(-0.182676, 0.055972, -0.981579);
+		}
 		move(delta);
 		rotate(delta);
 
@@ -68,7 +73,7 @@ namespace view {
 
 	void Camera::rotate(float& delta)
 	{
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Right) || Constants::FULLSCREEN) {
 
 			float x = static_cast<float>(sf::Mouse::getPosition().x - 500);
 			float y = static_cast<float>(sf::Mouse::getPosition().y - 500);

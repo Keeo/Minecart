@@ -43,32 +43,28 @@ namespace model
 			}
 
 			while (!moveData_.empty()) {
-				EDirection ed;
-				moveData_.pop(ed);
-				TripleChunkBuffer* tcb = world_->getChunks();
-				const glm::i32vec3 top = *(*tcb)[0][Constants::MAP_SIZE - 1][0]->getPosition();
+				size_t ccc = 0;
+				while (true){
+					EDirection ed = UP;
+					ed = ccc++ % 2 == 0 ? UP : DOWN;
+					//moveData_.pop(ed);
+					TripleChunkBuffer* tcb = world_->getChunks();
+					const glm::i32vec3 top = *(*tcb)[0][Constants::MAP_SIZE - 1][0]->getPosition();
 
-				std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE> c = tcb->readY(ed);
-				for (int i = 0; i < Constants::MAP_SIZE; ++i) {
-					for (int j = 0; j < Constants::MAP_SIZE; ++j) {
-						glm::i32vec3 p(i, ed==UP ? 1 : -Constants::MAP_SIZE, j);
-						p *= Constants::CHUNK_SIZE;
-						p += top;
-						c[i][j]->init(p);
+					std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE> c = tcb->readY(ed);
+					for (int i = 0; i < Constants::MAP_SIZE; ++i) {
+						for (int j = 0; j < Constants::MAP_SIZE; ++j) {
+							glm::i32vec3 p(i, ed == UP ? 1 : -Constants::MAP_SIZE, j);
+							p *= Constants::CHUNK_SIZE;
+							p += top;
+							c[i][j]->init(p);
+						}
 					}
+					tcb->pushY(c, ed);
+					tcb->relink();
+					Post(EEvent::PG_BuildVisibility, tcb, 0);
+					Post(EEvent::PG_BuildMeshes2d, &c, 0);
 				}
-				tcb->pushY(c, ed);
-				tcb->relink();
-				Post(EEvent::PG_BuildVisibility, tcb, 0);
-
-				/*std::vector<Chunk*> chunks;
-				chunks.reserve(Constants::MAP_SIZE * Constants::MAP_SIZE);
-				for (int i = 0; i < Constants::MAP_SIZE; ++i) {
-					for (int j = 0; j < Constants::MAP_SIZE; ++j) {
-						chunks.push_back(c[i][j]);
-					}
-				}*/
-				Post(EEvent::PG_BuildMeshes2d, &c, 0);
 			}
 		}
 	}

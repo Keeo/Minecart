@@ -5,6 +5,9 @@
 
 namespace model
 {
+	std::mutex DrawVector::GPUGuardMutex;
+	std::atomic<bool> DrawVector::GPUGuardFlag;
+	std::condition_variable DrawVector::GPUCV;
 
 	DrawVector::DrawVector(World* world) : world_(world), vector_(new std::vector<Chunk*>()), distancePred_(std::make_shared<DistancePred>(glm::vec3(0))), toLoad_(100)
 	{
@@ -23,6 +26,7 @@ namespace model
 
 	void DrawVector::run()
 	{
+		utils::ThreadUtils::setThreadPriority(utils::ThreadPriority::LOW);
 		sf::Context context;
 		while (true) {
 			std::unique_lock<std::mutex> lk(m_);
@@ -47,14 +51,16 @@ namespace model
 			}
 
 			if (load_) {
-				while (!toLoad_.empty()) {
-					Chunk* c;
-					toLoad_.pop(c);
+				load_ = false;
+				Chunk* c;
+				while (toLoad_.pop(c)) {
+					std::unique_lock<std::mutex> lock(GPUGuardMutex);
+					GPUCV.wait(lock, [&]{ return GPUGuardFlag.load(); });
+				
 					auto m = c->getMesh();
 					if (!m->meshReady || m->gpuReady) continue;
 					m->moveToGpu();
 					glFlush();
-					//glFinish();
 				}
 				
 			}

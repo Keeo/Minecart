@@ -42,9 +42,9 @@ namespace model
 
 	void World::update(const GameTime& gameTime)
 	{
-		if (chunks_.load() != NULL) {
+		/*if (chunks_.load() != NULL) {
 			chunks_.load()->chunkDisposer.flush();
-		}
+		}*/
 
 		static bool lastU = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::U) || sf::Mouse::isButtonPressed(sf::Mouse::Button::XButton1)) {

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <chrono>
+
 #include "Chunk.h"
 #include "ThreadPool.h"
 #include "MeshBuilder.h"

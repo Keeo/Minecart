@@ -41,7 +41,11 @@ namespace view
 			maxdist /= 2; 
 			add /= 2;
 		}
+		
 		int culled = 0;
+
+		model::DrawVector::GPUGuardFlag.store(false);
+		model::DrawVector::GPUGuardMutex.lock();
 		while (i != chunks.size()) {
 			int j = i;
 			if (occlusion_cull) {
@@ -101,19 +105,20 @@ namespace view
 				if (occlusion_cull)
 					glEndConditionalRender();
 			}
+
 			i = j;
 			maxdist += add;
 		}
+		model::DrawVector::GPUGuardMutex.unlock();
+		model::DrawVector::GPUGuardFlag.store(true);
+		model::DrawVector::GPUCV.notify_one();
 
-		//glDeleteQueries(query.size(), query.data());
-
-		int rendered = 0;
+		/*int rendered = 0;
 		for (auto& a : query_) {
 			GLint pa = 0;
 			glGetQueryObjectiv(a, GL_QUERY_RESULT, &pa);
 			rendered += pa;
-		}
-
+		}*/
 		//std::cout << "Total:"<<chunks.size()<< " skipped:" << (chunks.size() - rendered) << " rendered:" << rendered << " culled:" << culled << " memusage:" << Utils::getMemoryUsage() << std::endl;
 	}
 

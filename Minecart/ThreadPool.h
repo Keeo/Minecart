@@ -147,6 +147,7 @@ namespace utils
 
 		template<typename F, typename... Rest>
 		auto push(F && f, Rest&&... rest) ->std::future<decltype(f(0, rest...))> {
+			++queueSize;
 			auto pck = std::make_shared<std::packaged_task<decltype(f(0, rest...))(int)>>(
 				std::bind(std::forward<F>(f), std::placeholders::_1, std::forward<Rest>(rest)...)
 				);
@@ -166,6 +167,7 @@ namespace utils
 		// operator returns std::future, where the user can get the result and rethrow the catched exceptins
 		template<typename F>
 		auto push(F && f) ->std::future<decltype(f(0))> {
+			++queueSize;
 			auto pck = std::make_shared<std::packaged_task<decltype(f(0))(int)>>(std::forward<F>(f));
 
 			auto _f = new std::function<void(int id)>([pck](int id) {
@@ -178,7 +180,7 @@ namespace utils
 
 			return pck->get_future();
 		}
-
+		std::atomic<size_t> queueSize = 0;
 	private:
 
 		// deleted
@@ -193,11 +195,12 @@ namespace utils
 				std::atomic<bool> & _flag = *flag;
 				std::function<void(int id)> * _f;
 				bool isPop = this->q.pop(_f);
+
 				while (true) {
 					while (isPop) {  // if there is anything in the queue
 						std::unique_ptr<std::function<void(int id)>> func(_f);  // at return, delete the function even if an exception occurred
 						(*_f)(i);
-
+						--queueSize;
 						if (_flag)
 							return;  // the thread is wanted to stop, return even if the queue is not empty yet
 						else

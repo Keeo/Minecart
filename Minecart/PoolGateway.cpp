@@ -4,13 +4,22 @@
 namespace model
 {
 
-	PoolGateway::PoolGateway() : tp_(3)
+	PoolGateway::PoolGateway() : tp_(3, Constants::MAP_SIZE + 50)
 	{
 		utils::ThreadUtils::setThreadPoolPriority(&tp_);
 
 		Register(EEvent::PG_BuildMeshes1d, this, (model::Callback) & PoolGateway::buildMeshes1d);
 		Register(EEvent::PG_BuildMeshes2d, this, (model::Callback) & PoolGateway::buildMeshes2d);
 		Register(EEvent::PG_BuildVisibility, this, (model::Callback) & PoolGateway::buildVisibility);
+		std::atomic<size_t>* s = &tp_.queueSize;
+		std::thread t([s](){
+			while (true) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::G)) std::cout << "Queue size:" << *s << std::endl;
+				std::chrono::milliseconds dura(100);
+				std::this_thread::sleep_for(dura);
+			}
+		});
+		t.detach();
 	}
 
 	void PoolGateway::buildMeshes1d(std::vector<Chunk*>* chunks)
