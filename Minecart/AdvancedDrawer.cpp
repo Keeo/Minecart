@@ -20,13 +20,12 @@ namespace view
 
 		int limiter = 0;
 		std::vector<model::Chunk*>& chunks = *smartChunks;
-		for (auto a : chunks) {
+		/*for (auto a : chunks) {
 			auto m = a->getMesh();
 			if (!m->initDone) {
 				m->init();
 			}
 			if (m->meshReady && !m->gpuReady && limiter < 2) {
-				//Post(EEvent::LoadMeshFromThread, a, 0);
 				m->moveToGpu();
 				++limiter;
 			}
@@ -34,11 +33,11 @@ namespace view
 				m->moveToGpu();
 				m->reloadMesh = false;
 			}
-		}
+		}*/
 
 
 		int i = 0;
-		bool occlusion_cull = !sf::Keyboard::isKeyPressed(sf::Keyboard::O);
+		bool occlusion_cull = true;//!sf::Keyboard::isKeyPressed(sf::Keyboard::O);
 		bool cpucull = true;// !sf::Keyboard::isKeyPressed(sf::Keyboard::I);
 
 		float maxdist = Constants::CHUNK_SIZE;
@@ -49,9 +48,6 @@ namespace view
 		}
 		
 		int culled = 0;
-
-		model::DrawVector::GPUGuardFlag.store(false);
-		model::DrawVector::GPUGuardMutex.lock();
 		while (i != chunks.size()) {
 			int j = i;
 			if (occlusion_cull) {
@@ -94,11 +90,25 @@ namespace view
 			glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 			worldShader_.bind();
 			for (; j < chunks.size() && glm::distance(*(chunks[j]->getCenter()), *cameraData.position) < maxdist; ++j) {
+				
+				
+				auto m = chunks[j]->getMesh();
+				if (!m->initDone) {
+					m->init();
+				}
+				if (m->meshReady && !m->gpuReady && limiter < 2) {
+					m->moveToGpu();
+					++limiter;
+				}
+				if (m->reloadMesh) {
+					m->moveToGpu();
+					m->reloadMesh = false;
+				}
+
 				if (!chunks[j]->getMesh()->gpuReady) continue;
 
 				// frustum culling
 				if (cpucull && isCullable(cameraData, *chunks[j]->getCenter())) continue;
-				
 
 				// begin conditional render
 				if (occlusion_cull)
@@ -115,12 +125,6 @@ namespace view
 			i = j;
 			maxdist += add;
 		}
-		//sf::Clock c;
-		//glFinish();
-		//std::cout << std::setprecision(15) << c.getElapsedTime().asSeconds() << std::endl;
-		model::DrawVector::GPUGuardMutex.unlock();
-		model::DrawVector::GPUGuardFlag.store(true);
-		model::DrawVector::GPUCV.notify_one();
 
 		/*int rendered = 0;
 		for (auto& a : query_) {

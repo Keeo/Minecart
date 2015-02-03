@@ -5,32 +5,26 @@
 
 namespace model
 {
-	std::mutex DrawVector::GPUGuardMutex;
-	std::atomic<bool> DrawVector::GPUGuardFlag;
-	std::condition_variable DrawVector::GPUCV;
 
-	DrawVector::DrawVector(World* world) : world_(world), vector_(new std::vector<Chunk*>()), distancePred_(std::make_shared<DistancePred>(glm::vec3(0))), toLoad_(100)
+	DrawVector::DrawVector(World* world) : world_(world), vector_(new std::vector<Chunk*>()), distancePred_(std::make_shared<DistancePred>(glm::vec3(0)))
 	{
 		reorder_ = false;
 		rebuild_ = false;
-		load_ = false;
 
 		std::thread worker(&model::DrawVector::run, this);
 		worker.detach();
 
 		Register(EEvent::ReorderDrawVector, this, (model::Callback)& DrawVector::initReorder);
 		Register(EEvent::RebuildDrawVector, this, (model::Callback)& DrawVector::initRebuild);
-		Register(EEvent::LoadMeshFromThread, this, (model::Callback)& DrawVector::toLoad);
 	}
 
 
 	void DrawVector::run()
 	{
 		utils::ThreadUtils::setThreadPriority(utils::ThreadPriority::LOW);
-		sf::Context context;
 		while (true) {
 			std::unique_lock<std::mutex> lk(m_);
-			cv_.wait(lk, [&](){ return reorder_ || rebuild_ || load_; });
+			cv_.wait(lk, [&](){ return reorder_ || rebuild_; });
 
 			if (rebuild_) {
 				rebuild_ = false;
@@ -50,20 +44,6 @@ namespace model
 				swap(chunkArray);
 			}
 
-			if (load_) {
-				load_ = false;
-				Chunk* c;
-				while (toLoad_.pop(c)) {
-					std::unique_lock<std::mutex> lock(GPUGuardMutex);
-					GPUCV.wait(lock, [&]{ return GPUGuardFlag.load(); });
-				
-					auto m = c->getMesh();
-					if (!m->meshReady || m->gpuReady) continue;
-					m->moveToGpu();
-					//glFlush();
-				}
-				
-			}
 		}
 	}
 
@@ -131,13 +111,6 @@ namespace model
 	std::shared_ptr<std::vector<Chunk*>> DrawVector::getChunkArray()
 	{
 		return vector_;
-	}
-
-	void DrawVector::toLoad(Chunk* chunk)
-	{
-		toLoad_.push(chunk);
-		load_ = true;
-		cv_.notify_one();
 	}
 
 	DrawVector::~DrawVector()

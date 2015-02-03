@@ -31,7 +31,6 @@ namespace model
 
 		std::atomic<bool> reorder_;
 		std::atomic<bool> rebuild_;
-		std::atomic<bool> load_;
 
 		void swap(std::shared_ptr<std::vector<Chunk*>> chunkArray);
 		void populateOrderingArray(std::shared_ptr<std::vector<Chunk*>> chunkArray);
@@ -39,15 +38,10 @@ namespace model
 
 		std::shared_ptr<std::vector<Chunk*>> vector_;
 
-		boost::lockfree::queue<Chunk*> toLoad_;
-		void toLoad(Chunk* chunk);
 
 		World* world_;
 
 	public:
-		static std::mutex GPUGuardMutex;
-		static std::atomic<bool> GPUGuardFlag;
-		static std::condition_variable GPUCV;
 
 		std::shared_ptr<std::vector<Chunk*>> getChunkArray();
 
