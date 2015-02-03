@@ -60,7 +60,7 @@ namespace model
 					auto m = c->getMesh();
 					if (!m->meshReady || m->gpuReady) continue;
 					m->moveToGpu();
-					glFlush();
+					//glFlush();
 				}
 				
 			}

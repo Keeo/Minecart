@@ -33,7 +33,7 @@ namespace view
 
 		int i = 0;
 		bool occlusion_cull = !sf::Keyboard::isKeyPressed(sf::Keyboard::O);
-		bool cpucull = !sf::Keyboard::isKeyPressed(sf::Keyboard::I);
+		bool cpucull = true;// !sf::Keyboard::isKeyPressed(sf::Keyboard::I);
 
 		float maxdist = Constants::CHUNK_SIZE;
 		float add = Constants::CHUNK_SIZE * 2;
@@ -109,6 +109,9 @@ namespace view
 			i = j;
 			maxdist += add;
 		}
+		sf::Clock c;
+		glFinish();
+		std::cout << std::setprecision(15) << c.getElapsedTime().asSeconds() << std::endl;
 		model::DrawVector::GPUGuardMutex.unlock();
 		model::DrawVector::GPUGuardFlag.store(true);
 		model::DrawVector::GPUCV.notify_one();

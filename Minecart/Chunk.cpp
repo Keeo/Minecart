@@ -24,7 +24,7 @@ namespace model {
 			s->e == this && e->s == this &&
 			n->w == this && w->n == this;
 	}
-	
+
 	Chunk::~Chunk()
 	{
 	}
@@ -215,10 +215,11 @@ namespace model {
 				for (int k = 0; k < Constants::CHUNK_SIZE; ++k) {
 					cubes_[i][j][k].type = (rand() % 64) < Constants::CUBE_TRESHOLD ? ECube::Dirt : ECube::Air;
 					//cubes_[i][j][k].type = i+j+k < 16 ? ECube::Dirt : ECube::Air;
+					//cubes_[i][j][k].type = j + position_.y < Constants::CHUNK_SIZE+5 ? ECube::Dirt : ECube::Air;
 
-					/*cubes_[i][j][k].type = ECube::Dirt;
+					/*cubes_[i][j][k].type = ECube::Air;
 					if (i == 0 || j == 0 || k == 0 || i == Constants::CHUNK_SIZE || j == Constants::CHUNK_SIZE || k == Constants::CHUNK_SIZE) {
-					cubes_[i][j][k].type = ECube::Air;
+					cubes_[i][j][k].type = ECube::Dirt;
 					}*/
 				}
 			}

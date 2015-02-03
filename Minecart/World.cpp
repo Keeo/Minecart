@@ -90,6 +90,30 @@ namespace model
 		else {
 			lastR = false;
 		}
+
+		static bool lastF = false;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
+			if (!lastF) {
+				EDirection ed = EDirection::FORWARD;
+				Post(EEvent::WatcherMove, &ed, 0);
+				lastF = true;
+			}
+		}
+		else {
+			lastF = false;
+		}
+
+		static bool lastB = false;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::I)) {
+			if (!lastB) {
+				EDirection ed = EDirection::BACKWARD;
+				Post(EEvent::WatcherMove, &ed, 0);
+				lastB = true;
+			}
+		}
+		else {
+			lastB = false;
+		}
 	}
 
 	World::~World()

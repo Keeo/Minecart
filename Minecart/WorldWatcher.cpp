@@ -26,74 +26,23 @@ namespace model
 			if (initData_ != NULL) {
 				TripleChunkBuffer* tcb = NULL;
 				Post(InitSequence, &tcb, 0);
-				assert(tcb->size() == Constants::MAP_SIZE);
 				world_->setChunks(tcb);
-
-				std::vector<Chunk*> chunks;
-				chunks.reserve(Constants::CHUNK_COUNT);
-				for (auto& a : *tcb) {
-					for (auto& b : a) {
-						for (auto c : b) {
-							chunks.push_back(c);
-						}
-					}
-				}
-				Post(EEvent::PG_BuildMeshes1d, &chunks, 0);
-
+				Post(PG_BuildMeshesTCB, tcb, 0);
 				initData_ = NULL;
 			}
 
 			EDirection ed;
 			while (moveData_.pop(ed)) {
 				TripleChunkBuffer* tcb = world_->getChunks();
-				std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* chunks = NULL;
+				void* payload[2]{tcb, &ed};
+				Post(EEvent::GenerateAndMoveSlice, &payload, 0);
+				if (ed == UP) moveData_.push(RIGHT);
+				if (ed == RIGHT) moveData_.push(FORWARD);
+				if (ed == FORWARD) moveData_.push(DOWN);
 
-				if (ed == UP || ed == DOWN) {
-					chunks = tcb->readY(ed);
-					const glm::i32vec3 top = *(*tcb)[0][Constants::MAP_SIZE - 1][0]->getPosition();
-					for (int i = 0; i < Constants::MAP_SIZE; ++i) {
-						for (int j = 0; j < Constants::MAP_SIZE; ++j) {
-							glm::i32vec3 p(i, ed == UP ? 1 : -Constants::MAP_SIZE, j);
-							p *= Constants::CHUNK_SIZE;
-							p += top;
-							(*chunks)[i][j]->init(p);
-						}
-					}
-					tcb->pushY(chunks, ed);
-				}
-
-				if (ed == LEFT || ed == RIGHT) {
-					chunks = tcb->readX(ed);
-					const glm::i32vec3 right = *(*tcb)[Constants::MAP_SIZE - 1][0][0]->getPosition();
-					for (int i = 0; i < Constants::MAP_SIZE; ++i) {
-						for (int j = 0; j < Constants::MAP_SIZE; ++j) {
-							glm::i32vec3 p(ed == LEFT ? 1 : -Constants::MAP_SIZE, i, j);
-							p *= Constants::CHUNK_SIZE;
-							p += right;
-							(*chunks)[i][j]->init(p);
-						}
-					}
-					tcb->pushX(chunks, ed);
-				}
-
-
-				tcb->relink();
-				Post(EEvent::PG_BuildVisibility, tcb, 0);
-				Post(EEvent::PG_BuildMeshes2d, &*chunks, 0);
-				delete chunks;
-
-				if (ed == LEFT) {
-					moveData_.push(UP);
-				}
-				if (ed == UP) {
-					moveData_.push(RIGHT);
-				}
-				if (ed == RIGHT) {
-					moveData_.push(DOWN);
-				}
-				if (ed == DOWN) {
-					moveData_.push(LEFT);
-				}
+				if (ed == DOWN) moveData_.push(LEFT);
+				if (ed == LEFT) moveData_.push(BACKWARD);
+				if (ed == BACKWARD) moveData_.push(UP);
 			}
 		}
 	}

@@ -18,6 +18,16 @@ namespace model
 	class TripleChunkBuffer : public boost::circular_buffer<boost::circular_buffer<boost::circular_buffer<Chunk*>>>
 	{
 		std::mutex m_;
+
+		void pushY(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* chunk, EDirection dir);
+		std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* readY(EDirection dir);
+
+		void pushX(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* chunk, EDirection dir);
+		std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* readX(EDirection dir);
+
+		void pushZ(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* chunk, EDirection dir);
+		std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* readZ(EDirection dir);
+
 	public:
 		ChunkDisposer chunkDisposer;
 
@@ -27,11 +37,8 @@ namespace model
 
 		void relink();
 
-		void pushY(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* chunk, EDirection dir);
-		std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* readY(EDirection dir);
-
-		void pushX(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* chunk, EDirection dir);
-		std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* readX(EDirection dir);
+		void push(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* chunk, EDirection dir);
+		std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* read(EDirection dir);
 
 		void deleteOld();
 

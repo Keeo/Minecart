@@ -18,6 +18,7 @@ namespace model
 
 		void buildMeshes1d(std::vector<Chunk*>* chunks);
 		void buildMeshes2d(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* chunks);
+		void buildMeshesTCB(model::TripleChunkBuffer* tcb);
 		void buildVisibility(TripleChunkBuffer* tcb);
 
 		inline void wait(std::future<void>* futures, size_t size);

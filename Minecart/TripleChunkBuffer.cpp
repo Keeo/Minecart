@@ -15,6 +15,32 @@ namespace model
 		}
 	}
 
+	std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* TripleChunkBuffer::read(EDirection dir)
+	{
+		if (dir == LEFT || dir == RIGHT) return readX(dir);
+		if (dir == UP || dir == DOWN) return readY(dir);
+		if (dir == FORWARD || dir == BACKWARD) return readZ(dir);
+		assert(false);
+		return NULL;
+	}
+
+	void TripleChunkBuffer::push(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* chunk, EDirection dir)
+	{
+		if (dir == LEFT || dir == RIGHT) {
+			pushX(chunk, dir);
+			return;
+		}
+		if (dir == UP || dir == DOWN) {
+			pushY(chunk, dir);
+			return;
+		}
+		if (dir == FORWARD || dir == BACKWARD) {
+			pushZ(chunk, dir);
+			return;
+		}
+		assert(false);
+	}
+
 	std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* TripleChunkBuffer::readY(EDirection dir)
 	{
 		auto chunks = new std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>();
@@ -96,6 +122,38 @@ namespace model
 		}
 
 	}
+
+	std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* TripleChunkBuffer::readZ(EDirection dir)
+	{
+		assert(dir == EDirection::FORWARD || dir == EDirection::BACKWARD);
+		auto chunks = new std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>();
+
+		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
+			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
+				(*chunks)[i][j] = dir == FORWARD ? (*this)[i][j].front() : (*this)[i][j].back();
+			}
+		}
+		return chunks;
+	}
+
+	void TripleChunkBuffer::pushZ(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* chunk, EDirection dir)
+	{
+		assert(dir == EDirection::FORWARD || dir == EDirection::BACKWARD);
+
+		std::lock_guard<std::mutex> lg(m_);
+		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
+			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
+				if (dir == FORWARD) {
+					(*this)[i][j].push_back((*chunk)[i][j]);
+				}
+				else {
+					(*this)[i][j].push_front((*chunk)[i][j]);
+				}
+			}
+
+		}
+	}
+
 
 	void TripleChunkBuffer::relink()
 	{

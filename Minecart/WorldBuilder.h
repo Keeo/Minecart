@@ -14,6 +14,7 @@ namespace model
 	class WorldBuilder : IEventMessagingSystem
 	{
 		void initSequence(void* data);
+		void generateSlice(void** data);
 	public:
 
 		void relink(TripleChunkBuffer* chunks);
