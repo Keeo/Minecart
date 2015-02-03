@@ -24,6 +24,11 @@ namespace model
 		Post(EEvent::WatcherInit, &start, 0);
 	}
 
+	bool World::putCube(glm::i32vec3 pos, ECube cube)
+	{
+		return chunks_.load()->putCube(pos, cube);
+	}
+
 	std::shared_ptr<std::vector<Chunk*>> World::getOrderedChunks()
 	{
 		return drawVector_.getChunkArray();
@@ -42,6 +47,27 @@ namespace model
 
 	void World::update(const GameTime& gameTime)
 	{
+		static bool add = false;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Delete)) add = !add;
+
+		if (add) {
+			add = true;
+			glm::i32vec3 rnd;
+			do {
+				rnd = glm::i32vec3(rand() % Constants::CUBE_EDGE, rand() % Constants::CUBE_EDGE, rand() % Constants::CUBE_EDGE);
+			} while (!putCube(rnd, ECube::Air));
+		}
+
+
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+			view::CameraData cameraData;
+			Post(EEvent::FetchCameraData, &cameraData, 0);
+			glm::vec3 dir = -1 * *cameraData.direction;
+			glm::i32vec3 cube = chunks_.load()->cubeFinder.findCube(*cameraData.position, dir);
+			putCube(cube, ECube::Air);
+		}
+
+
 		static bool lastU = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::U) || sf::Mouse::isButtonPressed(sf::Mouse::Button::XButton1)) {
 			if (!lastU) {

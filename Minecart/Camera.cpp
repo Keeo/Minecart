@@ -24,6 +24,7 @@ namespace view {
 		cameraData->position = &position_;
 		cameraData->projection = &projection_;
 		cameraData->view = &view_;
+		cameraData->direction = &direction_;
 	}
 
 

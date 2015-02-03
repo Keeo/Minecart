@@ -25,8 +25,14 @@ namespace view
 			if (!m->initDone) {
 				m->init();
 			}
-			if (m->meshReady && !m->gpuReady) {
-				Post(EEvent::LoadMeshFromThread, a, 0);
+			if (m->meshReady && !m->gpuReady && limiter < 2) {
+				//Post(EEvent::LoadMeshFromThread, a, 0);
+				m->moveToGpu();
+				++limiter;
+			}
+			if (m->reloadMesh) {
+				m->moveToGpu();
+				m->reloadMesh = false;
 			}
 		}
 
@@ -109,9 +115,9 @@ namespace view
 			i = j;
 			maxdist += add;
 		}
-		sf::Clock c;
-		glFinish();
-		std::cout << std::setprecision(15) << c.getElapsedTime().asSeconds() << std::endl;
+		//sf::Clock c;
+		//glFinish();
+		//std::cout << std::setprecision(15) << c.getElapsedTime().asSeconds() << std::endl;
 		model::DrawVector::GPUGuardMutex.unlock();
 		model::DrawVector::GPUGuardFlag.store(true);
 		model::DrawVector::GPUCV.notify_one();

@@ -4,7 +4,7 @@
 namespace model
 {
 
-	TripleChunkBuffer::TripleChunkBuffer(int size) : circular_buffer(size)
+	TripleChunkBuffer::TripleChunkBuffer(int size) : circular_buffer(size), cubeFinder(this)
 	{
 		for (int i = 0; i < size; ++i) {
 			boost::circular_buffer<boost::circular_buffer<Chunk*>> temp(size);
@@ -12,6 +12,40 @@ namespace model
 				temp.push_back(boost::circular_buffer<Chunk*>(size));
 			}
 			push_back(temp);
+		}
+	}
+
+	ECube TripleChunkBuffer::getCube(const glm::i32vec3& pos)
+	{
+		Chunk* chunk = getChunk(pos);
+		if (chunk == NULL) {
+			return ECube::Air;
+		}
+		else {
+			return chunk->getCube(pos);
+		}
+	}
+
+	Chunk* TripleChunkBuffer::getChunk(const glm::i32vec3& pos)
+	{
+		using namespace utils;
+		glm::i32vec3 posCoord = Utils::globalToChunk(pos);
+		glm::i32vec3 myCoord = Utils::globalToChunk(*(*this)[0][0][0]->getPosition());
+
+		glm::i32vec3 realCoord = posCoord - myCoord;
+		if (!Utils::isInside(realCoord)) return NULL;
+
+		return (*this)[realCoord.x][realCoord.y][realCoord.z];
+	}
+
+	bool TripleChunkBuffer::putCube(glm::i32vec3 pos, ECube cube)
+	{
+		Chunk* chunk = getChunk(pos);
+		if (chunk == NULL) {
+			return false;
+		}
+		else {
+			return chunk->putCube(pos, cube);
 		}
 	}
 

@@ -35,6 +35,7 @@ namespace view
 		bool meshReady = false;
 		bool gpuReady = false;
 		bool initDone = false;
+		bool reloadMesh = false;
 
 		MeshStruct() : g_vertex_buffer_data(new std::vector<glm::u8vec4>()), g_index_buffer_data(new std::vector<GLuint>())
 		{
@@ -91,7 +92,7 @@ namespace view
 		void moveToGpu() {
 			assert(initDone);
 			assert(meshReady);
-			assert(!gpuReady);
+			assert(!gpuReady || reloadMesh);
 			std::lock_guard<std::mutex> lg(meshBuilding);
 			glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(glm::u8vec4) * g_vertex_buffer_data->size(), g_vertex_buffer_data->data(), GL_STATIC_DRAW);
@@ -101,6 +102,7 @@ namespace view
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * g_index_buffer_data->size(), g_index_buffer_data->data(), GL_STATIC_DRAW);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			gpuReady = true;
+			reloadMesh = false;
 			//deleteBuffers();
 		}
 

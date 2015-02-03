@@ -9,6 +9,87 @@ namespace model {
 		model = glm::translate(static_cast<glm::vec3>(position_));
 	}
 
+	bool Chunk::putCube(glm::i32vec3 pos, ECube cube)
+	{
+		glm::i32vec3 local = utils::Utils::globalToLocal(pos);
+		if (cubes_[local.x][local.y][local.z].type == cube) return false;
+		cubes_[local.x][local.y][local.z].type = cube;
+		rebuildOneCubeChangeVisibility(local);
+		return true;
+	}
+
+	ECube Chunk::getCube(const glm::i32vec3& pos)
+	{
+		glm::i32vec3 local = utils::Utils::globalToLocal(pos);
+		return cubes_[local.x][local.y][local.z].type;
+	}
+
+	void Chunk::rebuildOneCubeChangeVisibility(glm::i32vec3 local)
+	{
+		assert(local.x >= 0 && local.x < Constants::CHUNK_SIZE);
+		assert(local.y >= 0 && local.y < Constants::CHUNK_SIZE);
+		assert(local.z >= 0 && local.z < Constants::CHUNK_SIZE);
+
+		std::vector<Chunk*> chunksToRebuild;
+		const int EDGE = Constants::CHUNK_SIZE - 1;
+		chunksToRebuild.push_back(this);
+		if (cubes_[local.x][local.y][local.z].type != ECube::Air) {
+			rebuildCubeVisibility(local.x, local.y, local.z);
+		}
+		else{
+			if (local.x == 0) {
+				w->rebuildCubeVisibility(EDGE, local.y, local.z);
+				chunksToRebuild.push_back(w);
+			}
+			else {
+				rebuildCubeVisibility(local.x - 1, local.y, local.z);
+			}
+
+			if (local.x == EDGE) {
+				e->rebuildCubeVisibility(0, local.y, local.z);
+				chunksToRebuild.push_back(e);
+			}
+			else {
+				rebuildCubeVisibility(local.x + 1, local.y, local.z);
+			}
+
+			if (local.y == 0) {
+				d->rebuildCubeVisibility(local.x, EDGE, local.z);
+				chunksToRebuild.push_back(d);
+			}
+			else {
+				rebuildCubeVisibility(local.x, local.y - 1, local.z);
+			}
+
+			if (local.y == EDGE) {
+				u->rebuildCubeVisibility(local.x, 0, local.z);
+				chunksToRebuild.push_back(u);
+			}
+			else {
+				rebuildCubeVisibility(local.x, local.y + 1, local.z);
+			}
+
+			if (local.z == 0) {
+				n->rebuildCubeVisibility(local.x, local.y, EDGE);
+				chunksToRebuild.push_back(n);
+			}
+			else {
+				rebuildCubeVisibility(local.x, local.y, local.z -1);
+			}
+
+			if (local.z == EDGE) {
+				s->rebuildCubeVisibility(local.x, local.y, 0);
+				chunksToRebuild.push_back(s);
+			}
+			else {
+				rebuildCubeVisibility(local.x, local.y, local.z +1);
+			}
+			sf::Clock c;
+			Post(EEvent::PG_BuildMeshes1d, &chunksToRebuild, 0);
+			std::cout << "Was waiting for chunk rebuild:" << std::setprecision(15) << c.getElapsedTime().asSeconds() << std::endl;
+		}
+	}
+
 	void Chunk::init(glm::i32vec3 position)
 	{
 		Drawable::reset();

@@ -15,6 +15,9 @@ namespace view
 		auto& vertex_buffer = *mesh->g_vertex_buffer_data;
 		auto& index_buffer = *mesh->g_index_buffer_data;
 
+		vertex_buffer.clear();
+		index_buffer.clear();
+
 		for (int i = 0; i < Constants::CHUNK_SIZE; ++i) {
 			for (int j = 0; j < Constants::CHUNK_SIZE; ++j) {
 				for (int k = 0; k < Constants::CHUNK_SIZE; ++k) {
@@ -86,7 +89,12 @@ namespace view
 
 		chunk->setMesh(mesh);
 
-		mesh->meshReady = true;
+		if (mesh->meshReady) {
+			mesh->reloadMesh = true;
+		}
+		else{
+			mesh->meshReady = true;
+		}
 
 	}
 

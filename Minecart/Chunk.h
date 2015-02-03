@@ -6,6 +6,7 @@
 #include <glm/gtc/type_precision.hpp>
 
 #include "Constants.h"
+#include "Utils.h"
 #include "Drawable.h"
 #include "Cube.h"
 #include "IEventMessagingSystem.h"
@@ -32,7 +33,9 @@ namespace model
 		void loadCubes();
 
 	public:
-		
+		bool putCube(glm::i32vec3 pos, ECube cube = ECube::Air);
+		ECube getCube(const glm::i32vec3& pos);
+
 		void setNeighbors(Chunk* up, Chunk* down, Chunk* north, Chunk* west, Chunk* east, Chunk* south);
 		void init(glm::i32vec3 position);
 
@@ -41,6 +44,7 @@ namespace model
 
 		bool assertLinks();
 
+		void rebuildOneCubeChangeVisibility(glm::i32vec3 local);
 		inline void rebuildCubeVisibility(int i, int j, int k);
 		void rebuildCubesVisibilityEdge(EDirection edge);
 		void rebuildCubesVisibilityCore();

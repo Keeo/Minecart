@@ -17,6 +17,7 @@
 #include "WorldWatcher.h"
 #include "TripleChunkBuffer.h"
 #include "DrawVector.h"
+#include "Camera.h"
 
 namespace model
 {
@@ -34,6 +35,8 @@ namespace model
 	public:
 		
 		void build(WorldBuilder* builder);
+
+		bool putCube(glm::i32vec3 pos, ECube cube);
 
 		World();
 

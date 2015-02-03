@@ -11,6 +11,7 @@
 #include "Chunk.h"
 #include "Utils.h"
 #include "ChunkDisposer.h"
+#include "CubeFinder.h"
 
 namespace model
 {
@@ -28,17 +29,25 @@ namespace model
 		void pushZ(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* chunk, EDirection dir);
 		std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* readZ(EDirection dir);
 
+		//Chunk* getChunk(glm::vec3 pos);
+		Chunk* getChunk(const glm::i32vec3& pos);
+		
 	public:
 		ChunkDisposer chunkDisposer;
-
+		CubeFinder cubeFinder;
 
 		void lock();
 		void unlock();
 
 		void relink();
 
+		ECube getCube(const glm::i32vec3& pos);
+		bool putCube(glm::i32vec3 pos, ECube cube = ECube::Air);
+
 		void push(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* chunk, EDirection dir);
 		std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* read(EDirection dir);
+
+		
 
 		void deleteOld();
 
