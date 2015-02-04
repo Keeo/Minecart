@@ -85,8 +85,16 @@ namespace model {
 				rebuildCubeVisibility(local.x, local.y, local.z +1);
 			}
 			sf::Clock c;
-			Post(EEvent::PG_BuildMeshes1d, &chunksToRebuild, 0);
-			std::cout << "Was waiting for chunk rebuild:" << std::setprecision(15) << c.getElapsedTime().asSeconds() << std::endl;
+			bool type;
+			if (chunksToRebuild.size() == 1 && !sf::Keyboard::isKeyPressed(sf::Keyboard::Home)) {
+				Post(EEvent::BuildMeshForChunk, chunksToRebuild[0], 0);
+				type = false;
+			}
+			else {
+				type = true;
+				Post(EEvent::PG_BuildMeshes1d, &chunksToRebuild, 0);
+			}
+			std::cout << (type ? "PG" : "1T" ) << " was waiting for chunk rebuild: " << std::setprecision(15) << c.getElapsedTime().asSeconds() << std::endl;
 		}
 	}
 

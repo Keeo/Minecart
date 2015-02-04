@@ -49,7 +49,6 @@ namespace model
 	{
 		static bool add = false;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Delete)) add = !add;
-
 		if (add) {
 			add = true;
 			glm::i32vec3 rnd;
@@ -58,13 +57,20 @@ namespace model
 			} while (!putCube(rnd, ECube::Air));
 		}
 
-
+		static bool mousePressed = false;
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-			view::CameraData cameraData;
-			Post(EEvent::FetchCameraData, &cameraData, 0);
-			glm::vec3 dir = -1 * *cameraData.direction;
-			glm::i32vec3 cube = chunks_.load()->cubeFinder.findCube(*cameraData.position, dir);
-			putCube(cube, ECube::Air);
+			if (!mousePressed) {
+				mousePressed = true;
+				view::CameraData cameraData;
+				Post(EEvent::FetchCameraData, &cameraData, 0);
+				glm::vec3 dir = -1 * *cameraData.direction;
+				glm::i32vec3 cube = chunks_.load()->cubeFinder.findCube(*cameraData.position, dir);
+				std::cout << "Removing cube:" << glm::to_string(cube) << std::endl;
+				putCube(cube, ECube::Air);
+			}
+		}
+		else {
+			mousePressed = false;
 		}
 
 
