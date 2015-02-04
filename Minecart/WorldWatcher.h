@@ -33,7 +33,7 @@ namespace model
 		void changeEvent(void* data);
 
 		World* world_;
-
+		void moveErase(void* data);
 	public:
 		WorldWatcher(World* world);
 		~WorldWatcher();

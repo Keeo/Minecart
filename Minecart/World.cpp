@@ -15,6 +15,49 @@ namespace model
 		glm::i32vec3& chunkPos = *reinterpret_cast<glm::i32vec3*>(pdata);
 		const glm::i32vec3 center = (*(*chunks_)[Constants::MAP_SIZE / 2][Constants::MAP_SIZE / 2][Constants::MAP_SIZE / 2]->getPosition()) / Constants::CHUNK_SIZE;
 		glm::i32vec3 diff = center - chunkPos;
+		EDirection ed;
+		Post(EEvent::WatcherErase, &ed, 0);
+
+		while (diff.x != 0) {
+			if (diff.x > 0) {
+				ed = RIGHT;
+				--diff.x;
+				Post(EEvent::WatcherMove, &ed, 0);
+			}
+			else {
+				ed = LEFT;
+				++diff.x;
+				Post(EEvent::WatcherMove, &ed, 0);
+			}
+		}
+
+		while (diff.y != 0) {
+			if (diff.y > 0) {
+				ed = DOWN;
+				--diff.y;
+				Post(EEvent::WatcherMove, &ed, 0);
+			}
+			else {
+				ed = UP;
+				++diff.y;
+				Post(EEvent::WatcherMove, &ed, 0);
+			}
+		}
+
+		while (diff.z != 0) {
+			if (diff.z > 0) {
+				ed = BACKWARD;
+				--diff.z;
+				Post(EEvent::WatcherMove, &ed, 0);
+			}
+			else {
+				ed = FORWARD;
+				++diff.z;
+				Post(EEvent::WatcherMove, &ed, 0);
+			}
+		}
+
+		std::cout << glm::to_string(diff) << " :cam diff" << std::endl;
 	}
 
 	void World::build(WorldBuilder* builder)

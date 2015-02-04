@@ -14,6 +14,7 @@ namespace model
 		Register(WatcherInit, this, (model::Callback) & WorldWatcher::initEvent);
 		Register(WatcherMove, this, (model::Callback) & WorldWatcher::moveEvent);
 		Register(WatcherChange, this, (model::Callback) & WorldWatcher::changeEvent);
+		Register(WatcherErase, this, (model::Callback) & WorldWatcher::moveErase);
 	}
 
 	void WorldWatcher::run()
@@ -36,13 +37,13 @@ namespace model
 				TripleChunkBuffer* tcb = world_->getChunks();
 				void* payload[2]{tcb, &ed};
 				Post(EEvent::GenerateAndMoveSlice, &payload, 0);
-				if (ed == UP) moveData_.push(RIGHT);
+				/*if (ed == UP) moveData_.push(RIGHT);
 				if (ed == RIGHT) moveData_.push(FORWARD);
 				if (ed == FORWARD) moveData_.push(DOWN);
 
 				if (ed == DOWN) moveData_.push(LEFT);
 				if (ed == LEFT) moveData_.push(BACKWARD);
-				if (ed == BACKWARD) moveData_.push(UP);
+				if (ed == BACKWARD) moveData_.push(UP);*/
 			}
 		}
 	}
@@ -57,6 +58,12 @@ namespace model
 	{
 		moveData_.push(*(EDirection*)data);
 		cv_.notify_one();
+	}
+
+	void WorldWatcher::moveErase(void* data)
+	{
+		EDirection ed;
+		while (moveData_.pop(ed));
 	}
 
 	void WorldWatcher::changeEvent(void* data)

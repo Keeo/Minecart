@@ -4,7 +4,7 @@ struct Constants
 {
 #ifdef _DEBUG
 	static const int CHUNK_SIZE = 32;
-	static const int CUBE_TRESHOLD = 64; // z 64
+	static const int CUBE_TRESHOLD = 4; // z 64
 	static const int MAP_SIZE = 4;
 	static const int RESOLUTION_X = 1024;
 	static const int RESOLUTION_Y = 768;
