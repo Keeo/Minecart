@@ -3,13 +3,14 @@
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Clock.hpp>
 
-struct GameTime {
+struct GameTime
+{
 
-	float asSeconds() const {
+	inline float asSeconds() const {
 		return time.asSeconds();
 	}
 
-	float getTotalElapsedTime() const {
+	inline float getTotalElapsedTime() const {
 		return totalTime.getElapsedTime().asSeconds();
 	}
 

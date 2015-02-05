@@ -33,7 +33,7 @@ namespace view
 		assert(cd.position != NULL);
 		assert(cd.projection != NULL);
 		assert(cd.view != NULL);
-
+		
 		glUniformMatrix4fv(viewLoc_, 1, GL_FALSE, glm::value_ptr(*cd.view));
 		glUniformMatrix4fv(projectionLoc_, 1, GL_FALSE, glm::value_ptr(*cd.projection));
 	}

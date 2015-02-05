@@ -72,8 +72,27 @@ namespace view
 				4,
 				GL_UNSIGNED_BYTE,
 				GL_FALSE,
-				4 * sizeof(GLubyte),
+				8 * sizeof(GLubyte),
 				(void*)0
+				);
+
+			/*
+			GLuint index, 
+ 			GLint size, 
+ 			GLenum type, 
+ 			GLboolean normalized, 
+ 			GLsizei stride, 
+ 			const GLvoid * pointer
+			*/
+
+			glEnableVertexAttribArray(1);
+			glVertexAttribPointer(
+				1,
+				4,
+				GL_UNSIGNED_BYTE,
+				GL_FALSE,
+				8 * sizeof(GLubyte),
+				(void*)4
 				);
 			glBindVertexArray(0);
 			initDone = true;

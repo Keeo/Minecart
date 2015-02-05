@@ -1,7 +1,7 @@
 #pragma once
 #include <thread>
 
-#include "UtilsMemory.h"
+#include "Memory.h"
 #include "Constants.h"
 
 namespace utils
@@ -10,8 +10,9 @@ namespace utils
 	class Utils
 	{
 	public:
+
 		 template <typename T>
-		 static int sgn(T val) {
+		 inline static int sgn(T val) {
 			return (0 < val) - (val < 0);
 		}
 
@@ -47,8 +48,7 @@ namespace utils
 
 		static size_t getMemoryUsage()
 		{
-			return UtilsMemory::getCurrentRSS();
-			//size_t peakSize = UtilsMemory::getPeakRSS();
+			return Memory::getCurrentRSS();
 		}
 
 	};

@@ -12,10 +12,10 @@ namespace view
 		makeVAO();
 	}
 
-	void BoundingBox::draw()
+	void BoundingBox::draw(bool triangles)
 	{
 		mesh_->bind();
-		glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_INT, 0);
+		glDrawElements(triangles ? GL_TRIANGLES : GL_LINES, 6 * 6, GL_UNSIGNED_INT, 0);
 		mesh_->unbind();
 	}
 

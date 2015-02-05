@@ -15,7 +15,7 @@ namespace view
 
 	class MeshBuilder : model::IEventMessagingSystem
 	{
-
+		glm::i8vec4 getTextureCoord(int pos, ECube type);
 	public:
 		void buildMesh(model::Chunk* chunk);
 	};

@@ -9,11 +9,6 @@
 #include <glm/gtx/string_cast.hpp>
 #include "ThreadUtils.h"
 
-struct Hello{
-	int getNumerum() { std::cout << "Inside job" << std::endl;  return 7; }
-};
-
-
 int _tmain(int argc, _TCHAR* argv[])
 {
 	//utils::ThreadUtils::setThreadPriority(utils::ThreadPriority::HIGH);

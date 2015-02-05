@@ -35,6 +35,12 @@
       <UniqueIdentifier>{fb274770-9b4c-4168-82c3-6882927119d6}</UniqueIdentifier>
       <Extensions>vert;frag</Extensions>
     </Filter>
+    <Filter Include="Source Files\utils">
+      <UniqueIdentifier>{1f39d2ea-7d68-44cf-a5bd-7508faa8e42d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\utils">
+      <UniqueIdentifier>{14ffa235-9e01-4b13-9d85-2d79004fa9b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -100,12 +106,6 @@
     <ClInclude Include="Drawable.h">
       <Filter>Header Files\view</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resource1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WorldShader.h">
       <Filter>Header Files\view\shader</Filter>
     </ClInclude>
@@ -117,9 +117,6 @@
     </ClInclude>
     <ClInclude Include="WorldBuilder.h">
       <Filter>Header Files\model</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MeshStruct.h">
       <Filter>Header Files\view</Filter>
@@ -145,25 +142,31 @@
     <ClInclude Include="ChunkFactory.h">
       <Filter>Header Files\model</Filter>
     </ClInclude>
-    <ClInclude Include="UtilsMemory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DrawVector.h">
       <Filter>Header Files\model</Filter>
     </ClInclude>
-    <ClInclude Include="ThreadPool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PoolGateway.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="CubeFinder.h">
+      <Filter>Header Files\model</Filter>
     </ClInclude>
     <ClInclude Include="ChunkDisposer.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="PoolGateway.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadPool.h">
+      <Filter>Header Files\utils</Filter>
     </ClInclude>
     <ClInclude Include="ThreadUtils.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\utils</Filter>
     </ClInclude>
-    <ClInclude Include="CubeFinder.h">
+    <ClInclude Include="Utils.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="SimplexNoise.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -243,13 +246,16 @@
     <ClCompile Include="DrawVector.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="PoolGateway.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="CubeFinder.cpp">
+      <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="ChunkDisposer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="CubeFinder.cpp">
+    <ClCompile Include="PoolGateway.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="SimplexNoise.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

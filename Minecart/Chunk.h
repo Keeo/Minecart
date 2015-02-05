@@ -10,6 +10,7 @@
 #include "Drawable.h"
 #include "Cube.h"
 #include "IEventMessagingSystem.h"
+#include "SimplexNoise.h"
 
 namespace model
 {
@@ -25,9 +26,11 @@ namespace model
 		// surounding chunks
 		Chunk* u = 0;
 		Chunk* d = 0;
-		Chunk* n = 0;
+		
 		Chunk* w = 0;
 		Chunk* e = 0;
+
+		Chunk* n = 0;
 		Chunk* s = 0;
 
 		void loadCubes();
@@ -36,7 +39,7 @@ namespace model
 		bool putCube(glm::i32vec3 pos, ECube cube = ECube::Air);
 		ECube getCube(const glm::i32vec3& pos);
 
-		void setNeighbors(Chunk* up, Chunk* down, Chunk* north, Chunk* west, Chunk* east, Chunk* south);
+		void setNeighbors(Chunk* up, Chunk* down, Chunk* east, Chunk* west, Chunk* north, Chunk* south);
 		void init(glm::i32vec3 position);
 
 		const glm::i32vec3* getPosition() const;

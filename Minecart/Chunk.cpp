@@ -110,8 +110,8 @@ namespace model {
 	bool Chunk::assertLinks()
 	{
 		return u->d == this && d->u == this &&
-			s->e == this && e->s == this &&
-			n->w == this && w->n == this;
+			w->e == this && e->w == this &&
+			n->s == this && s->n == this;
 	}
 
 	Chunk::~Chunk()
@@ -287,22 +287,28 @@ namespace model {
 		}
 	}
 
-	void Chunk::setNeighbors(Chunk* up, Chunk* down, Chunk* north, Chunk* west, Chunk* east, Chunk* south)
+	void Chunk::setNeighbors(Chunk* up, Chunk* down, Chunk* east, Chunk* west, Chunk* north, Chunk* south)
 	{
 		u = up;
 		d = down;
-		n = north;
-		w = west;
+
 		e = east;
+		w = west;
+
+		n = north;
 		s = south;
 	}
 
 	void Chunk::loadCubes()
 	{
+		utils::SimplexNoise sn;
 		for (int i = 0; i < Constants::CHUNK_SIZE; ++i) {
 			for (int j = 0; j < Constants::CHUNK_SIZE; ++j) {
 				for (int k = 0; k < Constants::CHUNK_SIZE; ++k) {
-					cubes_[i][j][k].type = (rand() % 64) < Constants::CUBE_TRESHOLD ? ECube::Dirt : ECube::Air;
+					const glm::i32vec3 pos = position_ + glm::i32vec3(i, j, k);
+					float noise = sn.raw_noise_3d(static_cast<float>(pos.x) / 128.0f, static_cast<float>(pos.y) / 128.0f, static_cast<float>(pos.z) / 128.0f);
+					cubes_[i][j][k].type = noise < 0.8f ? ECube::Dirt : ECube::Air;
+					//cubes_[i][j][k].type = (rand() % 64) < Constants::CUBE_TRESHOLD ? ECube::Dirt : ECube::Air;
 					//cubes_[i][j][k].type = i+j+k < 16 ? ECube::Dirt : ECube::Air;
 					//cubes_[i][j][k].type = j + position_.y < Constants::CHUNK_SIZE+5 ? ECube::Dirt : ECube::Air;
 

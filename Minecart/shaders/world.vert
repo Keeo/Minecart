@@ -2,7 +2,7 @@
 #extension GL_ARB_explicit_attrib_location : require
 
 layout(location = 0) in vec4 vertex_position;
-layout(location = 1) in vec2 vertex_uv;
+layout(location = 1) in vec4 vertex_texture;
 //layout(location = 5) in vec3 vertex_normal;
 
 uniform mat4 model;
@@ -26,6 +26,6 @@ void main()
 
     gl_Position = projection * view * model * verpos;
     position = vec3(model * verpos);
-    uv = vertex_uv;
+    uv = vertex_texture.xy / 16;
 }
 

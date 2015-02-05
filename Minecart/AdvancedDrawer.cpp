@@ -20,25 +20,10 @@ namespace view
 
 		int limiter = 0;
 		std::vector<model::Chunk*>& chunks = *smartChunks;
-		/*for (auto a : chunks) {
-			auto m = a->getMesh();
-			if (!m->initDone) {
-				m->init();
-			}
-			if (m->meshReady && !m->gpuReady && limiter < 2) {
-				m->moveToGpu();
-				++limiter;
-			}
-			if (m->reloadMesh) {
-				m->moveToGpu();
-				m->reloadMesh = false;
-			}
-		}*/
-
 
 		int i = 0;
-		bool occlusion_cull = true;//!sf::Keyboard::isKeyPressed(sf::Keyboard::O);
-		bool cpucull = true;// !sf::Keyboard::isKeyPressed(sf::Keyboard::I);
+		bool occlusion_cull = false;//!sf::Keyboard::isKeyPressed(sf::Keyboard::O);
+		bool cpucull = false;// !sf::Keyboard::isKeyPressed(sf::Keyboard::I);
 
 		float maxdist = Constants::CHUNK_SIZE;
 		float add = Constants::CHUNK_SIZE * 2;
@@ -47,6 +32,13 @@ namespace view
 			add /= 2;
 		}
 		
+		simpleShader_.bind();
+		for (auto& c : chunks) {
+			simpleShader_.loadModelMatrix(&c->model);
+			box_.draw(false);
+		}
+
+
 		int culled = 0;
 		while (i != chunks.size()) {
 			int j = i;

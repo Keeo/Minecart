@@ -17,7 +17,7 @@ namespace view
 		
 	public:
 		
-		void draw();
+		void draw(bool triangles = true);
 
 		BoundingBox();
 		~BoundingBox();
