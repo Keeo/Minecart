@@ -9,7 +9,7 @@ namespace model
 		Register(EEvent::FillChunks, this, (model::Callback) & WorldBuilder::fillChunks);
 		Register(EEvent::RebuildVisbility, this, (model::Callback) & WorldBuilder::rebuildVisibility);
 		Register(EEvent::InitSequence, this, (model::Callback) & WorldBuilder::initSequence);
-		//Register(EEvent::GenerateAndMoveSlice, this, (model::Callback) & WorldBuilder::generateSlice);
+		Register(EEvent::GenerateAndMoveSlice, this, (model::Callback) & WorldBuilder::generateSlice);
 	}
 
 	TripleChunkBuffer* WorldBuilder::buildChunkMatrix()
@@ -99,6 +99,7 @@ namespace model
 
 		tcb->push(chunks, ed);
 		tcb->relink();
+		Post(EEvent::PG_BuildCubes, chunks, 0);
 		Post(EEvent::PG_BuildVisibility, tcb, 0);
 		Post(EEvent::PG_BuildMeshes2d, &*chunks, 0);
 		delete chunks;

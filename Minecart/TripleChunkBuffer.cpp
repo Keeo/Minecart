@@ -209,7 +209,7 @@ namespace model
 				}
 			}
 		}
-		std::cout << "re";
+
 		assert([](TripleChunkBuffer* tcb)->bool{
 			for (int i = 0; i < Constants::MAP_SIZE; ++i) {
 				for (int j = 0; j < Constants::MAP_SIZE; ++j) {

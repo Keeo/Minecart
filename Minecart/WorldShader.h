@@ -8,6 +8,7 @@
 #include "EEvent.h"
 #include "Camera.h"
 #include "Window.h"
+#include "Texture.h"
 
 namespace view
 {
@@ -16,12 +17,13 @@ namespace view
 	{
 
 		sf::Image img_;
-		sf::Texture tex_;
+		sf::Image grlImg_;
+		opengl::Texture tex_;
+		opengl::Texture grl_;
 
 	public:
 
-	
-
+		sf::Shader* getShader();
 
 		WorldShader();
 		~WorldShader();

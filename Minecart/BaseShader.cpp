@@ -18,10 +18,15 @@ namespace view
 		modelLoc_ = glGetUniformLocation(shaderId_, "model");
 		viewLoc_ = glGetUniformLocation(shaderId_, "view");
 		projectionLoc_ = glGetUniformLocation(shaderId_, "projection");
+		camPositionLoc_ = glGetUniformLocation(shaderId_, "camPosition");
 
 		assert(modelLoc_ != -1);
 		assert(viewLoc_ != -1);
 		assert(projectionLoc_ != -1);
+		if (camPositionLoc_ == -1) {
+			//std::cout << "CamPositionLoc is not initialized for " << vertex << ", " << fragment << std::endl;
+			std::cout << "." << std::endl;
+		}
 	}
 
 	void BaseShader::bind()
@@ -33,9 +38,10 @@ namespace view
 		assert(cd.position != NULL);
 		assert(cd.projection != NULL);
 		assert(cd.view != NULL);
-		
+
 		glUniformMatrix4fv(viewLoc_, 1, GL_FALSE, glm::value_ptr(*cd.view));
 		glUniformMatrix4fv(projectionLoc_, 1, GL_FALSE, glm::value_ptr(*cd.projection));
+		if (camPositionLoc_ != -1) glUniform3fv(camPositionLoc_, 1, glm::value_ptr(*cd.position));
 	}
 
 	void BaseShader::unbind()
@@ -50,6 +56,34 @@ namespace view
 
 	BaseShader::~BaseShader()
 	{
+	}
+
+	void BaseShader::bindTexture(std::string place, opengl::Texture& texture, GLint order)
+	{
+		GLint pos = findUniform(place);
+
+		glActiveTexture(GL_TEXTURE0 + order);
+		texture.bind();
+		glUniform1i(pos, order);
+	}
+
+	GLint BaseShader::findUniform(std::string& name)
+	{
+		GLint pos = -1;
+		auto p = places_.find(name);
+		if (p == places_.end()) {
+			pos = glGetUniformLocation(shaderId_, name.c_str());
+			if (pos == -1) {
+				std::cout << "Texture uniform failed: " << name << std::endl;
+				assert(false);
+			}
+			places_.insert(std::pair<std::string, GLint>(name, pos));
+		}
+		else {
+			pos = (*p).second;
+		}
+		assert(pos != -1);
+		return pos;
 	}
 
 }

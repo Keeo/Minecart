@@ -184,10 +184,17 @@ copy "$(SolutionDir)dlls\sfml-window-2.dll" "$(TargetDir)"</Command>
     <ClInclude Include="EDirection.h" />
     <ClInclude Include="EEvent.h" />
     <ClInclude Include="EventMessagingSystem.h" />
+    <ClInclude Include="FboDev.h" />
+    <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameTime.h" />
+    <ClInclude Include="NorDepShader.h" />
+    <ClInclude Include="OpenGLObject.h" />
     <ClInclude Include="PoolGateway.h" />
+    <ClInclude Include="RenderBuffer.h" />
     <ClInclude Include="SimplexNoise.h" />
+    <ClInclude Include="TestDrawer.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="ThreadUtils.h" />
     <ClInclude Include="Memory.h" />
@@ -221,14 +228,19 @@ copy "$(SolutionDir)dlls\sfml-window-2.dll" "$(TargetDir)"</Command>
     <ClCompile Include="CubeFinder.cpp" />
     <ClCompile Include="DrawVector.cpp" />
     <ClCompile Include="EventMessagingSystem.cpp" />
+    <ClCompile Include="FboDev.cpp" />
+    <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="IEventMessagingSystem.cpp" />
     <ClCompile Include="MeshBuilder.cpp" />
     <ClCompile Include="MeshManager.cpp" />
     <ClCompile Include="Minecart.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="NorDepShader.cpp" />
+    <ClCompile Include="OpenGLObject.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PoolGateway.cpp" />
+    <ClCompile Include="RenderBuffer.cpp" />
     <ClCompile Include="SimpleShader.cpp" />
     <ClCompile Include="SimplexNoise.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -237,6 +249,8 @@ copy "$(SolutionDir)dlls\sfml-window-2.dll" "$(TargetDir)"</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TestDrawer.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TripleChunkBuffer.cpp" />
     <ClCompile Include="View.cpp" />
     <ClCompile Include="Window.cpp" />

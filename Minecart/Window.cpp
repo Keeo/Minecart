@@ -52,9 +52,9 @@ namespace view {
 		window_.display();
 	}
 
-	void Window::setActive()
+	void Window::setActive(bool active)
 	{
-		window_.setActive();
+		window_.setActive(active);
 	}
 
 	void Window::update()

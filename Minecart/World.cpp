@@ -7,7 +7,7 @@ namespace model
 	World::World() : worldWatcher_(this), drawVector_(this)
 	{
 		chunks_.store(NULL);
-		Register(EEvent::CameraChangedChunk, this, (model::Callback) & World::cameraChangedChunk);
+		//Register(EEvent::CameraChangedChunk, this, (model::Callback) & World::cameraChangedChunk);
 	}
 
 	void World::cameraChangedChunk(void* pdata)
@@ -17,7 +17,7 @@ namespace model
 		glm::i32vec3 diff = center - chunkPos;
 		EDirection ed;
 		Post(EEvent::WatcherErase, &ed, 0);
-
+		std::cout << glm::to_string(diff) << " :cam diff" << std::endl;
 		while (diff.x != 0) {
 			if (diff.x > 0) {
 				ed = RIGHT;
@@ -57,7 +57,7 @@ namespace model
 			}
 		}
 
-		std::cout << glm::to_string(diff) << " :cam diff" << std::endl;
+		
 	}
 
 	void World::build(WorldBuilder* builder)

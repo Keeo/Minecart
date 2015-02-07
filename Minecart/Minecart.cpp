@@ -8,9 +8,14 @@
 #include <glm/gtc/noise.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include "ThreadUtils.h"
+#include "FboDev.h"
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	//opengl::FboDev f;
+	//f.run();
+	//return 0;
+
 	//utils::ThreadUtils::setThreadPriority(utils::ThreadPriority::HIGH);
 	Controller* c = new Controller();
 	c->run();

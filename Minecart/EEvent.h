@@ -29,6 +29,7 @@ enum EEvent {
 	PG_BuildMeshes2d,
 	PG_BuildMeshesTCB,
 	PG_BuildVisibility,
+	PG_BuildCubes,
 
 	LoadMeshFromThread,
 

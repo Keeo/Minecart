@@ -74,7 +74,7 @@ namespace model {
 				chunksToRebuild.push_back(n);
 			}
 			else {
-				rebuildCubeVisibility(local.x, local.y, local.z -1);
+				rebuildCubeVisibility(local.x, local.y, local.z - 1);
 			}
 
 			if (local.z == EDGE) {
@@ -82,7 +82,7 @@ namespace model {
 				chunksToRebuild.push_back(s);
 			}
 			else {
-				rebuildCubeVisibility(local.x, local.y, local.z +1);
+				rebuildCubeVisibility(local.x, local.y, local.z + 1);
 			}
 			sf::Clock c;
 			bool type;
@@ -94,7 +94,7 @@ namespace model {
 				type = true;
 				Post(EEvent::PG_BuildMeshes1d, &chunksToRebuild, 0);
 			}
-			std::cout << (type ? "PG" : "1T" ) << " was waiting for chunk rebuild: " << std::setprecision(15) << c.getElapsedTime().asSeconds() << std::endl;
+			std::cout << (type ? "PG" : "1T") << " was waiting for chunk rebuild: " << std::setprecision(15) << c.getElapsedTime().asSeconds() << std::endl;
 		}
 	}
 
@@ -103,7 +103,6 @@ namespace model {
 		Drawable::reset();
 		position_ = position;
 		center_ = position + Constants::CHUNK_SIZE / 2;
-		loadCubes();
 		model = glm::translate(static_cast<glm::vec3>(position_));
 	}
 
@@ -306,8 +305,8 @@ namespace model {
 			for (int j = 0; j < Constants::CHUNK_SIZE; ++j) {
 				for (int k = 0; k < Constants::CHUNK_SIZE; ++k) {
 					const glm::i32vec3 pos = position_ + glm::i32vec3(i, j, k);
-					float noise = sn.raw_noise_3d(static_cast<float>(pos.x) / 128.0f, static_cast<float>(pos.y) / 128.0f, static_cast<float>(pos.z) / 128.0f);
-					cubes_[i][j][k].type = noise < 0.8f ? ECube::Dirt : ECube::Air;
+					float noise = sn.octave_noise_3d(1.0f, 0.05f, 0.5f, static_cast<float>(pos.x) / 128.0f, static_cast<float>(pos.y) / 128.0f, static_cast<float>(pos.z) / 128.0f);
+					cubes_[i][j][k].type = noise < 0.7f ? ECube::Dirt : ECube::Air;
 					//cubes_[i][j][k].type = (rand() % 64) < Constants::CUBE_TRESHOLD ? ECube::Dirt : ECube::Air;
 					//cubes_[i][j][k].type = i+j+k < 16 ? ECube::Dirt : ECube::Air;
 					//cubes_[i][j][k].type = j + position_.y < Constants::CHUNK_SIZE+5 ? ECube::Dirt : ECube::Air;

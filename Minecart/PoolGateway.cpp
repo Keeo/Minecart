@@ -12,6 +12,8 @@ namespace model
 		Register(EEvent::PG_BuildMeshes2d, this, (model::Callback) & PoolGateway::buildMeshes2d);
 		Register(EEvent::PG_BuildMeshesTCB, this, (model::Callback) & PoolGateway::buildMeshesTCB);
 		Register(EEvent::PG_BuildVisibility, this, (model::Callback) & PoolGateway::buildVisibility);
+		Register(EEvent::PG_BuildCubes, this, (model::Callback) & PoolGateway::buildCubes);
+
 		std::atomic<size_t>* s = &tp_.queueSize;
 		std::thread t([s](){
 			while (true) {
@@ -40,6 +42,22 @@ namespace model
 		}
 
 		wait(results, Constants::CHUNK_COUNT);
+	}
+
+	void PoolGateway::buildCubes(std::array<std::array<Chunk*, Constants::MAP_SIZE>, Constants::MAP_SIZE>* chunks)
+	{
+		std::future<void> results[Constants::MAP_SIZE * Constants::MAP_SIZE];
+
+		for (int i = 0; i < Constants::MAP_SIZE; ++i) {
+			for (int j = 0; j < Constants::MAP_SIZE; ++j) {
+				Chunk* c = (*chunks)[i][j];
+				results[i * Constants::MAP_SIZE + j] = tp_.push([c](int id)->void {
+					c->loadCubes();
+				});
+			}
+		}
+
+		wait(results, Constants::MAP_SIZE * Constants::MAP_SIZE);
 	}
 
 	void PoolGateway::buildMeshes1d(std::vector<Chunk*>* chunks)

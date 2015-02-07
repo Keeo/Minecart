@@ -18,7 +18,7 @@ namespace view {
 		virtual ~Window();
 		void draw();
 		void update();
-		void setActive();
+		void setActive(bool active);
 	private:
 
 		sf::RenderWindow window_;

@@ -33,14 +33,14 @@ namespace model
 		Chunk* n = 0;
 		Chunk* s = 0;
 
-		void loadCubes();
-
 	public:
 		bool putCube(glm::i32vec3 pos, ECube cube = ECube::Air);
 		ECube getCube(const glm::i32vec3& pos);
-
+		
 		void setNeighbors(Chunk* up, Chunk* down, Chunk* east, Chunk* west, Chunk* north, Chunk* south);
+		
 		void init(glm::i32vec3 position);
+		void loadCubes();
 
 		const glm::i32vec3* getPosition() const;
 		const glm::vec3* getCenter() const;

@@ -6,6 +6,7 @@
 #include "AdvancedDrawer.h"
 #include "Window.h"
 #include "MeshManager.h"
+#include "TestDrawer.h"
 
 namespace view
 {
@@ -14,11 +15,12 @@ namespace view
 	{
 		std::unique_ptr<Camera> camera_;
 		std::unique_ptr<AdvancedDrawer> advancedDrawer_;
+		std::unique_ptr<TestDrawer> testDrawer_;
 		std::unique_ptr<Window> window_;
 		MeshManager meshManager;
 
 	public:
-
+		void setActive(bool active);
 		void update(const GameTime&);
 		void draw(std::shared_ptr<model::Model> model);
 
