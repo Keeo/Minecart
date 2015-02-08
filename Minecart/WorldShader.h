@@ -9,6 +9,7 @@
 #include "Camera.h"
 #include "Window.h"
 #include "Texture.h"
+#include "TextureFactory.h"
 
 namespace view
 {
@@ -18,12 +19,13 @@ namespace view
 
 		sf::Image img_;
 		sf::Image grlImg_;
-		opengl::Texture tex_;
-		opengl::Texture grl_;
+		std::unique_ptr<opengl::Texture> tex_;
+		std::unique_ptr<opengl::Texture> grl_;
 
 	public:
 
 		sf::Shader* getShader();
+		void bind();
 
 		WorldShader();
 		~WorldShader();

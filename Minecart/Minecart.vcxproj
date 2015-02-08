@@ -186,6 +186,7 @@ copy "$(SolutionDir)dlls\sfml-window-2.dll" "$(TargetDir)"</Command>
     <ClInclude Include="EventMessagingSystem.h" />
     <ClInclude Include="FboDev.h" />
     <ClInclude Include="FrameBuffer.h" />
+    <ClInclude Include="FrameBufferFactory.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="NorDepShader.h" />
@@ -195,6 +196,7 @@ copy "$(SolutionDir)dlls\sfml-window-2.dll" "$(TargetDir)"</Command>
     <ClInclude Include="SimplexNoise.h" />
     <ClInclude Include="TestDrawer.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureFactory.h" />
     <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="ThreadUtils.h" />
     <ClInclude Include="Memory.h" />
@@ -230,6 +232,7 @@ copy "$(SolutionDir)dlls\sfml-window-2.dll" "$(TargetDir)"</Command>
     <ClCompile Include="EventMessagingSystem.cpp" />
     <ClCompile Include="FboDev.cpp" />
     <ClCompile Include="FrameBuffer.cpp" />
+    <ClCompile Include="FrameBufferFactory.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="IEventMessagingSystem.cpp" />
     <ClCompile Include="MeshBuilder.cpp" />
@@ -251,6 +254,7 @@ copy "$(SolutionDir)dlls\sfml-window-2.dll" "$(TargetDir)"</Command>
     </ClCompile>
     <ClCompile Include="TestDrawer.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureFactory.cpp" />
     <ClCompile Include="TripleChunkBuffer.cpp" />
     <ClCompile Include="View.cpp" />
     <ClCompile Include="Window.cpp" />

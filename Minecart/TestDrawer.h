@@ -12,6 +12,8 @@
 #include "NorDepShader.h"
 #include "IEventMessagingSystem.h"
 #include "BoundingBox.h"
+#include "FrameBuffer.h"
+#include "FrameBufferFactory.h"
 
 namespace view
 {
@@ -24,9 +26,8 @@ namespace view
 		SimpleShader simpleShader_;
 		NorDepShader norDepShader_;
 		BoundingBox box_;
+		std::shared_ptr<opengl::FrameBuffer> frameBuffer_;
 
-
-		sf::RenderTexture texture;
 
 		void draw(std::vector<model::Chunk*>& chunks, BaseShader* shader);
 	public:

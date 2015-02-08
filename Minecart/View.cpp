@@ -30,10 +30,10 @@ namespace view
 	void View::draw(std::shared_ptr<model::Model> model)
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Why am i clearing it here?
-		advancedDrawer_->condDraw(model);
-		//testDrawer_->draw(model, this);
+		//advancedDrawer_->condDraw(model);
+		testDrawer_->draw(model, this);
 		int err = glGetError();
-		if (err && err != 1282) {
+		if (err) {
 			std::cout << "GLError: " << err << std::endl;
 		}
 

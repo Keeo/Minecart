@@ -8,7 +8,7 @@ namespace view
 
 	void TestDrawer::draw(std::shared_ptr<model::Model> model, View* view)
 	{
-
+		view->setActive(true);
 		CameraData cameraData;
 		Post(EEvent::FetchCameraData, &cameraData, 0);
 
@@ -22,7 +22,7 @@ namespace view
 		}
 		auto smartChunks = world->getOrderedChunks();
 		std::vector<model::Chunk*>& chunks = *smartChunks;
-		view->setActive(true);
+		
 		for (auto& c : chunks) {
 			auto m = c->getMesh();
 			if (!m->initDone) {
@@ -36,22 +36,24 @@ namespace view
 				m->reloadMesh = false;
 			}
 		}
-		view->setActive(false);
-		texture.setActive(true);
-		norDepShader_.bind();
-		
-		
-		draw(chunks, &norDepShader_);
-		texture.display();
+		//-------------//-------------//-------------//-------------//-------------//
 
-		//texture.setActive(false);
-		view->setActive(true);
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+		
+		frameBuffer_->bind();
+		glViewport(0, 0, Constants::RESOLUTION_X, Constants::RESOLUTION_Y);
+		//glClearColor(0.5f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		worldShader_.bind();
 		draw(chunks, &worldShader_);
-		
+		frameBuffer_->unbind();
 
+		std::vector<std::shared_ptr<opengl::Texture>>* tex = frameBuffer_->attachedTextures();
+		opengl::Texture& tt = *tex->at(0);
+		worldShader_.bindTexture("shadow" , tt, 2);
+
+		draw(chunks, &worldShader_);
 	}
 
 	void TestDrawer::draw(std::vector<model::Chunk*>& chunks, BaseShader* shader)
@@ -67,11 +69,7 @@ namespace view
 
 	TestDrawer::TestDrawer()
 	{
-		bool ret = texture.create(Constants::RESOLUTION_X, Constants::RESOLUTION_Y, true);
-		assert(ret);
-
-		sf::Shader* s = worldShader_.getShader();
-		s->setParameter("sampler", texture.getTexture());
+		frameBuffer_ = opengl::FrameBufferFactory::buildFramebuffer();
 	}
 
 

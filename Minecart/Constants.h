@@ -11,9 +11,9 @@ struct Constants
 	static const bool SHOW_MOUSE = true;
 	static const bool FULLSCREEN = false;
 #else
-	static const int CHUNK_SIZE = 64 - 16;
+	static const int CHUNK_SIZE = 32;
 	static const int CUBE_TRESHOLD = 4; // z 64
-	static const int MAP_SIZE = 9;
+	static const int MAP_SIZE = 5;
 	static const int RESOLUTION_X = 1980;
 	static const int RESOLUTION_Y = 1080;
 	static const bool SHOW_MOUSE = false;
