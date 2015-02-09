@@ -44,11 +44,11 @@ namespace view
 		glViewport(0, 0, Constants::RESOLUTION_X, Constants::RESOLUTION_Y);
 		//glClearColor(0.5f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		worldShader_.bind();
-		draw(chunks, &worldShader_);
+		norDepShader_.bind();
+		//worldShader_.bind();
+		draw(chunks, &norDepShader_);
 		frameBuffer_->unbind();
-
+		worldShader_.bind();
 		std::vector<std::shared_ptr<opengl::Texture>>* tex = frameBuffer_->attachedTextures();
 		opengl::Texture& tt = *tex->at(0);
 		worldShader_.bindTexture("shadow" , tt, 2);

@@ -61,7 +61,7 @@ namespace view
 	void BaseShader::bindTexture(std::string place, opengl::Texture& texture, GLint order)
 	{
 		GLint pos = findUniform(place);
-		if (place == "shadow") std::cout << "P:" << pos << ", " << texture.id() << std::endl;
+
 		glActiveTexture(GL_TEXTURE0 + order);
 		texture.bind();
 		glUniform1i(pos, order);

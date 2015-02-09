@@ -24,72 +24,72 @@ namespace view
 					model::Cube& c = cubes[i][j][k];
 					if (c.type == ECube::Air) continue;
 					// 00 xx yy zz
-					//  100 = 16
-					// -100 = 48
-					//  010 = 4
-					// 0-10 = 12
-					//  001 = 1
-					// 00-1 = 3
+					//  100 = 16 = 26
+					// -100 = 48 = 58
+					//  010 = 4  = 38
+					// 0-10 = 12 = 46
+					//  001 = 1  = 41
+					// 00-1 = 3  = 43 
 
 					const glm::u8vec4 pos(i, j, k, 0);
 					if (c.isXPVisible()) {
-						vertex_buffer.push_back(pos + glm::u8vec4(1, 1, 1, 16));
+						vertex_buffer.push_back(pos + glm::u8vec4(1, 1, 1, 26));
 						vertex_buffer.push_back(getTextureCoord(0, c.type));
-						vertex_buffer.push_back(pos + glm::u8vec4(1, 0, 1, 16));
+						vertex_buffer.push_back(pos + glm::u8vec4(1, 0, 1, 26));
 						vertex_buffer.push_back(getTextureCoord(2, c.type));
-						vertex_buffer.push_back(pos + glm::u8vec4(1, 1, 0, 16));
+						vertex_buffer.push_back(pos + glm::u8vec4(1, 1, 0, 26));
 						vertex_buffer.push_back(getTextureCoord(1, c.type));
-						vertex_buffer.push_back(pos + glm::u8vec4(1, 0, 0, 16));
+						vertex_buffer.push_back(pos + glm::u8vec4(1, 0, 0, 26));
 						vertex_buffer.push_back(getTextureCoord(3, c.type));
 					}
 					if (c.isYPVisible()) {
-						vertex_buffer.push_back(pos + glm::u8vec4(1, 1, 1, 4));
+						vertex_buffer.push_back(pos + glm::u8vec4(1, 1, 1, 38));
 						vertex_buffer.push_back(getTextureCoord(0, c.type));
-						vertex_buffer.push_back(pos + glm::u8vec4(1, 1, 0, 4));
+						vertex_buffer.push_back(pos + glm::u8vec4(1, 1, 0, 38));
 						vertex_buffer.push_back(getTextureCoord(1, c.type));
-						vertex_buffer.push_back(pos + glm::u8vec4(0, 1, 1, 4));
+						vertex_buffer.push_back(pos + glm::u8vec4(0, 1, 1, 38));
 						vertex_buffer.push_back(getTextureCoord(2, c.type));
-						vertex_buffer.push_back(pos + glm::u8vec4(0, 1, 0, 4));
+						vertex_buffer.push_back(pos + glm::u8vec4(0, 1, 0, 38));
 						vertex_buffer.push_back(getTextureCoord(3, c.type));
 					}
 					if (c.isZPVisible()) {
-						vertex_buffer.push_back(pos + glm::u8vec4(1, 1, 1, 1));
+						vertex_buffer.push_back(pos + glm::u8vec4(1, 1, 1, 41));
 						vertex_buffer.push_back(getTextureCoord(0, c.type));
-						vertex_buffer.push_back(pos + glm::u8vec4(0, 1, 1, 1));
+						vertex_buffer.push_back(pos + glm::u8vec4(0, 1, 1, 41));
 						vertex_buffer.push_back(getTextureCoord(1, c.type));
-						vertex_buffer.push_back(pos + glm::u8vec4(1, 0, 1, 1));
+						vertex_buffer.push_back(pos + glm::u8vec4(1, 0, 1, 41));
 						vertex_buffer.push_back(getTextureCoord(2, c.type));
-						vertex_buffer.push_back(pos + glm::u8vec4(0, 0, 1, 1));
+						vertex_buffer.push_back(pos + glm::u8vec4(0, 0, 1, 41));
 						vertex_buffer.push_back(getTextureCoord(3, c.type));
 					}
 					if (c.isXNVisible()) {
-						vertex_buffer.push_back(pos + glm::u8vec4(0, 1, 1, 48));
+						vertex_buffer.push_back(pos + glm::u8vec4(0, 1, 1, 58));
 						vertex_buffer.push_back(getTextureCoord(0, c.type));
-						vertex_buffer.push_back(pos + glm::u8vec4(0, 1, 0, 48));
+						vertex_buffer.push_back(pos + glm::u8vec4(0, 1, 0, 58));
 						vertex_buffer.push_back(getTextureCoord(1, c.type));
-						vertex_buffer.push_back(pos + glm::u8vec4(0, 0, 1, 48));
+						vertex_buffer.push_back(pos + glm::u8vec4(0, 0, 1, 58));
 						vertex_buffer.push_back(getTextureCoord(2, c.type));
-						vertex_buffer.push_back(pos + glm::u8vec4(0, 0, 0, 48));
+						vertex_buffer.push_back(pos + glm::u8vec4(0, 0, 0, 58));
 						vertex_buffer.push_back(getTextureCoord(3, c.type));
 					}
 					if (c.isYNVisible()) {
-						vertex_buffer.push_back(pos + glm::u8vec4(1, 0, 1, 12));
+						vertex_buffer.push_back(pos + glm::u8vec4(1, 0, 1, 46));
 						vertex_buffer.push_back(getTextureCoord(0, c.type));
-						vertex_buffer.push_back(pos + glm::u8vec4(0, 0, 1, 12));
+						vertex_buffer.push_back(pos + glm::u8vec4(0, 0, 1, 46));
 						vertex_buffer.push_back(getTextureCoord(1, c.type));
-						vertex_buffer.push_back(pos + glm::u8vec4(1, 0, 0, 12));
+						vertex_buffer.push_back(pos + glm::u8vec4(1, 0, 0, 46));
 						vertex_buffer.push_back(getTextureCoord(2, c.type));
-						vertex_buffer.push_back(pos + glm::u8vec4(0, 0, 0, 12));
+						vertex_buffer.push_back(pos + glm::u8vec4(0, 0, 0, 46));
 						vertex_buffer.push_back(getTextureCoord(3, c.type));
 					}
 					if (c.isZNVisible()) {
-						vertex_buffer.push_back(pos + glm::u8vec4(1, 1, 0, 3));
+						vertex_buffer.push_back(pos + glm::u8vec4(1, 1, 0, 43));
 						vertex_buffer.push_back(getTextureCoord(1, c.type));
-						vertex_buffer.push_back(pos + glm::u8vec4(1, 0, 0, 3));
+						vertex_buffer.push_back(pos + glm::u8vec4(1, 0, 0, 43));
 						vertex_buffer.push_back(getTextureCoord(3, c.type));
-						vertex_buffer.push_back(pos + glm::u8vec4(0, 1, 0, 3));
+						vertex_buffer.push_back(pos + glm::u8vec4(0, 1, 0, 43));
 						vertex_buffer.push_back(getTextureCoord(0, c.type));
-						vertex_buffer.push_back(pos + glm::u8vec4(0, 0, 0, 3));
+						vertex_buffer.push_back(pos + glm::u8vec4(0, 0, 0, 43));
 						vertex_buffer.push_back(getTextureCoord(2, c.type));
 					}
 

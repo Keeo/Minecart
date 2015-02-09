@@ -20,6 +20,7 @@ namespace opengl
 		void setFilter(bool smooth);
 
 		void specify(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid* data);
+		void specifyRGBAFloat();
 		void specifyRGBA();
 		void specifyRGB();
 		void specifyDepth();

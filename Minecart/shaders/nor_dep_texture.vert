@@ -21,18 +21,18 @@ void main()
 	int byte = int(vertex_position.w);
 	vec4 verpos = vec4(vertex_position.xyz, 1);
 
-	int mask = 0x00000003; 
-	v_normal.x = float(((byte >> 4) & mask) - 2); // sign maybe?
+	const int mask = 0x00000003; 
+	v_normal.x = float(((byte >> 4) & mask) - 2);
 	v_normal.y = float(((byte >> 2) & mask) - 2);
 	v_normal.z = float(((byte >> 0) & mask) - 2);
 
     gl_Position = projection * view * model * verpos;
 
-    v_normal = mat3(projection * view * model) * v_normal;
+    v_normal = mat3(transpose(view * model)) * v_normal;
 
     position = vec3(model * verpos);
     
-    depth = -gl_Position.z/100.0;
+    depth = gl_Position.z/1000.0;
 
 }
 

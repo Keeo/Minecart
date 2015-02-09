@@ -14,8 +14,8 @@ in float depth;
 
 void main()
 {
-    vec3 normal = normalize(v_normal);
-    color = vec4(normal, depth);
+	color.rgb = v_normal;
+    color.w = depth;
     
 }
 

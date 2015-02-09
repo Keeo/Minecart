@@ -26,7 +26,7 @@ namespace opengl
 		tex->generate();
 
 		tex->bind();
-		tex->specifyRGB();
+		tex->specifyRGBAFloat();
 		tex->setFilter(false);
 		tex->setWrap(true, true);
 		tex->unbind();

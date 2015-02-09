@@ -200,7 +200,7 @@
       <Filter>Header Files\opengl</Filter>
     </ClInclude>
     <ClInclude Include="TextureFactory.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\opengl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -316,7 +316,7 @@
       <Filter>Source Files\opengl</Filter>
     </ClCompile>
     <ClCompile Include="TextureFactory.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\opengl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
