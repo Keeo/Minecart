@@ -5,7 +5,7 @@ uniform sampler2D sampler;
 uniform vec3 camPosition;
 
 in vec2 uv;
-in vec3 v_normal;
+flat in vec3 v_normal;
 in vec3 position;
 in vec3 light_position;
 
@@ -18,5 +18,3 @@ void main()
     color.w = depth;
     
 }
-
-

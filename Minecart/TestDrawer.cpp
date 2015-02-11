@@ -37,23 +37,55 @@ namespace view
 			}
 		}
 		//-------------//-------------//-------------//-------------//-------------//
+		
 
-		
-		
 		frameBuffer_->bind();
-		glViewport(0, 0, Constants::RESOLUTION_X, Constants::RESOLUTION_Y);
-		//glClearColor(0.5f, 0.0f, 0.0f, 1.0f);
+		frameBuffer_->setPassDisplay();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		norDepShader_.bind();
-		//worldShader_.bind();
-		draw(chunks, &norDepShader_);
-		frameBuffer_->unbind();
 		worldShader_.bind();
-		std::vector<std::shared_ptr<opengl::Texture>>* tex = frameBuffer_->attachedTextures();
-		opengl::Texture& tt = *tex->at(0);
-		worldShader_.bindTexture("shadow" , tt, 2);
-
 		draw(chunks, &worldShader_);
+		frameBuffer_->unbind();
+
+		std::map<GLuint, std::shared_ptr<opengl::Texture>>* tex = frameBuffer_->attachedTextures();
+		opengl::Texture& t2 = *tex->at(1); // nordep
+		opengl::Texture& tt = *tex->at(0); // color
+
+		opengl::Texture& ssao = *frameSmallBuffer_->attachedTextures()->at(0);
+		opengl::Texture& pong = *frameSmallBuffer_->attachedTextures()->at(1);
+
+		frameSmallBuffer_->bind();
+		frameSmallBuffer_->setPassSSAO();
+		glDisable(GL_DEPTH_TEST);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		ssaoShader_.bind();
+		ssaoShader_.bindTexture("normalMap", t2, 1);
+		sc_.draw(true);
+
+		for (int i = 0; i < 5; ++i){
+			blurXShader_.bind();
+			blurXShader_.bindTexture("image", ssao, 0);
+			GLuint attachments[1] = { GL_COLOR_ATTACHMENT1 };
+			glDrawBuffers(1, attachments);
+			glClear(GL_COLOR_BUFFER_BIT);
+			sc_.draw(true);
+
+			blurYShader_.bind();
+			blurYShader_.bindTexture("image", pong, 0);
+			GLuint attachments2[1] = { GL_COLOR_ATTACHMENT0 };
+			glDrawBuffers(1, attachments2);
+			glClear(GL_COLOR_BUFFER_BIT);
+			sc_.draw(true);
+		}
+
+		frameSmallBuffer_->unbind();
+		texShader_.bind();
+		glViewport(0, 0, Constants::RESOLUTION_X, Constants::RESOLUTION_Y);
+		texShader_.bindTexture("image", tt);
+		texShader_.bindTexture("ssao", ssao, 1);
+		glClear(GL_COLOR_BUFFER_BIT);
+		sc_.draw(true);
+		glEnable(GL_DEPTH_TEST);
 	}
 
 	void TestDrawer::draw(std::vector<model::Chunk*>& chunks, BaseShader* shader)
@@ -70,6 +102,8 @@ namespace view
 	TestDrawer::TestDrawer()
 	{
 		frameBuffer_ = opengl::FrameBufferFactory::buildFramebuffer();
+		frameSmallBuffer_ = opengl::FrameBufferFactory::buildSmallFramebuffer();
+		
 	}
 
 

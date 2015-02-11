@@ -11,7 +11,7 @@ uniform mat4 projection;
 uniform vec3 camPosition;
 
 out vec2 uv;
-out vec3 v_normal;
+flat out vec3 v_normal;
 out vec3 position;
 out float depth;
 
@@ -28,11 +28,11 @@ void main()
 
     gl_Position = projection * view * model * verpos;
 
-    v_normal = mat3(transpose(view * model)) * v_normal;
+    //v_normal = mat3(transpose(view * model)) * v_normal;
 
     position = vec3(model * verpos);
     
-    depth = gl_Position.z/1000.0;
+    depth = gl_Position.z/100.0;
 
 }
 

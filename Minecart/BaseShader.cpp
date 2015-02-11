@@ -20,9 +20,9 @@ namespace view
 		projectionLoc_ = glGetUniformLocation(shaderId_, "projection");
 		camPositionLoc_ = glGetUniformLocation(shaderId_, "camPosition");
 
-		assert(modelLoc_ != -1);
-		assert(viewLoc_ != -1);
-		assert(projectionLoc_ != -1);
+		//assert(modelLoc_ != -1);
+		//assert(viewLoc_ != -1);
+		//assert(projectionLoc_ != -1);
 		if (camPositionLoc_ == -1) {
 			//std::cout << "CamPositionLoc is not initialized for " << vertex << ", " << fragment << std::endl;
 			std::cout << "." << std::endl;

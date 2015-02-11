@@ -169,6 +169,8 @@ copy "$(SolutionDir)dlls\sfml-window-2.dll" "$(TargetDir)"</Command>
   <ItemGroup>
     <ClInclude Include="AdvancedDrawer.h" />
     <ClInclude Include="BaseShader.h" />
+    <ClInclude Include="BlurXShader.h" />
+    <ClInclude Include="BlurYShader.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Chunk.h" />
@@ -193,10 +195,13 @@ copy "$(SolutionDir)dlls\sfml-window-2.dll" "$(TargetDir)"</Command>
     <ClInclude Include="OpenGLObject.h" />
     <ClInclude Include="PoolGateway.h" />
     <ClInclude Include="RenderBuffer.h" />
+    <ClInclude Include="ScreenQuad.h" />
     <ClInclude Include="SimplexNoise.h" />
+    <ClInclude Include="SSAOShader.h" />
     <ClInclude Include="TestDrawer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureFactory.h" />
+    <ClInclude Include="TextureShader.h" />
     <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="ThreadUtils.h" />
     <ClInclude Include="Memory.h" />
@@ -221,6 +226,8 @@ copy "$(SolutionDir)dlls\sfml-window-2.dll" "$(TargetDir)"</Command>
   <ItemGroup>
     <ClCompile Include="AdvancedDrawer.cpp" />
     <ClCompile Include="BaseShader.cpp" />
+    <ClCompile Include="BlurXShader.cpp" />
+    <ClCompile Include="BlurYShader.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Chunk.cpp" />
@@ -244,8 +251,10 @@ copy "$(SolutionDir)dlls\sfml-window-2.dll" "$(TargetDir)"</Command>
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PoolGateway.cpp" />
     <ClCompile Include="RenderBuffer.cpp" />
+    <ClCompile Include="ScreenQuad.cpp" />
     <ClCompile Include="SimpleShader.cpp" />
     <ClCompile Include="SimplexNoise.cpp" />
+    <ClCompile Include="SSAOShader.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -255,6 +264,7 @@ copy "$(SolutionDir)dlls\sfml-window-2.dll" "$(TargetDir)"</Command>
     <ClCompile Include="TestDrawer.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureFactory.cpp" />
+    <ClCompile Include="TextureShader.cpp" />
     <ClCompile Include="TripleChunkBuffer.cpp" />
     <ClCompile Include="View.cpp" />
     <ClCompile Include="Window.cpp" />

@@ -10,7 +10,8 @@ namespace opengl
 	{
 	public:
 		static std::unique_ptr<Texture> buildFromImage(sf::Image& image);
-		static std::unique_ptr<Texture> buildColorAttachment(int x, int y);
+		static std::unique_ptr<Texture> buildFloatColorAttachment(int x, int y);
+		static std::unique_ptr<Texture> buildByteColorAttachment(int x, int y, bool filter = false);
 	};
 
 }

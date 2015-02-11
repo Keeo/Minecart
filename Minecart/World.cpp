@@ -100,7 +100,7 @@ namespace model
 			} while (!putCube(rnd, ECube::Air));
 		}
 
-		static bool mousePressed = false;
+		/*static bool mousePressed = false;
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 			if (!mousePressed) {
 				mousePressed = true;
@@ -114,7 +114,7 @@ namespace model
 		}
 		else {
 			mousePressed = false;
-		}
+		}*/
 
 
 		static bool lastU = false;

@@ -7,21 +7,20 @@ uniform sampler2D shadow;
 uniform vec3 camPosition;
 
 in vec2 uv;
-in vec3 v_normal;
+flat in vec3 v_normal;
 in vec3 position;
 in vec3 light_position;
+in float v_depth;
 
 layout(location = 0) out vec4 color;
-
+layout(location = 1) out vec4 nordep;
 
 void main()
 {
-    //color = vec3(gl_FragCoord.z / 512);
-    //color.r = length(camPosition - position) / gl_DepthRange.far;
-    //color = vec3(length(position) / gl_DepthRange.far);
-    //color = normalize(position);
-    color = vec4(texture(gril, uv).rgb * texture(sampler, uv).rgb * texture(shadow, uv).rgb * 8, 1);
-    //color = normalize(normalize(texture(sampler, uv).rgb) + normalize(position));
+
+    color = vec4(texture(gril, uv).rgb * 0.0001 + texture(sampler, uv).rgb, 1);
+
+	nordep.rgb = v_normal;
+    nordep.w = v_depth;
+
 }
-
-

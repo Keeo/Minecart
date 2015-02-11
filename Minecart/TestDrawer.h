@@ -14,6 +14,12 @@
 #include "BoundingBox.h"
 #include "FrameBuffer.h"
 #include "FrameBufferFactory.h"
+#include "TextureFactory.h"
+#include "ScreenQuad.h"
+#include "SSAOShader.h"
+#include "BlurXShader.h"
+#include "BlurYShader.h"
+#include "TextureShader.h"
 
 namespace view
 {
@@ -25,9 +31,14 @@ namespace view
 		WorldShader worldShader_;
 		SimpleShader simpleShader_;
 		NorDepShader norDepShader_;
+		SSAOShader ssaoShader_;
+		BlurXShader blurXShader_;
+		BlurYShader blurYShader_;
+		TextureShader texShader_;
 		BoundingBox box_;
+		ScreenQuad sc_;
 		std::shared_ptr<opengl::FrameBuffer> frameBuffer_;
-
+		std::shared_ptr<opengl::FrameBuffer> frameSmallBuffer_;
 
 		void draw(std::vector<model::Chunk*>& chunks, BaseShader* shader);
 	public:

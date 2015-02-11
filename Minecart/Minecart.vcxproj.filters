@@ -202,6 +202,21 @@
     <ClInclude Include="TextureFactory.h">
       <Filter>Header Files\opengl</Filter>
     </ClInclude>
+    <ClInclude Include="ScreenQuad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SSAOShader.h">
+      <Filter>Header Files\view\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="BlurXShader.h">
+      <Filter>Header Files\view\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="BlurYShader.h">
+      <Filter>Header Files\view\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureShader.h">
+      <Filter>Header Files\view\shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -317,6 +332,21 @@
     </ClCompile>
     <ClCompile Include="TextureFactory.cpp">
       <Filter>Source Files\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="SSAOShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenQuad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlurXShader.cpp">
+      <Filter>Source Files\view\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="BlurYShader.cpp">
+      <Filter>Source Files\view\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureShader.cpp">
+      <Filter>Source Files\view\shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
