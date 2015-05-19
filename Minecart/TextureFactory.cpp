@@ -48,4 +48,18 @@ namespace opengl
 		return tex;
 	}
 
+	std::unique_ptr<Texture> TextureFactory::buildShadowAttachment(int x, int y, bool filter)
+	{
+		std::unique_ptr<Texture> tex = std::make_unique<Texture>(x, y);
+		tex->generate();
+
+		tex->bind();
+		tex->specifyRGFloat();
+		tex->setFilter(false);
+		tex->setWrap(false, false);
+		tex->unbind();
+
+		return tex;
+	}
+
 }

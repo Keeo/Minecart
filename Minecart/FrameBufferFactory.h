@@ -12,6 +12,7 @@ namespace opengl
 	public:
 		static std::shared_ptr<FrameBuffer> buildFramebuffer();
 		static std::shared_ptr<FrameBuffer> buildSmallFramebuffer();
+		static std::shared_ptr<FrameBuffer> buildShadowFramebuffer();
 	};
 
 }

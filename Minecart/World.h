@@ -18,6 +18,7 @@
 #include "TripleChunkBuffer.h"
 #include "DrawVector.h"
 #include "Camera.h"
+#include "PointLight.h"
 
 namespace model
 {
@@ -29,6 +30,8 @@ namespace model
 		DrawVector drawVector_;
 
 		WorldWatcher worldWatcher_;
+
+		PointLight light_;
 
 		void cameraChangedChunk(void* pdata);
 

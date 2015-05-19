@@ -6,7 +6,7 @@
 namespace view
 {
 
-	void TestDrawer::draw(std::shared_ptr<model::Model> model, View* view)
+	void ShadowDrawer::draw(std::shared_ptr<model::Model> model, View* view)
 	{
 		view->setActive(true);
 		CameraData cameraData;
@@ -22,7 +22,7 @@ namespace view
 		}
 		auto smartChunks = world->getOrderedChunks();
 		std::vector<model::Chunk*>& chunks = *smartChunks;
-		
+
 		for (auto& c : chunks) {
 			auto m = c->getMesh();
 			if (!m->initDone) {
@@ -37,9 +37,28 @@ namespace view
 			}
 		}
 		//-------------//-------------//-------------//-------------//-------------//
-		
 
-		frameBuffer_->bind();
+		glm::vec3 lightPos;
+		Post(EEvent::FetchLightData, &lightPos, 0);
+
+		shadowBuffer_->bind();
+		shadowBuffer_->setPassShadow();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		depthShader_.bind();
+		draw(chunks, &depthShader_);
+		shadowBuffer_->unbind();
+
+
+		lightShader_.bind();
+		glViewport(0, 0, Constants::RESOLUTION_X, Constants::RESOLUTION_Y);
+		//lightShader_.bindTexture("image", tt);
+		//lightShader_.bindTexture("ssao", ssao, 1);
+		draw(chunks, &lightShader_);
+		lightShader_.unbind();
+
+
+
+		/*frameBuffer_->bind();
 		frameBuffer_->setPassDisplay();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		worldShader_.bind();
@@ -85,29 +104,30 @@ namespace view
 		texShader_.bindTexture("ssao", ssao, 1);
 		glClear(GL_COLOR_BUFFER_BIT);
 		sc_.draw(true);
+		glEnable(GL_DEPTH_TEST);*/
 		glEnable(GL_DEPTH_TEST);
 	}
 
-	void TestDrawer::draw(std::vector<model::Chunk*>& chunks, BaseShader* shader)
+	void ShadowDrawer::draw(std::vector<model::Chunk*>& chunks, BaseShader* shader)
 	{
 		for (auto& c : chunks) {
 			auto m = c->getMesh();
-			
+
 			if (!m->gpuReady) continue;
 			shader->loadModelMatrix(&c->model);
 			m->draw();
 		}
 	}
 
-	TestDrawer::TestDrawer()
+	ShadowDrawer::ShadowDrawer()
 	{
-		frameBuffer_ = opengl::FrameBufferFactory::buildFramebuffer();
-		frameSmallBuffer_ = opengl::FrameBufferFactory::buildSmallFramebuffer();
-		
+		//frameBuffer_ = opengl::FrameBufferFactory::buildFramebuffer();
+		//frameSmallBuffer_ = opengl::FrameBufferFactory::buildSmallFramebuffer();
+		shadowBuffer_ = opengl::FrameBufferFactory::buildShadowFramebuffer();
 	}
 
 
-	TestDrawer::~TestDrawer()
+	ShadowDrawer::~ShadowDrawer()
 	{
 	}
 

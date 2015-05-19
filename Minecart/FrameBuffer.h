@@ -19,6 +19,7 @@ namespace opengl
 
 	public:
 
+		void setPassShadow();
 		void setPassSSAO();
 		void setPassDisplay();
 

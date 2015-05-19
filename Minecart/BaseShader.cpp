@@ -19,7 +19,8 @@ namespace view
 		viewLoc_ = glGetUniformLocation(shaderId_, "view");
 		projectionLoc_ = glGetUniformLocation(shaderId_, "projection");
 		camPositionLoc_ = glGetUniformLocation(shaderId_, "camPosition");
-
+		lightPositionLoc_ = glGetUniformLocation(shaderId_, "lightPosition");
+		lightMatLoc_ = glGetUniformLocation(shaderId_, "lightMat");
 		//assert(modelLoc_ != -1);
 		//assert(viewLoc_ != -1);
 		//assert(projectionLoc_ != -1);

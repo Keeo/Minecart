@@ -8,6 +8,15 @@ namespace opengl
 	{
 	}
 
+	void FrameBuffer::setPassShadow()
+	{
+		assert(active_);
+		glViewport(0, 0, Constants::RESOLUTION_X, Constants::RESOLUTION_Y);
+
+		GLuint attachments[1] = { GL_COLOR_ATTACHMENT0 };
+		glDrawBuffers(1, attachments);
+	}
+
 	void FrameBuffer::setPassSSAO()
 	{
 		assert(active_);

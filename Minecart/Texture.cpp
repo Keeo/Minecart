@@ -56,6 +56,11 @@ namespace opengl
 		specify(GL_TEXTURE_2D, 0, GL_RGBA16F, width_, height_, 0, GL_RGBA, GL_FLOAT, NULL);
 	}
 
+	void Texture::specifyRGFloat()
+	{
+		specify(GL_TEXTURE_2D, 0, GL_RG32F, width_, height_, 0, GL_RG, GL_FLOAT, NULL);
+	}
+
 	void Texture::specify(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid* data)
 	{
 		assert(width_ * height_ != 0);

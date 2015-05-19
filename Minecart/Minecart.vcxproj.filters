@@ -145,9 +145,6 @@
     <ClInclude Include="TripleChunkBuffer.h">
       <Filter>Header Files\model</Filter>
     </ClInclude>
-    <ClInclude Include="ChunkFactory.h">
-      <Filter>Header Files\model</Filter>
-    </ClInclude>
     <ClInclude Include="DrawVector.h">
       <Filter>Header Files\model</Filter>
     </ClInclude>
@@ -215,6 +212,18 @@
       <Filter>Header Files\view\shader</Filter>
     </ClInclude>
     <ClInclude Include="TextureShader.h">
+      <Filter>Header Files\view\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowDrawer.h">
+      <Filter>Header Files\view</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="DepthShader.h">
+      <Filter>Header Files\view\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="LightShader.h">
       <Filter>Header Files\view\shader</Filter>
     </ClInclude>
   </ItemGroup>
@@ -285,9 +294,6 @@
     <ClCompile Include="WorldWatcher.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="ChunkFactory.cpp">
-      <Filter>Source Files\model</Filter>
-    </ClCompile>
     <ClCompile Include="TripleChunkBuffer.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
@@ -346,6 +352,18 @@
       <Filter>Source Files\view\shader</Filter>
     </ClCompile>
     <ClCompile Include="TextureShader.cpp">
+      <Filter>Source Files\view\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowDrawer.cpp">
+      <Filter>Source Files\view</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="DepthShader.cpp">
+      <Filter>Source Files\view\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="LightShader.cpp">
       <Filter>Source Files\view\shader</Filter>
     </ClCompile>
   </ItemGroup>

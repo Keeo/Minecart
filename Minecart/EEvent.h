@@ -7,6 +7,7 @@ enum EEvent {
 	Shutdown,
 
 	FetchCameraData,
+	FetchLightData,
 
 	BuildMeshForChunk,
 

@@ -25,6 +25,9 @@ namespace view
 		GLint viewLoc_ = -1;
 		GLint projectionLoc_ = -1;
 		GLint camPositionLoc_ = -1;
+		GLint lightPositionLoc_ = -1;
+		GLint lightMatLoc_ = -1;
+
 	public:
 		
 		void bind();

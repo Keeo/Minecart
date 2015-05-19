@@ -100,6 +100,8 @@ namespace model
 			} while (!putCube(rnd, ECube::Air));
 		}
 
+		light_.update(gameTime);
+
 		/*static bool mousePressed = false;
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 			if (!mousePressed) {

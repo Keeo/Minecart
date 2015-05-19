@@ -10,6 +10,7 @@ namespace view
 		camera_ = std::make_unique<Camera>();
 		advancedDrawer_ = std::make_unique<AdvancedDrawer>();
 		testDrawer_ = std::make_unique<TestDrawer>();
+		shadowDrawer_ = std::make_unique<ShadowDrawer>();
 	}
 
 	View::~View()
@@ -31,7 +32,8 @@ namespace view
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Why am i clearing it here?
 		//advancedDrawer_->condDraw(model);
-		testDrawer_->draw(model, this);
+		//testDrawer_->draw(model, this);
+		shadowDrawer_->draw(model, this);
 		int err = glGetError();
 		if (err) {
 			std::cout << "GLError: " << err << std::endl;

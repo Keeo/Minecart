@@ -7,6 +7,7 @@
 #include "Window.h"
 #include "MeshManager.h"
 #include "TestDrawer.h"
+#include "ShadowDrawer.h"
 
 namespace view
 {
@@ -16,6 +17,7 @@ namespace view
 		std::unique_ptr<Camera> camera_;
 		std::unique_ptr<AdvancedDrawer> advancedDrawer_;
 		std::unique_ptr<TestDrawer> testDrawer_;
+		std::unique_ptr<ShadowDrawer> shadowDrawer_;
 		std::unique_ptr<Window> window_;
 		MeshManager meshManager;
 
