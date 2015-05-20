@@ -1,8 +1,8 @@
 #version 330 core
 #extension GL_ARB_explicit_attrib_location : require
 
-layout(location = 0) in vec3 vertex_position;
-layout(location = 5) in vec3 vertex_normal;
+layout(location = 0) in vec4 vertex_position;
+
 
 uniform mat4 model;
 uniform mat4 view;
@@ -10,12 +10,31 @@ uniform mat4 projection;
 
 uniform mat4 lightMat;
 out vec3 vertex_pos;
-out vec3 vertex_nor;
+out vec3 v_normal;
+out vec4 ShadowCoord;
+out float depth;
+
+vec3 normalUnpack(int byte)
+{
+	vec3 normal;
+	const int mask = 0x00000003; 
+	normal.x = float(((byte >> 4) & mask) - 2);
+	normal.y = float(((byte >> 2) & mask) - 2);
+	normal.z = float(((byte >> 0) & mask) - 2);
+	return normal;
+}
 
 void main()
 {
-    gl_Position = projection * view * model * vec4(vertex_position, 1);
-    vertex_pos = (model * vec4(vertex_position, 1)).xyz;
-	vertex_nor = vertex_normal.xyz;
-}
+	mat4 MVP = projection * view * model;
+	v_normal = normalUnpack(int(vertex_position.w));
 
+    gl_Position = MVP * vec4(vertex_position.xyz, 1);
+	v_normal = (MVP * vec4(v_normal, 1)).xyz;
+
+    vertex_pos = (model * vec4(vertex_position.xyz, 1)).xyz;
+
+	ShadowCoord = lightMat * model * vec4(vertex_position.xyz, 1);
+
+	depth = gl_Position.z/100.0;
+}

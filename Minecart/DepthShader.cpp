@@ -22,9 +22,14 @@ namespace view
 		assert(cd.projection != NULL);
 		assert(cd.view != NULL);
 
-		glm::mat4 lightView = glm::lookAt(light, *cd.direction, glm::vec3(0, 1, 0));
+		glm::mat4 lightView = glm::lookAt(light, glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+		glm::mat4 depthProjectionMatrix = glm::ortho<float>(-100, 100, -100, 100, -100, 200);
+		glm::mat4 lightMat = depthProjectionMatrix * lightView;
+
 		glUniformMatrix4fv(viewLoc_, 1, GL_FALSE, glm::value_ptr(lightView));
-		glUniformMatrix4fv(projectionLoc_, 1, GL_FALSE, glm::value_ptr(*cd.projection));
+		glUniformMatrix4fv(projectionLoc_, 1, GL_FALSE, glm::value_ptr(depthProjectionMatrix));
+
+		glUniformMatrix4fv(lightMatLoc_, 1, GL_FALSE, glm::value_ptr(lightMat));
 	}
 
 	DepthShader::~DepthShader()

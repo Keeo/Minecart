@@ -55,8 +55,8 @@ namespace opengl
 
 		tex->bind();
 		tex->specifyRGFloat();
-		tex->setFilter(false);
-		tex->setWrap(false, false);
+		tex->setFilter(filter);
+		tex->setWrap(true, true);
 		tex->unbind();
 
 		return tex;

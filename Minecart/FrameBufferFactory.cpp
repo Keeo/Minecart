@@ -60,9 +60,12 @@ namespace opengl
 
 		std::shared_ptr<Texture> color = TextureFactory::buildShadowAttachment(Constants::RESOLUTION_X, Constants::RESOLUTION_Y);
 		color->bind();
-		fb->attachColor(color, 0);
 
+		fb->attachColor(color);
+		fb->attachDepthDummy();
+		
 		fb->check();
+
 		color->unbind();
 		fb->unbind();
 

@@ -48,11 +48,10 @@ namespace view
 		draw(chunks, &depthShader_);
 		shadowBuffer_->unbind();
 
-
+		
 		lightShader_.bind();
 		glViewport(0, 0, Constants::RESOLUTION_X, Constants::RESOLUTION_Y);
-		//lightShader_.bindTexture("image", tt);
-		//lightShader_.bindTexture("ssao", ssao, 1);
+		lightShader_.bindTexture("shadow", *shadowBuffer_->attachedTextures()->at(0));
 		draw(chunks, &lightShader_);
 		lightShader_.unbind();
 

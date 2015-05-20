@@ -9,6 +9,7 @@ uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 uniform vec3 camPosition;
+uniform mat4 lightMat;
 
 out vec2 uv;
 flat out vec3 v_normal;
@@ -26,7 +27,7 @@ void main()
 	v_normal.y = float(((byte >> 2) & mask) - 2);
 	v_normal.z = float(((byte >> 0) & mask) - 2);
 
-    gl_Position = projection * view * model * verpos;
+    gl_Position = lightMat * model * verpos;
 
     //v_normal = mat3(transpose(view * model)) * v_normal;
 

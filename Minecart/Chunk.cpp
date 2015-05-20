@@ -306,8 +306,9 @@ namespace model {
 				for (int k = 0; k < Constants::CHUNK_SIZE; ++k) {
 					const glm::i32vec3 pos = position_ + glm::i32vec3(i, j, k);
 					float noise = sn.octave_noise_3d(1.0f, 0.05f, 0.5f, static_cast<float>(pos.x) / 128.0f, static_cast<float>(pos.y) / 128.0f, static_cast<float>(pos.z) / 128.0f);
-					cubes_[i][j][k].type = noise < 0.7f ? ECube::Dirt : ECube::Air;
-					//cubes_[i][j][k].type = (rand() % 64) < Constants::CUBE_TRESHOLD ? ECube::Dirt : ECube::Air;
+					//cubes_[i][j][k].type = noise < 0.7f ? ECube::Dirt : ECube::Air;
+					
+					cubes_[i][j][k].type = (rand() % 64) < Constants::CUBE_TRESHOLD ? ECube::Dirt : ECube::Air;
 					//cubes_[i][j][k].type = i+j+k < 16 ? ECube::Dirt : ECube::Air;
 					//cubes_[i][j][k].type = j + position_.y < Constants::CHUNK_SIZE+5 ? ECube::Dirt : ECube::Air;
 
