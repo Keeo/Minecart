@@ -9,13 +9,11 @@ flat in vec3 v_normal;
 in vec3 position;
 in vec3 light_position;
 
-out float color;
+out vec2 color;
 in float depth;
 
 void main()
 {
-	//color.r = depth;
-    //color.g = depth * depth;
-    color = gl_FragCoord.z;
-    //color.g = gl_FragCoord.z * gl_FragCoord.z;
+	color.r = gl_FragCoord.z;
+	color.g = gl_FragCoord.z * gl_FragCoord.z;
 }

@@ -22,7 +22,8 @@ namespace view
 		assert(cd.view != NULL);
 
 		glm::mat4 lightView = glm::lookAt(light, glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-		glm::mat4 depthProjectionMatrix = glm::ortho<float>(-100, 100, -100, 100, -100, 200);
+		glm::mat4 depthProjectionMatrix = glm::perspective<float>(45.0f, 1.0f, 1.0f, 500.0f);
+		//glm::mat4 depthProjectionMatrix = glm::ortho<float>(-100, 100, -100, 100, -100, 200);
 		glm::mat4 lightMat = depthProjectionMatrix * lightView;
 
 		glm::mat4 biasMatrix(

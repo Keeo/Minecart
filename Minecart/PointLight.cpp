@@ -6,7 +6,7 @@ namespace model
 
 	void PointLight::update(const GameTime& gameTime)
 	{
-		float move_speed = 10.0f;
+		float move_speed = 50.0f;
 		float delta = gameTime.asSeconds();
 		glm::vec3 t = position_;
 

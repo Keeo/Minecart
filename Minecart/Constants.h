@@ -8,7 +8,7 @@ struct Constants
 	static const int MAP_SIZE = 1;
 	static const int RESOLUTION_X = 1024;
 	static const int RESOLUTION_Y = 768;
-	static const bool SHOW_MOUSE = true;
+	static const bool SHOW_MOUSE = false;
 	static const bool FULLSCREEN = false;
 #else
 	static const int CHUNK_SIZE = 32;

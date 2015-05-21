@@ -40,7 +40,7 @@ namespace view
 
 		glm::vec3 lightPos;
 		Post(EEvent::FetchLightData, &lightPos, 0);
-
+		glCullFace(GL_FRONT);
 		shadowBuffer_->bind();
 		shadowBuffer_->setPassShadow();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -48,7 +48,7 @@ namespace view
 		draw(chunks, &depthShader_);
 		shadowBuffer_->unbind();
 
-		
+		glCullFace(GL_BACK);
 		lightShader_.bind();
 		glViewport(0, 0, Constants::RESOLUTION_X, Constants::RESOLUTION_Y);
 		lightShader_.bindTexture("shadow", *shadowBuffer_->attachedTextures()->at(0));

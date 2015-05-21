@@ -14,13 +14,19 @@ out vec3 color;
 
 void main()
 {
-	color = normalize(vertex_pos) * 0.2;
-	//vec2 s = texture(shadow, ShadowCoord.xy).xy;
-	if (ShadowCoord.z < 0.0) {
-		return;
-	}
+	color = normalize(vertex_pos);
+	//color *= texture( shadow, vec3(ShadowCoord.xy, (ShadowCoord.z)/ShadowCoord.w) );
+	
 
-	if (texture( shadow, ShadowCoord.xy ).r  >  (ShadowCoord.z - 0.005)) {
+	//vec2 s = texture(shadow, ShadowCoord.xy).xy;
+	/*if (ShadowCoord.z < 0.0) {
+		return;
+	}*/
+	//float bias = 0.000005;
+	if ( textureProj( shadow, (ShadowCoord.xyw) ).x  >  ((ShadowCoord.z)/ShadowCoord.w) ) {
+	//if ( textureProj( shadowMap, ShadowCoord.xyw ).z  <  (ShadowCoord.z-bias)/ShadowCoord.w )
+
+	//if (texture( shadow, ShadowCoord.xy ).r > ShadowCoord.z) {
 		color += vec3(0.2,0.2,0.2);// * distance(lightPosition, camPosition);
 	} else {
 		color -= vec3(0.2,0.2,0.2);
