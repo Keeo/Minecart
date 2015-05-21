@@ -10,26 +10,30 @@ in vec2 uv;
 in vec4 ShadowCoord;
 in float depth;
 
+in vec3 l;
+in vec3 n;
+
 out vec3 color;
 
 void main()
 {
+	float cosTheta = clamp( dot( normalize(n), normalize(l) ), 0,1 );
+ 	float light = 1;
 	color = normalize(vertex_pos);
-	//color *= texture( shadow, vec3(ShadowCoord.xy, (ShadowCoord.z)/ShadowCoord.w) );
-	
 
-	//vec2 s = texture(shadow, ShadowCoord.xy).xy;
 	/*if (ShadowCoord.z < 0.0) {
 		return;
 	}*/
 	//float bias = 0.000005;
-	if ( textureProj( shadow, (ShadowCoord.xyw) ).x  >  ((ShadowCoord.z)/ShadowCoord.w) ) {
-	//if ( textureProj( shadowMap, ShadowCoord.xyw ).z  <  (ShadowCoord.z-bias)/ShadowCoord.w )
-
-	//if (texture( shadow, ShadowCoord.xy ).r > ShadowCoord.z) {
-		color += vec3(0.2,0.2,0.2);// * distance(lightPosition, camPosition);
+	if ( textureProj( shadow, (ShadowCoord.xyw) ).x  >  (ShadowCoord.z/ShadowCoord.w) ) {
+		light = 1;
+		//color += vec3(0.2,0.2,0.2) * cosTheta;
 	} else {
-		color -= vec3(0.2,0.2,0.2);
+		light = 0.1;
+		//color -= vec3(0.2,0.2,0.2) * cosTheta;
 	}
+	float distance = length( lightPosition - vertex_pos );
+	float power = 500;
+	color *= min(cosTheta, light) * power / (distance * distance);
 	color = clamp(color,0,1);
 }

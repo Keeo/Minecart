@@ -6,9 +6,8 @@ namespace model
 
 	void PointLight::update(const GameTime& gameTime)
 	{
-		float move_speed = 50.0f;
+		float move_speed = 10.0f;
 		float delta = gameTime.asSeconds();
-		glm::vec3 t = position_;
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad8)) position_.x -= move_speed * delta;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad5)) position_.x += move_speed * delta;
