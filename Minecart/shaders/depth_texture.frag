@@ -14,6 +14,13 @@ in float depth;
 
 void main()
 {
-	color.r = gl_FragCoord.z;
-	color.g = gl_FragCoord.z * gl_FragCoord.z;
+	float depth = gl_FragCoord.z / gl_FragCoord.w;
+	//depth = depth * 0.5 + 0.5;
+
+	float dx = dFdx(depth);
+	float dy = dFdy(depth);
+	color.g += 0.25*(dx*dx+dy*dy) ;
+
+	color.r = depth;
+	color.g = depth * depth;
 }

@@ -339,9 +339,6 @@
     <ClCompile Include="TextureFactory.cpp">
       <Filter>Source Files\opengl</Filter>
     </ClCompile>
-    <ClCompile Include="SSAOShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ScreenQuad.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -364,6 +361,9 @@
       <Filter>Source Files\view\shader</Filter>
     </ClCompile>
     <ClCompile Include="LightShader.cpp">
+      <Filter>Source Files\view\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="SSAOShader.cpp">
       <Filter>Source Files\view\shader</Filter>
     </ClCompile>
   </ItemGroup>
