@@ -19,8 +19,9 @@ void main()
 
 	float dx = dFdx(depth);
 	float dy = dFdy(depth);
-	color.g += 0.25*(dx*dx+dy*dy) ;
-
 	color.r = depth;
 	color.g = depth * depth;
+	color.g += 0.25*(dx*dx+dy*dy);
+
+	
 }

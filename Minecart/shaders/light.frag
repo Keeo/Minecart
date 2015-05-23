@@ -22,7 +22,7 @@ float diffuseLight()
 
 	float distance = length( lightPosition - vertex_pos );
 	float power = 500;
-	return cosTheta * power / (distance * distance);
+	return cosTheta;// * power / (distance * distance);
 }
 
 float chebyshevUpperBound( float distance, vec4 ShadowCoordPostW)

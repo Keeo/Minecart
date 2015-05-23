@@ -3,7 +3,7 @@
 #include "Constants.h"
 #include "Drawable.h"
 #include "MeshStruct.h"
-
+#include "BaseShader.h"
 
 namespace view
 {
