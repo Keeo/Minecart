@@ -30,7 +30,7 @@ namespace view {
 
 		glFrontFace(GL_CCW);
 
-		glClearColor(0.f, 0.1f, 0.2f, .1f);
+		glClearColor(0.f, 0.f, 0.f, 0.f);
 
 		sf::Texture::getMaximumSize(); // fix for losing active
 		sf::Shader::isAvailable();

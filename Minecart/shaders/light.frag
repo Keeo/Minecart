@@ -27,8 +27,19 @@ float diffuseLight()
 
 float chebyshevUpperBound( float distance, vec4 ShadowCoordPostW)
 {
-	vec2 moments = texture2D(shadow, ShadowCoordPostW.xy).rg;
-	
+	// 8 => 256
+	// 4 => 64
+	// 2 => 16
+	// 1 => 4
+	float x = 2.0f / 1024.0f;
+	float y = 2.0f / 768.0f;
+	vec2 momentsMaxMax = texture2D(shadow, ShadowCoordPostW.xy + vec2(x, y)).rg;
+	vec2 momentsMaxMin = texture2D(shadow, ShadowCoordPostW.xy + vec2(x, -y)).rg;
+	vec2 momentsMinMax = texture2D(shadow, ShadowCoordPostW.xy + vec2(-x, y)).rg;
+	vec2 momentsMinMin = texture2D(shadow, ShadowCoordPostW.xy + vec2(-x, -y)).rg;
+
+	vec2 moments = momentsMaxMax - momentsMaxMin - momentsMinMax + momentsMinMin;
+	moments /= 16;
 	// Surface is fully lit. as the current fragment is before the light occluder
 	if (distance <= moments.x)
 		return 1.0 ;
@@ -36,7 +47,7 @@ float chebyshevUpperBound( float distance, vec4 ShadowCoordPostW)
 	// The fragment is either in shadow or penumbra. We now use chebyshev's upperBound to check
 	// How likely this pixel is to be lit (p_max)
 	float variance = moments.y - (moments.x*moments.x);
-	variance = max(variance, 0.00002);
+	//variance = max(variance, 0.00002);
 
 	float d = distance - moments.x;
 	float p_max = variance / (variance + d*d);

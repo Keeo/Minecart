@@ -226,6 +226,12 @@
     <ClInclude Include="LightShader.h">
       <Filter>Header Files\view\shader</Filter>
     </ClInclude>
+    <ClInclude Include="SatXShader.h">
+      <Filter>Header Files\view\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="SatYShader.h">
+      <Filter>Header Files\view\shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -364,6 +370,12 @@
       <Filter>Source Files\view\shader</Filter>
     </ClCompile>
     <ClCompile Include="SSAOShader.cpp">
+      <Filter>Source Files\view\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="SatXShader.cpp">
+      <Filter>Source Files\view\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="SatYShader.cpp">
       <Filter>Source Files\view\shader</Filter>
     </ClCompile>
   </ItemGroup>

@@ -44,11 +44,12 @@ namespace view
 		glCullFace(GL_FRONT);
 		shadowBuffer_->bind();
 		shadowBuffer_->setPassShadow();
+		//glClearColor(1.f, 0.f, 0.f, 0.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		depthShader_.bind();
 		draw(chunks, &depthShader_);
 		glCullFace(GL_BACK);
-
+		glClearColor(0.f, 0.f, 0.f, 0.f);
 		opengl::Texture& depthTextureStart = *shadowBuffer_->attachedTextures()->at(0);
 		opengl::Texture& depthTextureEnd = *shadowBuffer_->attachedTextures()->at(1);
 
@@ -77,18 +78,36 @@ namespace view
 			pressedZ = false;
 		}
 
+		amount = log2(Constants::RESOLUTION_X);
+		for (int i = 0; i < amount; ++i) {
+			satXShader_.bind(i);
+			satXShader_.bindTexture("image", depthTextureStart, 1);
+			GLuint attachments[1] = { GL_COLOR_ATTACHMENT1 };
+			glDrawBuffers(1, attachments);
+			glClear(GL_COLOR_BUFFER_BIT);
+			sc_.draw(true);
+			
+			++i;
+			satXShader_.bind(i);
+			satXShader_.bindTexture("image", depthTextureEnd, 0);
+			GLuint attachments2[1] = { GL_COLOR_ATTACHMENT0 };
+			glDrawBuffers(1, attachments2);
+			glClear(GL_COLOR_BUFFER_BIT);
+			sc_.draw(true);
+		}
 
-
-		for (int i = 0; i < amount; ++i){
-			blurXShader_.bind();
-			blurXShader_.bindTexture("image", depthTextureStart, 1);
+		amount = log2(Constants::RESOLUTION_Y);
+		for (int i = 0; i < amount; ++i) {
+			satYShader_.bind(i);
+			satYShader_.bindTexture("image", depthTextureStart, 1);
 			GLuint attachments[1] = { GL_COLOR_ATTACHMENT1 };
 			glDrawBuffers(1, attachments);
 			glClear(GL_COLOR_BUFFER_BIT);
 			sc_.draw(true);
 
-			blurYShader_.bind();
-			blurYShader_.bindTexture("image", depthTextureEnd, 0);
+			++i;
+			satYShader_.bind(i);
+			satYShader_.bindTexture("image", depthTextureEnd, 0);
 			GLuint attachments2[1] = { GL_COLOR_ATTACHMENT0 };
 			glDrawBuffers(1, attachments2);
 			glClear(GL_COLOR_BUFFER_BIT);
@@ -102,7 +121,7 @@ namespace view
 		//glCullFace(GL_BACK);
 		lightShader_.bind();
 		glViewport(0, 0, Constants::RESOLUTION_X, Constants::RESOLUTION_Y);
-		lightShader_.bindTexture("shadow", *shadowBuffer_->attachedTextures()->at(1));
+		lightShader_.bindTexture("shadow", *shadowBuffer_->attachedTextures()->at(0));
 		draw(chunks, &lightShader_);
 		lightShader_.unbind();
 

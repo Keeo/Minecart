@@ -18,6 +18,8 @@
 #include "TextureFactory.h"
 #include "ScreenQuad.h"
 #include "SSAOShader.h"
+#include "SatXShader.h"
+#include "SatYShader.h"
 #include "BlurXShader.h"
 #include "BlurYShader.h"
 #include "TextureShader.h"
@@ -38,6 +40,8 @@ namespace view
 		SSAOShader ssaoShader_;
 		BlurXShader blurXShader_;
 		BlurYShader blurYShader_;
+		SatXShader satXShader_;
+		SatYShader satYShader_;
 		LightShader lightShader_;
 		TextureShader texShader_;
 		BoundingBox box_;
