@@ -31,6 +31,7 @@ namespace view
 		glUniformMatrix4fv(projectionLoc_, 1, GL_FALSE, glm::value_ptr(depthProjectionMatrix));
 
 		glUniformMatrix4fv(lightMatLoc_, 1, GL_FALSE, glm::value_ptr(lightMat));
+		glUniform3fv(lightPositionLoc_, 1, glm::value_ptr(light));
 	}
 
 	DepthShader::~DepthShader()

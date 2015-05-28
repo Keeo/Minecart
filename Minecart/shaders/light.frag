@@ -31,15 +31,15 @@ float chebyshevUpperBound( float distance, vec4 ShadowCoordPostW)
 	// 4 => 64
 	// 2 => 16
 	// 1 => 4
-	float x = 2.0f / 1024.0f;
-	float y = 2.0f / 768.0f;
+	float x = 1.0f / 1024.0f;
+	float y = 1.0f / 768.0f;
 	vec2 momentsMaxMax = texture2D(shadow, ShadowCoordPostW.xy + vec2(x, y)).rg;
 	vec2 momentsMaxMin = texture2D(shadow, ShadowCoordPostW.xy + vec2(x, -y)).rg;
 	vec2 momentsMinMax = texture2D(shadow, ShadowCoordPostW.xy + vec2(-x, y)).rg;
 	vec2 momentsMinMin = texture2D(shadow, ShadowCoordPostW.xy + vec2(-x, -y)).rg;
 
 	vec2 moments = momentsMaxMax - momentsMaxMin - momentsMinMax + momentsMinMin;
-	moments /= 16;
+	moments /= 4;
 	// Surface is fully lit. as the current fragment is before the light occluder
 	if (distance <= moments.x)
 		return 1.0 ;
