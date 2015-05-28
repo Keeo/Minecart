@@ -12,9 +12,9 @@ namespace view
 	{
 		sf::Shader::bind(&shader_);
 
-		glm::vec3 light;
+		CameraData light;
 		Post(EEvent::FetchLightData, &light, 0);
-		glUniform3fv(camPositionLoc_, 1, glm::value_ptr(light));
+		glUniform3fv(camPositionLoc_, 1, glm::value_ptr(*light.position));
 
 		CameraData cd;
 		Post(EEvent::FetchCameraData, &cd, 0);
@@ -22,16 +22,15 @@ namespace view
 		assert(cd.projection != NULL);
 		assert(cd.view != NULL);
 
-		glm::mat4 lightView = glm::lookAt(light, glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-		glm::mat4 depthProjectionMatrix = glm::perspective<float>(90.0f, 1.0f, 1.0f, 500.0f);
-		//glm::mat4 depthProjectionMatrix = glm::ortho<float>(-100, 100, -100, 100, -100, 200);
+		glm::mat4 lightView = glm::lookAt(*light.position, *light.position - *light.direction, glm::vec3(0, 1, 0));
+		glm::mat4 depthProjectionMatrix = glm::perspective<float>(45.0f, 1.0f, 1.0f, 200.0f);
 		glm::mat4 lightMat = depthProjectionMatrix * lightView;
 
 		glUniformMatrix4fv(viewLoc_, 1, GL_FALSE, glm::value_ptr(lightView));
 		glUniformMatrix4fv(projectionLoc_, 1, GL_FALSE, glm::value_ptr(depthProjectionMatrix));
 
 		glUniformMatrix4fv(lightMatLoc_, 1, GL_FALSE, glm::value_ptr(lightMat));
-		glUniform3fv(lightPositionLoc_, 1, glm::value_ptr(light));
+		glUniform3fv(lightPositionLoc_, 1, glm::value_ptr(*light.position));
 	}
 
 	DepthShader::~DepthShader()

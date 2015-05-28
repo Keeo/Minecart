@@ -102,10 +102,10 @@ namespace model
 
 		light_.update(gameTime);
 
-		/*static bool mousePressed = false;
+		static bool mousePressed = false;
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 			if (!mousePressed) {
-				mousePressed = true;
+				//mousePressed = true;
 				view::CameraData cameraData;
 				Post(EEvent::FetchCameraData, &cameraData, 0);
 				glm::vec3 dir = -1 * *cameraData.direction;
@@ -116,7 +116,7 @@ namespace model
 		}
 		else {
 			mousePressed = false;
-		}*/
+		}
 
 
 		static bool lastU = false;

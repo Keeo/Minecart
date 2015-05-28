@@ -15,19 +15,22 @@ namespace model
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad4)) position_.z -= move_speed * delta;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad7)) position_.y += move_speed * delta;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad9)) position_.y -= move_speed * delta;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad0)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt)) {
 			view::CameraData cd;
 			Post(EEvent::FetchCameraData, &cd, 0);
 			assert(cd.position != NULL);
+			assert(cd.direction != NULL);
 			position_ = *cd.position;
-			std::cout << glm::to_string(position_) << std::endl;
+			direction_ = *cd.direction;
+			std::cout << "pos: " << glm::to_string(position_) << " dir:" << glm::to_string(direction_) << std::endl;
 		}
 	}
 
 	void PointLight::getLightPosition(void* data)
 	{
-		glm::vec3* pos = (glm::vec3*) data;
-		*pos = position_;
+		view::CameraData* cameraData = (view::CameraData*)data;
+		cameraData->position = &position_;
+		cameraData->direction = &direction_;
 	}
 
 	void PointLight::draw()

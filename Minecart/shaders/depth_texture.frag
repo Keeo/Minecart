@@ -14,14 +14,15 @@ in float depth;
 
 void main()
 {
-	float depth = gl_FragCoord.z / gl_FragCoord.w;
-	//depth = depth * 0.5 + 0.5;
+	//float depth = gl_FragCoord.z / gl_FragCoord.w;
+	float depth = length(position - lightPosition);// / 500.0f;
+	//depth -= 0.5f;
 
 	float dx = dFdx(depth);
 	float dy = dFdy(depth);
 	color.r = depth;
 	color.g = depth * depth;
 	color.g += 0.25*(dx*dx+dy*dy);
+	//color -= vec2(15.0f, 500.0f);
 
-	
 }

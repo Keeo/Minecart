@@ -300,21 +300,24 @@ namespace model {
 
 	void Chunk::loadCubes()
 	{
-		utils::SimplexNoise sn;
+		//utils::SimplexNoise sn;
 		for (int i = 0; i < Constants::CHUNK_SIZE; ++i) {
 			for (int j = 0; j < Constants::CHUNK_SIZE; ++j) {
 				for (int k = 0; k < Constants::CHUNK_SIZE; ++k) {
 					const glm::i32vec3 pos = position_ + glm::i32vec3(i, j, k);
-					float noise = sn.octave_noise_3d(1.0f, 0.05f, 0.5f, static_cast<float>(pos.x) / 128.0f, static_cast<float>(pos.y) / 128.0f, static_cast<float>(pos.z) / 128.0f);
+					//float noise = sn.octave_noise_3d(1.0f, 0.05f, 0.5f, static_cast<float>(pos.x) / 128.0f, static_cast<float>(pos.y) / 128.0f, static_cast<float>(pos.z) / 128.0f);
 					//cubes_[i][j][k].type = noise < 0.7f ? ECube::Dirt : ECube::Air;
-					
+
 					cubes_[i][j][k].type = (rand() % 64) < Constants::CUBE_TRESHOLD ? ECube::Dirt : ECube::Air;
 					//cubes_[i][j][k].type = i+j+k < 16 ? ECube::Dirt : ECube::Air;
 					//cubes_[i][j][k].type = j + position_.y < Constants::CHUNK_SIZE+5 ? ECube::Dirt : ECube::Air;
 
-					/*cubes_[i][j][k].type = ECube::Air;
-					if (i == 0 || j == 0 || k == 0 || i == Constants::CHUNK_SIZE || j == Constants::CHUNK_SIZE || k == Constants::CHUNK_SIZE) {
-					cubes_[i][j][k].type = ECube::Dirt;
+					/*cubes_[i][j][k].type = ECube::Dirt;
+					if (i == 0 || j == 0 || k == 0 || i == Constants::CHUNK_SIZE - 1 || j == Constants::CHUNK_SIZE - 1 || k == Constants::CHUNK_SIZE - 1) {
+						cubes_[i][j][k].type = ECube::Air;
+					}
+					if (i == 1 || j == 1 || k == 1 || i == Constants::CHUNK_SIZE - 2 || j == Constants::CHUNK_SIZE - 2 || k == Constants::CHUNK_SIZE - 2) {
+						cubes_[i][j][k].type = ECube::Air;
 					}*/
 				}
 			}
