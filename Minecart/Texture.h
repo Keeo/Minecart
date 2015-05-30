@@ -13,6 +13,7 @@ namespace opengl
 	public:
 		void loadFromImage(sf::Image& image);
 		void bind();
+
 		void unbind();
 		void generate();
 		

@@ -37,18 +37,25 @@ namespace view
 			}
 		}
 		//-------------//-------------//-------------//-------------//-------------//
+		static bool cull = true;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
+			cull = true;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+			cull = false;
+		}
 
 		//-- Light pass
 		glm::vec3 lightPos;
 		Post(EEvent::FetchLightData, &lightPos, 0);
-		glCullFace(GL_FRONT);
+		if (cull) glCullFace(GL_FRONT);
 		shadowBuffer_->bind();
 		shadowBuffer_->setPassShadow();
 		//glClearColor(1.f, 0.f, 0.f, 0.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		depthShader_.bind();
 		draw(chunks, &depthShader_);
-		glCullFace(GL_BACK);
+		if (cull) glCullFace(GL_BACK);
 		glClearColor(0.f, 0.f, 0.f, 0.f);
 		opengl::Texture& depthTextureStart = *shadowBuffer_->attachedTextures()->at(0);
 		opengl::Texture& depthTextureEnd = *shadowBuffer_->attachedTextures()->at(1);
@@ -57,28 +64,7 @@ namespace view
 		//glClear(GL_COLOR_BUFFER_BIT);
 		glDisable(GL_DEPTH_TEST);
 		
-		static int amount = 1;
-		static bool pressedX = false;
-		static bool pressedZ = false;
-		if (pressedX == false && sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
-			pressedX = true;
-			amount++;
-			std::cout << amount << std::endl;
-		}
-		if (pressedX == true && !sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
-			pressedX = false;
-		}
-
-		if (pressedZ == false && sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
-			pressedZ = true;
-			amount--;
-			std::cout << amount << std::endl;
-		}
-		if (pressedZ == true && !sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
-			pressedZ = false;
-		}
-
-		amount = log2(Constants::RESOLUTION_X);
+		int amount = log2(Constants::RESOLUTION_X);
 		for (int i = 0; i < amount; ++i) {
 			satXShader_.bind(i);
 			satXShader_.bindTexture("image", depthTextureStart, 1);

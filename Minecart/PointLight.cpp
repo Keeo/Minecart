@@ -40,6 +40,9 @@ namespace model
 
 	PointLight::PointLight()
 	{
+		position_ = glm::vec3(-20.9, 30.7, 12.5);
+		direction_ = glm::vec3(-0.970714, 0.139542, -0.195556);
+
 		Register(EEvent::FetchLightData, this, (model::Callback) & PointLight::getLightPosition);
 	}
 

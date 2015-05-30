@@ -14,8 +14,7 @@ in float depth;
 
 void main()
 {
-	//float depth = gl_FragCoord.z / gl_FragCoord.w;
-	float depth = length(position - lightPosition);// / 500.0f;
+	float depth = length(position - lightPosition);
 	//depth -= 0.5f;
 
 	float dx = dFdx(depth);
@@ -23,6 +22,6 @@ void main()
 	color.r = depth;
 	color.g = depth * depth;
 	color.g += 0.25*(dx*dx+dy*dy);
-	//color -= vec2(15.0f, 500.0f);
+	color -= vec2(34.0f, 1250.0f);
 
 }

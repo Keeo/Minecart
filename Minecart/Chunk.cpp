@@ -300,6 +300,7 @@ namespace model {
 
 	void Chunk::loadCubes()
 	{
+		srand(0);
 		//utils::SimplexNoise sn;
 		for (int i = 0; i < Constants::CHUNK_SIZE; ++i) {
 			for (int j = 0; j < Constants::CHUNK_SIZE; ++j) {

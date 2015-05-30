@@ -29,11 +29,7 @@ void main()
 
     gl_Position = lightMat * model * verpos;
 
-    //v_normal = mat3(transpose(view * model)) * v_normal;
-
     position = vec3(model * verpos);
     
     depth = gl_Position.z/100.0;
-
 }
-
