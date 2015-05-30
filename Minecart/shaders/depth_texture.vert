@@ -3,7 +3,6 @@
 
 layout(location = 0) in vec4 vertex_position;
 layout(location = 1) in vec4 vertex_texture;
-//layout(location = 5) in vec3 vertex_normal;
 
 uniform mat4 model;
 uniform mat4 view;
@@ -16,7 +15,6 @@ flat out vec3 v_normal;
 out vec3 position;
 out float depth;
 
-// gl_vertexid;
 void main()
 {
 	int byte = int(vertex_position.w);

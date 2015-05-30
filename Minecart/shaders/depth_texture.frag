@@ -15,13 +15,10 @@ in float depth;
 void main()
 {
 	float depth = length(position - lightPosition);
-	//depth -= 0.5f;
 
 	float dx = dFdx(depth);
 	float dy = dFdy(depth);
 	color.r = depth;
 	color.g = depth * depth;
 	color.g += 0.25*(dx*dx+dy*dy);
-	//color -= vec2(34.0f, 1250.0f);
-
 }

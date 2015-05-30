@@ -39,22 +39,28 @@ float ReduceLightBleeding(float p_max, float amount)
 
 float chebyshevUpperBound( float distance, vec4 ShadowCoordPostW)
 {
-	vec2 moments = texture2D(shadow, ShadowCoordPostW.xy).rg;
+	float x = blurStep / (2 * 1024.0f);
+	float y = blurStep / (2 * 768.0f);
 
-	// Surface is fully lit. as the current fragment is before the light occluder
+	vec2 stab = vec2(34.0f, 1250.0f);
+
+	vec2 momentsMaxMax = texture2D(shadow, ShadowCoordPostW.xy + vec2(x, y)).rg;
+	vec2 momentsMaxMin = texture2D(shadow, ShadowCoordPostW.xy + vec2(x, -y)).rg;
+	vec2 momentsMinMax = texture2D(shadow, ShadowCoordPostW.xy + vec2(-x, y)).rg;
+	vec2 momentsMinMin = texture2D(shadow, ShadowCoordPostW.xy + vec2(-x, -y)).rg;
+
+	vec2 moments = momentsMaxMax - momentsMaxMin - momentsMinMax + momentsMinMin;
+	moments /= blurStep * blurStep;
+
 	if (distance <= moments.x)
 		return 1.0 ;
 
-	// The fragment is either in shadow or penumbra. We now use chebyshev's upperBound to check
-	// How likely this pixel is to be lit (p_max)
 	float variance = moments.y - (moments.x*moments.x);
 	variance = max(variance, maxVariance);
 
 	float d = distance - moments.x;
 	float p_max = variance / (variance + d*d);
 
-
-	//return p_max;
 	return ReduceLightBleeding(p_max, linStepBleed);
 }
 
@@ -65,12 +71,6 @@ void main()
 
 	vec4 ShadowCoordPostW = ShadowCoord / ShadowCoord.w;
 	light = chebyshevUpperBound(length(vertex_pos - lightPosition), ShadowCoordPostW);
-
-	/*if ( textureProj( shadow, (ShadowCoord.xyw) ).x  >  (ShadowCoord.z)) {
-		light = 1;
-	} else {
-		light = 0.1;
-	}*/
 
 	color *= max(diffuseLight() * light, 0.1);
 	color = clamp(color,0,1);
