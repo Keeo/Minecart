@@ -42,7 +42,7 @@ namespace view
 			cull = true;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
-			cull = false;
+			//cull = false;
 		}
 
 		//-- Light pass
@@ -63,37 +63,40 @@ namespace view
 		//-- Blur pass
 		//glClear(GL_COLOR_BUFFER_BIT);
 		glDisable(GL_DEPTH_TEST);
-		
-		int amount = log2(Constants::RESOLUTION_X);
-		for (int i = 0; i < amount; ++i) {
-			satXShader_.bind(i);
-			satXShader_.bindTexture("image", depthTextureStart, 1);
-			GLuint attachments[1] = { GL_COLOR_ATTACHMENT1 };
-			glDrawBuffers(1, attachments);
-			glClear(GL_COLOR_BUFFER_BIT);
-			sc_.draw(true);
-			
-			++i;
-			satXShader_.bind(i);
-			satXShader_.bindTexture("image", depthTextureEnd, 0);
-			GLuint attachments2[1] = { GL_COLOR_ATTACHMENT0 };
-			glDrawBuffers(1, attachments2);
-			glClear(GL_COLOR_BUFFER_BIT);
-			sc_.draw(true);
+
+		static int amount = 1;
+		static bool pressedX = false;
+		static bool pressedZ = false;
+		if (pressedX == false && sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
+			pressedX = true;
+			amount++;
+			std::cout << amount << std::endl;
+		}
+		if (pressedX == true && !sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
+			pressedX = false;
 		}
 
-		amount = log2(Constants::RESOLUTION_Y);
-		for (int i = 0; i < amount; ++i) {
-			satYShader_.bind(i);
-			satYShader_.bindTexture("image", depthTextureStart, 1);
+		if (pressedZ == false && sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+			pressedZ = true;
+			amount--;
+			std::cout << amount << std::endl;
+		}
+		if (pressedZ == true && !sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+			pressedZ = false;
+		}
+
+
+
+		for (int i = 0; i < amount; ++i){
+			blurXShader_.bind();
+			blurXShader_.bindTexture("image", depthTextureStart, 1);
 			GLuint attachments[1] = { GL_COLOR_ATTACHMENT1 };
 			glDrawBuffers(1, attachments);
 			glClear(GL_COLOR_BUFFER_BIT);
 			sc_.draw(true);
 
-			++i;
-			satYShader_.bind(i);
-			satYShader_.bindTexture("image", depthTextureEnd, 0);
+			blurYShader_.bind();
+			blurYShader_.bindTexture("image", depthTextureEnd, 0);
 			GLuint attachments2[1] = { GL_COLOR_ATTACHMENT0 };
 			glDrawBuffers(1, attachments2);
 			glClear(GL_COLOR_BUFFER_BIT);

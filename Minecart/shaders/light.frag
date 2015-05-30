@@ -39,17 +39,7 @@ float ReduceLightBleeding(float p_max, float amount)
 
 float chebyshevUpperBound( float distance, vec4 ShadowCoordPostW)
 {
-	float x = blurStep / (2 * 1024.0f);
-	float y = blurStep / (2 * 768.0f);
-	vec2 momentsMaxMax = texture2D(shadow, ShadowCoordPostW.xy + vec2(x, y)).rg;
-	vec2 momentsMaxMin = texture2D(shadow, ShadowCoordPostW.xy + vec2(x, -y)).rg;
-	vec2 momentsMinMax = texture2D(shadow, ShadowCoordPostW.xy + vec2(-x, y)).rg;
-	vec2 momentsMinMin = texture2D(shadow, ShadowCoordPostW.xy + vec2(-x, -y)).rg;
-
-	vec2 moments = momentsMaxMax - momentsMaxMin - momentsMinMax + momentsMinMin;
-	moments /= blurStep * blurStep;
-
-	moments += vec2(34.0f, 1250.0f);
+	vec2 moments = texture2D(shadow, ShadowCoordPostW.xy).rg;
 
 	// Surface is fully lit. as the current fragment is before the light occluder
 	if (distance <= moments.x)
