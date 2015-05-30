@@ -1,3 +1,11 @@
+//----------------------------------------------------------------------------------------
+/**
+* \file       ShadowDrawer.h
+* \author     Martin Moravek
+* \date       2015/05/30
+* \brief      Class that will draw scene with shadows.
+*/
+//----------------------------------------------------------------------------------------
 #pragma once
 
 #include <memory>
@@ -46,10 +54,9 @@ namespace view
 		TextureShader texShader_;
 		BoundingBox box_;
 		ScreenQuad sc_;
-		//std::shared_ptr<opengl::FrameBuffer> frameBuffer_;
-		//std::shared_ptr<opengl::FrameBuffer> frameSmallBuffer_;
 		std::shared_ptr<opengl::FrameBuffer> shadowBuffer_;
 
+		/// Draw scene
 		void draw(std::vector<model::Chunk*>& chunks, BaseShader* shader);
 	public:
 

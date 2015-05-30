@@ -1,3 +1,15 @@
+//----------------------------------------------------------------------------------------
+/**
+* \file       Controller.h
+* \author     Martin Moravek
+* \date       2015/05/30
+* \brief      Class for controlling content flow.
+*
+*  This class calculate gametime.
+*
+*/
+//----------------------------------------------------------------------------------------
+
 #pragma once
 
 #include "Model.h"

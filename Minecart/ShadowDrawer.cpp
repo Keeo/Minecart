@@ -8,6 +8,8 @@ namespace view
 
 	void ShadowDrawer::draw(std::shared_ptr<model::Model> model, View* view)
 	{
+		//-------------//-------------//-------------//-------------//-------------//
+		// this semgnet will setup world and its elements
 		view->setActive(true);
 		CameraData cameraData;
 		Post(EEvent::FetchCameraData, &cameraData, 0);
@@ -37,7 +39,7 @@ namespace view
 			}
 		}
 		//-------------//-------------//-------------//-------------//-------------//
-		static bool cull = true;
+		static bool cull = true; ///< toggle for GL_FRONT cull in Depth pass
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
 			cull = true;
 		}
@@ -45,43 +47,43 @@ namespace view
 			cull = false;
 		}
 
-		//-- Light pass
+		//-- Depth pass
 		glm::vec3 lightPos;
-		Post(EEvent::FetchLightData, &lightPos, 0);
+		Post(EEvent::FetchLightData, &lightPos, 0); /// fetch light possition
 		if (cull) glCullFace(GL_FRONT);
-		shadowBuffer_->bind();
-		shadowBuffer_->setPassShadow();
-		//glClearColor(1.f, 0.f, 0.f, 0.f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		depthShader_.bind();
-		draw(chunks, &depthShader_);
+		shadowBuffer_->bind(); /// binds shadow buffer
+		shadowBuffer_->setPassShadow(); /// sets shadow pass
+		
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); /// clears colors and depth
+		depthShader_.bind(); /// bind depth shader
+		draw(chunks, &depthShader_); /// draws world
 		if (cull) glCullFace(GL_BACK);
-		glClearColor(0.f, 0.f, 0.f, 0.f);
-		opengl::Texture& depthTextureStart = *shadowBuffer_->attachedTextures()->at(0);
-		opengl::Texture& depthTextureEnd = *shadowBuffer_->attachedTextures()->at(1);
+		glClearColor(0.f, 0.f, 0.f, 0.f); /// no idea why its here
+		opengl::Texture& depthTextureStart = *shadowBuffer_->attachedTextures()->at(0); /// gets ping texture from framebuffer
+		opengl::Texture& depthTextureEnd = *shadowBuffer_->attachedTextures()->at(1); /// gets pong texture from framebuffer
 
 		//-- Blur pass
-		//glClear(GL_COLOR_BUFFER_BIT);
-		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_DEPTH_TEST); /// will render quads, no depth check required
 		
-		int amount = log2(Constants::RESOLUTION_X);
+		int amount = log2(Constants::RESOLUTION_X); /// calculate amount of loops required
 		for (int i = 0; i < amount; ++i) {
-			satXShader_.bind(i);
-			satXShader_.bindTexture("image", depthTextureStart, 1);
-			GLuint attachments[1] = { GL_COLOR_ATTACHMENT1 };
+			satXShader_.bind(i); /// binds satX shader
+			satXShader_.bindTexture("image", depthTextureStart, 1); /// bind ping texture
+			GLuint attachments[1] = { GL_COLOR_ATTACHMENT1 }; /// will render to pong texture
 			glDrawBuffers(1, attachments);
-			glClear(GL_COLOR_BUFFER_BIT);
-			sc_.draw(true);
+			glClear(GL_COLOR_BUFFER_BIT); /// clears color
+			sc_.draw(true); /// draw quad
 			
-			++i;
-			satXShader_.bind(i);
-			satXShader_.bindTexture("image", depthTextureEnd, 0);
-			GLuint attachments2[1] = { GL_COLOR_ATTACHMENT0 };
+			++i; /// next loop
+			satXShader_.bind(i); /// binds satX shader
+			satXShader_.bindTexture("image", depthTextureEnd, 0); /// bind pong texture
+			GLuint attachments2[1] = { GL_COLOR_ATTACHMENT0 }; /// will render to ping texture
 			glDrawBuffers(1, attachments2);
-			glClear(GL_COLOR_BUFFER_BIT);
-			sc_.draw(true);
+			glClear(GL_COLOR_BUFFER_BIT); /// clears color
+			sc_.draw(true); /// draw quad
 		}
 
+		/// same as for X sat shader but this time for Y shader
 		amount = log2(Constants::RESOLUTION_Y);
 		for (int i = 0; i < amount; ++i) {
 			satYShader_.bind(i);
@@ -100,67 +102,15 @@ namespace view
 			sc_.draw(true);
 		}
 
-		shadowBuffer_->unbind();
-		glEnable(GL_DEPTH_TEST);
+		shadowBuffer_->unbind(); /// unbinds shadow buffer
+		glEnable(GL_DEPTH_TEST); /// enable depth text
 
 		//-- Render pass
-		//glCullFace(GL_BACK);
-		lightShader_.bind();
-		glViewport(0, 0, Constants::RESOLUTION_X, Constants::RESOLUTION_Y);
-		lightShader_.bindTexture("shadow", *shadowBuffer_->attachedTextures()->at(0));
-		draw(chunks, &lightShader_);
-		lightShader_.unbind();
-
-
-
-		/*frameBuffer_->bind();
-		frameBuffer_->setPassDisplay();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		worldShader_.bind();
-		draw(chunks, &worldShader_);
-		frameBuffer_->unbind();
-
-		std::map<GLuint, std::shared_ptr<opengl::Texture>>* tex = frameBuffer_->attachedTextures();
-		opengl::Texture& t2 = *tex->at(1); // nordep
-		opengl::Texture& tt = *tex->at(0); // color
-
-		opengl::Texture& ssao = *frameSmallBuffer_->attachedTextures()->at(0);
-		opengl::Texture& pong = *frameSmallBuffer_->attachedTextures()->at(1);
-
-		frameSmallBuffer_->bind();
-		frameSmallBuffer_->setPassSSAO();
-		glDisable(GL_DEPTH_TEST);
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		ssaoShader_.bind();
-		ssaoShader_.bindTexture("normalMap", t2, 1);
-		sc_.draw(true);
-
-		for (int i = 0; i > 5; ++i){
-			blurXShader_.bind();
-			blurXShader_.bindTexture("image", ssao, 0);
-			GLuint attachments[1] = { GL_COLOR_ATTACHMENT1 };
-			glDrawBuffers(1, attachments);
-			glClear(GL_COLOR_BUFFER_BIT);
-			sc_.draw(true);
-
-			blurYShader_.bind();
-			blurYShader_.bindTexture("image", pong, 0);
-			GLuint attachments2[1] = { GL_COLOR_ATTACHMENT0 };
-			glDrawBuffers(1, attachments2);
-			glClear(GL_COLOR_BUFFER_BIT);
-			sc_.draw(true);
-		}
-
-		frameSmallBuffer_->unbind();
-		texShader_.bind();
-		glViewport(0, 0, Constants::RESOLUTION_X, Constants::RESOLUTION_Y);
-		texShader_.bindTexture("image", tt);
-		texShader_.bindTexture("ssao", ssao, 1);
-		glClear(GL_COLOR_BUFFER_BIT);
-		sc_.draw(true);
-		glEnable(GL_DEPTH_TEST);*/
-		glEnable(GL_DEPTH_TEST);
+		lightShader_.bind(); /// bind light shader
+		glViewport(0, 0, Constants::RESOLUTION_X, Constants::RESOLUTION_Y); /// fix viewport
+		lightShader_.bindTexture("shadow", *shadowBuffer_->attachedTextures()->at(0)); /// use ping texture
+		draw(chunks, &lightShader_); /// draw world
+		lightShader_.unbind(); /// unbind light shader
 	}
 
 	void ShadowDrawer::draw(std::vector<model::Chunk*>& chunks, BaseShader* shader)

@@ -1,3 +1,14 @@
+//----------------------------------------------------------------------------------------
+/**
+* \file       GameTime.h
+* \author     Martin Moravek
+* \date       2015/05/30
+* \brief      Class for quad rendering.
+*
+*  This class calculate gametime.
+*
+*/
+//----------------------------------------------------------------------------------------
 #pragma once
 
 #include <SFML/System/Time.hpp>

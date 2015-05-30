@@ -1,3 +1,14 @@
+//----------------------------------------------------------------------------------------
+/**
+* \file       Constants.h
+* \author     Martin Moravek
+* \date       2015/05/30
+* \brief      Struct with constants.
+*
+*  This class calculate gametime.
+*
+*/
+//----------------------------------------------------------------------------------------
 #pragma once
 
 struct Constants
